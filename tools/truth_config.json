@@ -48,5 +48,6 @@
     "... (truncated)",
     "# SNIP"
   ],
-  "truth_phases_required": true
+  "truth_phases_required": true,
+  "draft_root": "_truth_drafts"
 }

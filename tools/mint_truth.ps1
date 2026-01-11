@@ -42,40 +42,56 @@ if ($Reseed) {
   exit 0
 }
 
-# Determine current + next version from app/version.py (authoritative integer).
-$verJson = (& python -c @"
-import json, re
-from pathlib import Path
-t = Path('app/version.py').read_text(encoding='utf-8')
-m = re.search(r'TRUTH_VERSION\s*=\s*(\d+)', t)
-if not m:
-    raise SystemExit('TRUTH_VERSION not found in app/version.py')
-cur = int(m.group(1))
-print(json.dumps({'cur': cur, 'next': cur + 1}))
-"@)
-
-if ($LASTEXITCODE -ne 0 -or -not $verJson) { Fail "could not determine TRUTH_VERSION from app/version.py" }
+# Determine current + next version from tools.truth_manager (authoritative, draft-aware).
+$statusJson = (& python -m tools.truth_manager status --json)
+if ($LASTEXITCODE -ne 0 -or -not $statusJson) { Fail "could not determine truth status from tools.truth_manager" }
 
 try {
-  $ver = $verJson | ConvertFrom-Json
+  $st = $statusJson | ConvertFrom-Json
 } catch {
-  Fail "could not parse version info from python helper"
+  Fail "could not parse truth status json"
 }
 
-$cur = [int]$ver.cur
-$next = [int]$ver.next
+$cur = [int]$st.confirmed
+$next = [int]$st.next
+$draft = $st.draft_pending
+
 
 Write-Host ""
-Write-Host ("CURRENT TRUTH VERSION: {0}" -f $cur) -ForegroundColor DarkGray
-Write-Host ("PROPOSED NEXT VERSION:  {0}" -f $next) -ForegroundColor Cyan
 Write-Host ""
+Write-Host ("CURRENT CONFIRMED TRUTH: TRUTH_V{0}" -f $cur) -ForegroundColor DarkGray
+Write-Host ("NEXT VERSION SLOT:        TRUTH_V{0}" -f $next) -ForegroundColor Cyan
 
-$resp = Read-Host ("Mint new truth (TRUTH_V{0})? (y/n)" -f $next)
-if ($resp.ToLower() -ne "y") {
-  Write-Host "Aborted." -ForegroundColor Yellow
-  exit 0
+if ($draft) {
+  $dv = [int]$draft.ver
+  Write-Host ("DRAFT PENDING:           TRUTH_V{0}" -f $dv) -ForegroundColor Yellow
+  Write-Host ""
+
+  $resp = Read-Host ("Confirm draft (TRUTH_V{0}) now? (y/n)" -f $dv)
+  if ($resp.ToLower() -eq "y") {
+    & python -m tools.truth_manager confirm-draft
+    if ($LASTEXITCODE -ne 0) { Fail "truth_manager confirm-draft failed" }
+    exit 0
+  }
+
+  Write-Host ""
+  $resp2 = Read-Host ("Replace draft (TRUTH_V{0}) with new text? (y/n)" -f $dv)
+  if ($resp2.ToLower() -ne "y") {
+    Write-Host "Aborted." -ForegroundColor Yellow
+    exit 0
+  }
+} else {
+  Write-Host ""
+  $resp = Read-Host ("Create draft truth (TRUTH_V{0})? (y/n)" -f $next)
+  if ($resp.ToLower() -ne "y") {
+    Write-Host "Aborted." -ForegroundColor Yellow
+    exit 0
+  }
 }
 
+Write-Host ""
+Write-Host "PASTE TRUTH STATEMENT. Input ends when a line containing only 'END' is received." -ForegroundColor Cyan
+Write-Host ""
 Write-Host "PASTE TRUTH STATEMENT. Input ends when a line containing only 'END' is received." -ForegroundColor Cyan
 Write-Host ""
 
@@ -97,8 +113,11 @@ $tmp = Join-Path $PWD ".truth_statement_$stamp.txt"
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 [System.IO.File]::WriteAllText($tmp, $statement, $utf8NoBom)
 
-# mint + zip
-& python -m tools.truth_manager mint --statement-file $tmp
+# mint draft (no version bump / no zips)
+$overwriteSwitch = @()
+if ($draft) { $overwriteSwitch = @("--overwrite") }
+
+& python -m tools.truth_manager mint-draft --statement-file $tmp $overwriteSwitch
 if ($LASTEXITCODE -ne 0) { Fail "truth_manager mint failed" }
 
 Remove-Item -Force $tmp -ErrorAction SilentlyContinue

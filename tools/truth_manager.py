@@ -35,6 +35,7 @@ class TruthConfig:
     slim_exclude_ext: List[str]
     slim_exclude_extra_folders: List[str]
     truth_phases_required: bool
+    draft_root: str
 
     @staticmethod
     def load(path: Path) -> "TruthConfig":
@@ -48,6 +49,7 @@ class TruthConfig:
             slim_exclude_ext=data.get("slim_exclude_ext", []),
             slim_exclude_extra_folders=data.get("slim_exclude_extra_folders", []),
             truth_phases_required=bool(data.get("truth_phases_required", False)),
+            draft_root=data.get("draft_root", "_truth_drafts"),
         )
 
 
@@ -146,6 +148,47 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
     out = cur + block + "\n"
     TRUTH_MD.write_text(out, encoding="utf-8", newline="\n")
 
+
+
+_DRAFT_FILE_RE = re.compile(r"^(?P<project>.+?)_TRUTH_V(?P<ver>\d+)_DRAFT\.txt$")
+
+
+def get_draft_dir(cfg: TruthConfig) -> Path:
+    return REPO_ROOT / cfg.draft_root
+
+
+def get_draft_path(project: str, ver: int, cfg: TruthConfig) -> Path:
+    return get_draft_dir(cfg) / f"{project}_TRUTH_V{ver}_DRAFT.txt"
+
+
+def find_pending_draft(project: str, cfg: TruthConfig) -> Tuple[int, Path] | None:
+    ddir = get_draft_dir(cfg)
+    if not ddir.exists():
+        return None
+    best: Tuple[int, Path] | None = None
+    for p in ddir.glob(f"{project}_TRUTH_V*_DRAFT.txt"):
+        m = _DRAFT_FILE_RE.match(p.name)
+        if not m:
+            continue
+        v = int(m.group("ver"))
+        if best is None or v > best[0]:
+            best = (v, p)
+    return best
+
+
+def write_draft(project: str, ver: int, statement_text: str, cfg: TruthConfig, overwrite: bool = False) -> Path:
+    path = get_draft_path(project, ver, cfg)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists() and not overwrite:
+        raise RuntimeError(f"draft already exists: {path}")
+    txt = _strip_bom(_norm_newlines(statement_text)).strip("\n") + "\n"
+    path.write_text(txt, encoding="utf-8", newline="\n")
+    return path
+
+
+def delete_draft(path: Path) -> None:
+    if path.exists():
+        path.unlink()
 
 def should_exclude_common(rel: Path, cfg: TruthConfig) -> bool:
     # Never package other zip files into truth zips.
@@ -265,6 +308,78 @@ def make_zip(zip_path: Path, cfg: TruthConfig, slim: bool) -> None:
     tmp_path.replace(zip_path)
 
 
+
+def mint_draft(statement_text: str, overwrite: bool = False) -> Tuple[int, Path]:
+    """
+    Create/update a draft truth for TRUTH_V(cur+1) WITHOUT bumping TRUTH_VERSION and WITHOUT creating zips.
+    Drafts live outside TRUTH.md and are not part of contiguity/validation.
+    """
+    cfg = TruthConfig.load(CONFIG_JSON)
+    from tools import verify_truth  # local import to avoid cycles
+
+    print("PHASE 0/1: Pre-draft verification")
+    verify_truth.main(["--phase", "pre"])
+
+    project, cur = read_project_and_truth_version()
+    draft_ver = cur + 1
+    draft_path = write_draft(project, draft_ver, statement_text, cfg, overwrite=overwrite)
+    print(f"OK: drafted TRUTH_V{draft_ver}")
+    print(f"DRAFT: {draft_path}")
+    return draft_ver, draft_path
+
+
+def confirm_draft() -> Tuple[int, Path, Path]:
+    """
+    Confirm the pending draft for TRUTH_V(cur+1):
+      - Pre-verify (phase pre)
+      - Append draft block into TRUTH.md
+      - Bump TRUTH_VERSION
+      - Rebuild/verify _ai_index
+      - Create FULL+SLIM zips
+      - Post-verify (phase post)
+      - Delete the draft file
+    """
+    cfg = TruthConfig.load(CONFIG_JSON)
+    from tools import verify_truth  # local import to avoid cycles
+
+    print("PHASE 0/2: Pre-confirm verification")
+    verify_truth.main(["--phase", "pre"])
+
+    project, cur = read_project_and_truth_version()
+    new_ver = cur + 1
+
+    pending = find_pending_draft(project, cfg)
+    if pending is None:
+        raise RuntimeError(f"no pending draft found for project '{project}'")
+    draft_ver, draft_path = pending
+    if draft_ver != new_ver:
+        raise RuntimeError(f"pending draft is TRUTH_V{draft_ver} but expected TRUTH_V{new_ver} (based on app/version.py)")
+
+    statement_text = draft_path.read_text(encoding="utf-8")
+
+    # Append truth then bump version (keeps TRUTH.md as primary log)
+    append_truth_md_verbatim(project, new_ver, statement_text)
+    write_truth_version(new_ver)
+
+    # Build ai index AFTER version bump, then verify contracts
+    build_ai_index()
+    verify_ai_index_main()
+
+    zip_root = REPO_ROOT / cfg.zip_root
+    full_zip = zip_root / f"{project}_TRUTH_V{new_ver}_FULL.zip"
+    slim_zip = zip_root / f"{project}_TRUTH_V{new_ver}_SLIM.zip"
+
+    make_zip(full_zip, cfg, slim=False)
+    make_zip(slim_zip, cfg, slim=True)
+
+    print("PHASE 2/2: Post-artifact verification")
+    verify_truth.main(["--phase", "post"])
+
+    delete_draft(draft_path)
+    print(f"OK: confirmed TRUTH_V{new_ver} (draft deleted)")
+
+    return new_ver, full_zip, slim_zip
+
 def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     """
     Mint next truth:
@@ -310,25 +425,59 @@ def main(argv: List[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="tools.truth_manager")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("status", help="print current project and TRUTH version")
+    ap_status = sub.add_parser("status", help="print current project and TRUTH version")
+    ap_status.add_argument("--json", action="store_true", help="emit machine-readable json")
 
     ap_reseed = sub.add_parser("reseed", help="archive legacy TRUTH.md and reseed a new phased TRUTH epoch starting at V1")
     ap_reseed.add_argument("--force", action="store_true", help="required: perform destructive reseed")
 
-    ap_mint = sub.add_parser("mint", help="mint next TRUTH")
+    ap_mint = sub.add_parser("mint", help="mint next TRUTH (immediate confirm; legacy)")
     ap_mint.add_argument("--statement-file", required=True, help="path to statement text file")
+
+    ap_draft = sub.add_parser("mint-draft", help="create/update draft for next TRUTH without version bump")
+    ap_draft.add_argument("--statement-file", required=True, help="path to draft statement text file")
+    ap_draft.add_argument("--overwrite", action="store_true", help="overwrite existing draft for the same version")
+
+    sub.add_parser("confirm-draft", help="confirm pending draft for next TRUTH (bumps version + zips)")
 
     args = ap.parse_args(argv)
 
     project, cur = read_project_and_truth_version()
-
     if args.cmd == "status":
-        print(f"{project} TRUTH_V{cur}")
+        cfg = TruthConfig.load(CONFIG_JSON)
+        pending = find_pending_draft(project, cfg)
+        payload = {
+            "project": project,
+            "confirmed": cur,
+            "next": cur + 1,
+            "draft_pending": None,
+        }
+        if pending is not None:
+            dv, dp = pending
+            payload["draft_pending"] = {"ver": dv, "path": str(dp)}
+        if getattr(args, "json", False):
+            print(json.dumps(payload))
+        else:
+            if pending is None:
+                print(f"{project} TRUTH_V{cur} (no draft)")
+            else:
+                print(f"{project} TRUTH_V{cur} (draft pending TRUTH_V{pending[0]})")
         return 0
-
     if args.cmd == "reseed":
         reseed_truth_epoch(force=bool(args.force))
         print("OK: reseeded TRUTH epoch (TRUTH_V1) and enabled phased truths")
+        return 0
+
+    if args.cmd == "mint-draft":
+        st = Path(args.statement_file).read_text(encoding="utf-8")
+        dv, dp = mint_draft(st, overwrite=bool(args.overwrite))
+        return 0
+
+    if args.cmd == "confirm-draft":
+        new_ver, full_zip, slim_zip = confirm_draft()
+        print(f"OK: confirmed TRUTH_V{new_ver}")
+        print(f"FULL: {full_zip}")
+        print(f"SLIM: {slim_zip}")
         return 0
 
     if args.cmd == "mint":

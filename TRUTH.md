@@ -34,3 +34,20 @@ LOCKED POST
 
 END
 
+TRUTH - project_template (TRUTH_V3) [CONFIRM]
+=============================================
+
+LOCKED PRE
+- All truth header parsers MUST accept optional type tags: [CONFIRM|DREAM|DEBUG]
+- tools/ai_index.py MUST parse TRUTH.md latest TRUTH_V# correctly when type tags are present
+- AI index version consistency checks MUST compare against the true latest TRUTH_V# (not misparsed legacy headers)
+- Minting MUST fail fast if ai_index cannot determine the correct latest truth version
+
+LOCKED POST
+- tools/ai_index.py recognizes headers of the form:
+  TRUTH - <project> (TRUTH_V#) [TYPE]
+- ai_index precheck no longer falsely reports TRUTH.md latest as V1 when V2/V3 headers include [TYPE]
+- Minting proceeds without AI index version mismatch caused by header parsing
+
+END
+
