@@ -48,5 +48,5 @@
     "... (truncated)",
     "# SNIP"
   ],
-  "truth_phases_required": false
+  "truth_phases_required": true
 }

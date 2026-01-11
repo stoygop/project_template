@@ -1,6 +1,6 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 11:18:07",
+  "generated_at": "2026-01-11 11:35:41",
   "modules": [
     {
       "path": "app/__init__.py",
@@ -1313,92 +1313,121 @@
           "name": "verify_truth",
           "asname": null,
           "level": 0,
-          "lineno": 192
+          "lineno": 221
+        },
+        {
+          "kind": "from",
+          "module": "tools",
+          "name": "verify_truth",
+          "asname": null,
+          "level": 0,
+          "lineno": 275
         }
       ],
       "classes": [
         {
           "name": "TruthConfig",
-          "lineno": 23,
-          "end_lineno": 43,
+          "lineno": 26,
+          "end_lineno": 48,
           "bases": []
         }
       ],
       "functions": [
         {
+          "name": "_write_truth_config_truth_phases_required",
+          "lineno": 51,
+          "end_lineno": 54,
+          "is_method": false,
+          "class": null
+        },
+        {
           "name": "_norm_newlines",
-          "lineno": 46,
-          "end_lineno": 47,
+          "lineno": 57,
+          "end_lineno": 58,
           "is_method": false,
           "class": null
         },
         {
           "name": "_strip_bom",
-          "lineno": 50,
-          "end_lineno": 53,
+          "lineno": 61,
+          "end_lineno": 64,
           "is_method": false,
           "class": null
         },
         {
           "name": "read_project_and_truth_version",
-          "lineno": 56,
-          "end_lineno": 68,
+          "lineno": 67,
+          "end_lineno": 79,
           "is_method": false,
           "class": null
         },
         {
           "name": "write_truth_version",
-          "lineno": 71,
-          "end_lineno": 76,
+          "lineno": 82,
+          "end_lineno": 87,
           "is_method": false,
           "class": null
         },
         {
           "name": "append_truth_md_verbatim",
-          "lineno": 79,
-          "end_lineno": 119,
+          "lineno": 90,
+          "end_lineno": 142,
           "is_method": false,
           "class": null
         },
         {
           "name": "should_exclude_common",
-          "lineno": 122,
-          "end_lineno": 128,
+          "lineno": 145,
+          "end_lineno": 157,
           "is_method": false,
           "class": null
         },
         {
           "name": "should_exclude_slim",
-          "lineno": 131,
-          "end_lineno": 139,
+          "lineno": 160,
+          "end_lineno": 169,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_d_epoch_truth_v1",
+          "lineno": 172,
+          "end_lineno": 194,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "reseed_truth_epoch",
+          "lineno": 197,
+          "end_lineno": 222,
           "is_method": false,
           "class": null
         },
         {
           "name": "iter_repo_files",
-          "lineno": 142,
-          "end_lineno": 156,
+          "lineno": 225,
+          "end_lineno": 239,
           "is_method": false,
           "class": null
         },
         {
           "name": "make_zip",
-          "lineno": 159,
-          "end_lineno": 177,
+          "lineno": 242,
+          "end_lineno": 260,
           "is_method": false,
           "class": null
         },
         {
           "name": "mint_truth",
-          "lineno": 180,
-          "end_lineno": 218,
+          "lineno": 263,
+          "end_lineno": 301,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 221,
-          "end_lineno": 246,
+          "lineno": 304,
+          "end_lineno": 337,
           "is_method": false,
           "class": null
         }
@@ -1407,103 +1436,127 @@
         {
           "kind": "class",
           "name": "TruthConfig",
-          "lineno": 23,
-          "end_lineno": 43,
+          "lineno": 26,
+          "end_lineno": 48,
           "bases": []
         },
         {
           "kind": "method",
           "name": "load",
-          "lineno": 33,
-          "end_lineno": 43,
+          "lineno": 37,
+          "end_lineno": 48,
           "is_method": true,
           "class": "TruthConfig"
         },
         {
           "kind": "function",
+          "name": "_write_truth_config_truth_phases_required",
+          "lineno": 51,
+          "end_lineno": 54,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
           "name": "_norm_newlines",
-          "lineno": 46,
-          "end_lineno": 47,
+          "lineno": 57,
+          "end_lineno": 58,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_strip_bom",
-          "lineno": 50,
-          "end_lineno": 53,
+          "lineno": 61,
+          "end_lineno": 64,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "read_project_and_truth_version",
-          "lineno": 56,
-          "end_lineno": 68,
+          "lineno": 67,
+          "end_lineno": 79,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "write_truth_version",
-          "lineno": 71,
-          "end_lineno": 76,
+          "lineno": 82,
+          "end_lineno": 87,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "append_truth_md_verbatim",
-          "lineno": 79,
-          "end_lineno": 119,
+          "lineno": 90,
+          "end_lineno": 142,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "should_exclude_common",
-          "lineno": 122,
-          "end_lineno": 128,
+          "lineno": 145,
+          "end_lineno": 157,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "should_exclude_slim",
-          "lineno": 131,
-          "end_lineno": 139,
+          "lineno": 160,
+          "end_lineno": 169,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_d_epoch_truth_v1",
+          "lineno": 172,
+          "end_lineno": 194,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "reseed_truth_epoch",
+          "lineno": 197,
+          "end_lineno": 222,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "iter_repo_files",
-          "lineno": 142,
-          "end_lineno": 156,
+          "lineno": 225,
+          "end_lineno": 239,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "make_zip",
-          "lineno": 159,
-          "end_lineno": 177,
+          "lineno": 242,
+          "end_lineno": 260,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "mint_truth",
-          "lineno": 180,
-          "end_lineno": 218,
+          "lineno": 263,
+          "end_lineno": 301,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 221,
-          "end_lineno": 246,
+          "lineno": 304,
+          "end_lineno": 337,
           "is_method": false,
           "class": null
         }
