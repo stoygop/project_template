@@ -1,0 +1,17 @@
+TRUTH - project_template (TRUTH_V3)
+==================================================
+
+LOCKED
+- Minting MUST rebuild and verify _ai_index as part of every successful truth mint
+- tools/truth_manager.py MUST call tools.verify_ai_index.main() using its actual signature (no argv if unsupported)
+- Minting MUST fail fast and loudly if _ai_index rebuild/verify fails
+- Successful mint MUST still produce FULL and SLIM zips after _ai_index passes
+
+STATE
+- tools/truth_manager.py no longer passes argv into verify_ai_index.main() when it takes no parameters
+- _ai_index rebuild/verify remains mandatory during mint
+
+NOTES
+- This truth locks the mint pipeline integration with verify_ai_index and prevents signature mismatch regressions
+
+END
