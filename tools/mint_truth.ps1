@@ -1,5 +1,6 @@
 # tools/mint_truth.ps1
-# One-command mint: uses clipboard for the TRUTH statement, mints, runs doctor(pre), commits, pushes.
+# One-command truth mint with PROMPT + PASTE (ENDPASTE terminator)
+# TRUE one-click behavior: auto-commit any dirty working tree state before minting.
 
 $ErrorActionPreference = "Stop"
 
@@ -16,20 +17,33 @@ if (-not (Test-Path ".git")) { Fail "run from repo root (folder containing .git)
 & python -c "import sys; print(sys.executable)" *> $null
 if ($LASTEXITCODE -ne 0) { Fail "python not runnable" }
 
-# Must be clean to start (prevents accidental commits)
+# --- auto-commit any pre-mint dirty state ---
 $porcelain = (& git status --porcelain)
 if ($porcelain -and $porcelain.Trim().Length -gt 0) {
-  Fail "working tree not clean. Commit/stash first."
+  Write-Host "Auto-committing pre-mint changes..." -ForegroundColor Yellow
+  & git add -A
+  & git commit -m "AUTO: pre-mint state"
+  if ($LASTEXITCODE -ne 0) { Fail "auto-commit failed" }
 }
 
-# --- get statement from clipboard ---
-$statement = ""
-try { $statement = (Get-Clipboard -Raw) } catch { Fail "could not read clipboard" }
-if (-not $statement -or $statement.Trim().Length -lt 10) {
-  Fail "clipboard is empty. Copy the full TRUTH statement text, then rerun."
+# --- prompt for truth statement ---
+Write-Host ""
+Write-Host "PASTE TRUTH STATEMENT. End with a single line containing only: ENDPASTE" -ForegroundColor Cyan
+Write-Host ""
+
+$lines = @()
+while ($true) {
+  $line = Read-Host
+  if ($line -eq "ENDPASTE") { break }
+  $lines += $line
 }
 
-# --- write statement file (temp) ---
+$statement = ($lines -join "`n")
+if ($statement.Trim().Length -lt 50) {
+  Fail "truth statement too short or empty"
+}
+
+# --- write temp statement file ---
 $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $tmp = Join-Path $PWD ".truth_statement_$stamp.txt"
 Set-Content -Path $tmp -Value $statement -Encoding UTF8
@@ -55,7 +69,6 @@ if ($LASTEXITCODE -ne 0) { Fail "git commit failed" }
 & git push
 if ($LASTEXITCODE -ne 0) { Fail "git push failed" }
 
-# Cleanup temp statement file
 Remove-Item -Force $tmp -ErrorAction SilentlyContinue
 
 Write-Host "OK: Minted $versionLine, DOCTOR OK, pushed." -ForegroundColor Green
