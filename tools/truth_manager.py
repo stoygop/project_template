@@ -19,7 +19,10 @@ CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
 # D (phased) format support
 _SEPARATOR = "=" * 50
 
-_TRUTH_HEADER_RE = re.compile(r"^TRUTH\s*-\s*(.+)\s+\(TRUTH_V(\d+)\)\s*$")
+# Header supports optional D type tag: [CONFIRM|DREAM|DEBUG]
+_TRUTH_HEADER_RE = re.compile(
+    r"^TRUTH\s*-\s*(.+)\s+\(TRUTH_V(\d+)\)\s*(?:\[(CONFIRM|DREAM|DEBUG)\])?\s*$"
+)
 
 
 @dataclass
@@ -118,7 +121,9 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
                 raise RuntimeError(f"TRUTH version mismatch: got TRUTH_V{got_ver} expected TRUTH_V{new_ver}")
             break
     if header_line is None:
-        raise RuntimeError("TRUTH block missing header line: TRUTH - <project> (TRUTH_V#)")
+        raise RuntimeError(
+            "TRUTH block missing header line: TRUTH - <project> (TRUTH_V#) optionally followed by [CONFIRM|DREAM|DEBUG]"
+        )
 
     # Validate END terminator exists as standalone line
     if not any(_strip_bom(l).strip() == "END" for l in lines):

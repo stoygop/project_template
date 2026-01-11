@@ -1,0 +1,24 @@
+TRUTH - project_template (TRUTH_V2) [CONFIRM]
+=============================================
+
+LOCKED PRE
+- This repo is now in a reseeded D-epoch
+- TRUTH.md is authoritative and starts at TRUTH_V1 in the new phased format
+- Legacy truth history is archived and must not participate in verification or contiguity checks
+- Truth input terminates on a standalone END line (no Ctrl+Z / EOF semantics)
+- Pre-artifact verification MUST NOT check for FULL/SLIM existence
+- Post-artifact verification MUST require FULL/SLIM existence and correct naming for the minted truth number
+- Single authoritative version: app/version.py defines integer TRUTH_VERSION and matches the active TRUTH number
+
+LOCKED POST
+- TRUTH_LEGACY.md exists (or legacy truth history is otherwise quarantined) and is excluded from verification
+- tools/verify_truth enforces phased truth structure and D-phase correctness
+- tools/truth_manager mint order is phase-correct:
+  1) harmonize version
+  2) pre-verify (no artifact checks)
+  3) build ai_index
+  4) write TRUTH entry
+  5) emit FULL/SLIM
+  6) post-verify (artifact checks)
+
+END

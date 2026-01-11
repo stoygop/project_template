@@ -8,7 +8,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 TRUTH_MD = REPO_ROOT / "TRUTH.md"
 VERSION_PY = REPO_ROOT / "app" / "version.py"
 
-TRUTH_HEADER_RE = re.compile(r"^TRUTH\s*-\s*(.+)\s+\(TRUTH_V(\d+)\)\s*$")
+# Allow optional D type tag suffix: [CONFIRM|DREAM|DEBUG]
+TRUTH_HEADER_RE = re.compile(
+    r"^TRUTH\s*-\s*(.+)\s+\(TRUTH_V(\d+)\)\s*(?:\[(CONFIRM|DREAM|DEBUG)\])?\s*$"
+)
 
 def _normalize_newlines(s: str) -> str:
     return s.replace("\r\n", "\n").replace("\r", "\n")

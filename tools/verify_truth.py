@@ -140,7 +140,8 @@ class TruthEntry:
     start_line: int
 
 
-TRUTH_HEADER_RE = re.compile(r"^TRUTH - (.+?) \(TRUTH_V(\d+)\)\s*$")
+# Allow optional D type tag suffix: [CONFIRM|DREAM|DEBUG]
+TRUTH_HEADER_RE = re.compile(r"^TRUTH - (.+?) \(TRUTH_V(\d+)\)\s*(?:\[(CONFIRM|DREAM|DEBUG)\])?\s*$")
 
 
 def parse_truth_md() -> Tuple[str, List[TruthEntry]]:
