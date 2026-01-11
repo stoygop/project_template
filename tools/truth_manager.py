@@ -192,6 +192,13 @@ def make_zip(zip_path: Path, cfg: TruthConfig, slim: bool) -> None:
 def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     cfg = TruthConfig.load(CONFIG_JSON)
 
+    # Pre-mint verification: the repo must already be consistent before we bump anything.
+    # This prevents minting a broken truth by accident (version drift, stale _ai_index, etc.).
+    from tools import verify_truth  # local import to avoid cycles
+
+    print("PHASE 0/2: Pre-mint verification")
+    verify_truth.main(["--phase", "pre"])
+
     # Auto-clean legacy duplicate root version.py (authoritative is app/version.py)
     legacy = REPO_ROOT / "version.py"
     if legacy.exists():
@@ -216,7 +223,7 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     build_ai_index()
     verify_ai_index_main()
 
-    from tools import verify_truth  # local import to avoid cycles
+    # verify_truth already imported above for pre-mint verification
 
     print("PHASE 1/2: Pre-artifact verification")
     verify_truth.main(["--phase", "pre"])
