@@ -7,6 +7,7 @@ TRUTH SYSTEM
 - TRUTH.md is append-only; never edit past entries.
 - Minting a Truth is the ONLY supported way to advance repository state.
 - tools/mint_truth.ps1 MUST prompt for approval before minting TRUTH_V(n+1).
+- tools/mint_truth.ps1 truth statement input MUST terminate on a standalone line containing only: END (no Ctrl+Z/EOF termination).
 - Minting MUST NOT infer versions from filenames, TRUTH.md parsing, or other heuristics; only app/version.py.
 
 TRUTH ARTIFACTS

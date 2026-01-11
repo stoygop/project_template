@@ -1,0 +1,24 @@
+﻿TRUTH - project_template (TRUTH_V2)
+==================================================
+
+LOCKED
+- TRUTH_VERSION is an integer and is the single authoritative truth version
+- TRUTH_VERSION is stored only in app/version.py
+- Minting a truth MUST require explicit user approval before incrementing version
+- Minting MUST increment TRUTH_VERSION exactly by +1
+- Minting MUST always produce FULL and SLIM zip artifacts on success
+- Minting MUST fail fast and loudly on version parse errors (no silent failure)
+
+STATE
+- tools/mint_truth.ps1 prompts for approval before minting
+- Version parsing no longer assumes TRUTH_V-prefixed strings
+- Minting aborts cleanly if TRUTH_VERSION cannot be determined
+- Version increment and artifact creation are coupled (no partial mint)
+
+NOTES
+- This truth formalizes integer-only versioning and approval-gated minting
+- Any remaining TRUTH_V string parsing elsewhere is invalid and must be removed
+
+END
+
+

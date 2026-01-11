@@ -1,6 +1,6 @@
 # tools/mint_truth.ps1
 # One-command truth mint with PROMPT + PASTE
-# TERMINATION: Ctrl+Z then Enter (Windows stdin EOF)
+# TERMINATION: a standalone line containing only: END
 # One-click behavior: auto-commit any dirty working tree state before minting.
 # Prints NEXT TRUTH version and creates FULL/SLIM zips via tools.truth_manager.
 
@@ -59,13 +59,23 @@ if ($resp.ToLower() -ne "y") {
   exit 0
 }
 
-Write-Host "PASTE TRUTH STATEMENT. Finish with Ctrl+Z then Enter." -ForegroundColor Cyan
+Write-Host "PASTE TRUTH STATEMENT. Input ends when a line containing only 'END' is received." -ForegroundColor Cyan
 Write-Host ""
 
-$statement = ""
-while (($line = [Console]::In.ReadLine()) -ne $null) {
-  $statement += $line + "`n"
+$lines = @()
+while ($true) {
+  $line = [Console]::ReadLine()
+  if ($null -eq $line) {
+    Fail "unexpected EOF before END"
+  }
+
+  $lines += $line
+  if ($line.Trim() -eq "END") {
+    break
+  }
 }
+
+$statement = ($lines -join "`n") + "`n"
 if ($statement.Trim().Length -lt 50) { Fail "truth statement too short or empty" }
 
 $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
