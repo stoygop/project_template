@@ -1,6 +1,6 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 08:01:35",
+  "generated_at": "2026-01-11 09:15:39",
   "modules": [
     {
       "path": "app/__init__.py",
@@ -536,30 +536,36 @@
         },
         {
           "kind": "import",
-          "name": "subprocess",
+          "name": "argparse",
           "asname": null,
           "lineno": 3
         },
         {
           "kind": "import",
-          "name": "sys",
+          "name": "subprocess",
           "asname": null,
           "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 5
         }
       ],
       "classes": [],
       "functions": [
         {
           "name": "_run",
-          "lineno": 7,
-          "end_lineno": 9,
+          "lineno": 8,
+          "end_lineno": 10,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 12,
-          "end_lineno": 25,
+          "lineno": 13,
+          "end_lineno": 34,
           "is_method": false,
           "class": null
         }
@@ -568,16 +574,16 @@
         {
           "kind": "function",
           "name": "_run",
-          "lineno": 7,
-          "end_lineno": 9,
+          "lineno": 8,
+          "end_lineno": 10,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 12,
-          "end_lineno": 25,
+          "lineno": 13,
+          "end_lineno": 34,
           "is_method": false,
           "class": null
         }
@@ -1939,6 +1945,10 @@
       },
       {
         "from": "tools.doctor",
+        "to": "argparse"
+      },
+      {
+        "from": "tools.doctor",
         "to": "subprocess"
       },
       {
@@ -2118,6 +2128,7 @@
       ],
       "argparse": [
         "tools.ai_index",
+        "tools.doctor",
         "tools.new_project",
         "tools.truth_manager",
         "tools.verify_truth"

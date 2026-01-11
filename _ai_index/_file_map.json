@@ -1,8 +1,13 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 08:01:35",
+  "generated_at": "2026-01-11 09:15:39",
   "repo_root": "C:\\Users\\stoyg\\Documents\\Programming\\project_template",
   "files": [
+    {
+      "path": ".github/workflows/doctor.yml",
+      "size": 392,
+      "sha256": "a46168863cf127fd11de5c36b057abe979c489ba12b3f5f317137f2f673ec05b"
+    },
     {
       "path": ".gitignore",
       "size": 77,
@@ -15,8 +20,8 @@
     },
     {
       "path": "TRUTH.md",
-      "size": 35643,
-      "sha256": "42f1a78107b95e434e767041a6c9c1991bfd0f0529fdd4d23704826e95d46cf4"
+      "size": 36748,
+      "sha256": "68ce7a126f4d20077cc43aa63c35bf8a3d6de6b840cede66f6e769663de2e5f8"
     },
     {
       "path": "_BOOTSTRAP.txt",
@@ -41,7 +46,7 @@
     {
       "path": "app/version.py",
       "size": 175,
-      "sha256": "4bde8b82783b662bdd8a5278834be203d06327a747945adca57184acc02f3d8e"
+      "sha256": "a1527a63cea1c323d7c35f2fbc1adcae3555c71d93671be714cde0cad2a4b781"
     },
     {
       "path": "tools/__init__.py",
@@ -60,8 +65,8 @@
     },
     {
       "path": "tools/doctor.py",
-      "size": 629,
-      "sha256": "f92e217972764dda2298611c99604a029803b363961ac8b1a75668cb47be7531"
+      "size": 960,
+      "sha256": "a818ccee8693db221a0b14954841f4b5c296fc7d1cadfc945b6874c0f57534c3"
     },
     {
       "path": "tools/mint_truth.ps1",
@@ -100,8 +105,8 @@
     },
     {
       "path": "tools/verify_ai_index.py",
-      "size": 2137,
-      "sha256": "da963e1ab39aa544b07c627aeac02277193d9bc05a428157fc4fed6d9de96061"
+      "size": 2064,
+      "sha256": "b23549e15099a8137cd2f2c44e820c6284f9e4c4850fd4ae9dc98add54f10149"
     },
     {
       "path": "tools/verify_truth.py",
