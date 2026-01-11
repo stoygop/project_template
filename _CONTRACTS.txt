@@ -6,6 +6,8 @@ TRUTH SYSTEM
 - app/version.py is the authoritative location for TRUTH_VERSION and PROJECT_NAME.
 - TRUTH.md is append-only; never edit past entries.
 - Minting a Truth is the ONLY supported way to advance repository state.
+- tools/mint_truth.ps1 MUST prompt for approval before minting TRUTH_V(n+1).
+- Minting MUST NOT infer versions from filenames, TRUTH.md parsing, or other heuristics; only app/version.py.
 
 TRUTH ARTIFACTS
 - Each mint produces two zips:

@@ -25,12 +25,39 @@ if ($porcelain -and $porcelain.Trim().Length -gt 0) {
   git commit -m "AUTO: pre-mint state" | Out-Null
 }
 
-# print next version
-$next = (& python -c "import re; from pathlib import Path; t=Path('app/version.py').read_text(encoding='utf-8'); m=re.search(r'TRUTH_VERSION\\s*=\\s*(\\d+)', t); print(int(m.group(1))+1)")
-if (-not $next) { Fail "could not determine next TRUTH version" }
+# Determine current + next version from app/version.py (authoritative integer).
+$verJson = (& python -c @"
+import json, re
+from pathlib import Path
+t = Path('app/version.py').read_text(encoding='utf-8')
+m = re.search(r'TRUTH_VERSION\s*=\s*(\d+)', t)
+if not m:
+    raise SystemExit('TRUTH_VERSION not found in app/version.py')
+cur = int(m.group(1))
+print(json.dumps({'cur': cur, 'next': cur + 1}))
+"@)
+
+if ($LASTEXITCODE -ne 0 -or -not $verJson) { Fail "could not determine TRUTH_VERSION from app/version.py" }
+
+try {
+  $ver = $verJson | ConvertFrom-Json
+} catch {
+  Fail "could not parse version info from python helper"
+}
+
+$cur = [int]$ver.cur
+$next = [int]$ver.next
+
 Write-Host ""
-Write-Host ("NEXT TRUTH WILL BE: TRUTH_V{0}" -f $next) -ForegroundColor Cyan
+Write-Host ("CURRENT TRUTH VERSION: {0}" -f $cur) -ForegroundColor DarkGray
+Write-Host ("PROPOSED NEXT VERSION:  {0}" -f $next) -ForegroundColor Cyan
 Write-Host ""
+
+$resp = Read-Host ("Mint new truth (TRUTH_V{0})? (y/n)" -f $next)
+if ($resp.ToLower() -ne "y") {
+  Write-Host "Aborted." -ForegroundColor Yellow
+  exit 0
+}
 
 Write-Host "PASTE TRUTH STATEMENT. Finish with Ctrl+Z then Enter." -ForegroundColor Cyan
 Write-Host ""
