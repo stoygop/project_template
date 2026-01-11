@@ -110,7 +110,6 @@ if ($draft) {
 Write-Host ""
 Write-Host "PASTE TRUTH STATEMENT. Input ends when a line containing only 'END' is received." -ForegroundColor Cyan
 Write-Host ""
-Write-Host "PASTE TRUTH STATEMENT. Input ends when a line containing only 'END' is received." -ForegroundColor Cyan
 Write-Host ""
 
 $lines = @()

@@ -25,6 +25,19 @@ _TRUTH_HEADER_RE = re.compile(
 )
 
 
+def _normalize_truth_candidate(line: str) -> str:
+    """Normalize a single line for truth parsing (tolerate markdown/BOM)."""
+    s = _strip_bom(line).rstrip("\r\n")
+    indent = re.match(r"^\s*", s).group(0)
+    core = s.strip()
+    if core.startswith("#"):
+        stripped = core.lstrip("#").strip()
+        if _TRUTH_HEADER_RE.match(stripped) or stripped in {"LOCKED", "LOCKED PRE", "LOCKED POST", "END"}:
+            return indent + stripped
+    if core.startswith("* "):
+        return indent + "- " + core[2:]
+    return s
+
 @dataclass
 class TruthConfig:
     zip_root: str
@@ -145,26 +158,33 @@ def write_truth_version(new_ver: int) -> None:
 def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> None:
     """
     Append the provided TRUTH block verbatim into TRUTH.md.
+
+    Tolerances:
+      - leading/trailing whitespace and UTF-8 BOM
+      - markdown heading prefix '# ' on control lines (header / LOCKED PRE/POST / END)
+      - markdown bullet prefix '* ' (converted to '- ')
+
     Requirements:
-      - block must contain header line 'TRUTH - <project> (TRUTH_V<new_ver>)'
-      - block must contain a standalone 'END' line
-      - TRUTH.md is normalized to LF and we always separate entries with a blank line
+      - must contain header line 'TRUTH - <project> (TRUTH_V<new_ver>)' (optionally [CONFIRM|DREAM|DEBUG])
+      - must contain standalone 'END' line
+      - if phases are required, must contain LOCKED PRE and LOCKED POST (and must NOT contain legacy LOCKED)
     """
     if not TRUTH_MD.exists():
         raise RuntimeError(f"missing {TRUTH_MD}")
 
     cfg = TruthConfig.load(CONFIG_JSON)
 
-    block = _strip_bom(_norm_newlines(block_text)).strip("\n") + "\n"
-    lines = block.split("\n")
+    block_raw = _strip_bom(_norm_newlines(block_text)).strip("\n") + "\n"
+    raw_lines = block_raw.split("\n")
+    lines = [_normalize_truth_candidate(l) for l in raw_lines]
 
-    # Validate header/version
-    header_line = None
-    for line in lines:
+    # Validate header/version and locate header index
+    header_idx = None
+    for i, line in enumerate(lines):
         candidate = _strip_bom(line).strip()
         m = _TRUTH_HEADER_RE.match(candidate)
         if m:
-            header_line = candidate
+            header_idx = i
             got_project = m.group(1).strip()
             got_ver = int(m.group(2))
             if got_project != project:
@@ -172,7 +192,7 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
             if got_ver != new_ver:
                 raise RuntimeError(f"TRUTH version mismatch: got TRUTH_V{got_ver} expected TRUTH_V{new_ver}")
             break
-    if header_line is None:
+    if header_idx is None:
         raise RuntimeError(
             "TRUTH block missing header line: TRUTH - <project> (TRUTH_V#) optionally followed by [CONFIRM|DREAM|DEBUG]"
         )
@@ -187,9 +207,23 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
         has_post = any(_strip_bom(l).strip() == "LOCKED POST" for l in lines)
         has_legacy = any(_strip_bom(l).strip() == "LOCKED" for l in lines)
         if has_legacy:
-            raise RuntimeError("TRUTH block contains legacy 'LOCKED' header (phases required). Use LOCKED PRE/LOCKED POST.")
+            raise RuntimeError(
+                "TRUTH block contains legacy 'LOCKED' header (phases required). Use LOCKED PRE/LOCKED POST."
+            )
         if not has_pre or not has_post:
             raise RuntimeError("TRUTH block missing required phased headers: LOCKED PRE and LOCKED POST")
+
+    # Trim any preamble before the header and anything after END.
+    lines = lines[header_idx:]
+    end_idx = None
+    for i, l in enumerate(lines):
+        if _strip_bom(l).strip() == "END":
+            end_idx = i
+            break
+    if end_idx is not None:
+        lines = lines[: end_idx + 1]
+
+    block = "\n".join(lines).strip("\n") + "\n"
 
     # Normalize existing TRUTH.md and ensure it ends with exactly one blank line
     cur = _norm_newlines(TRUTH_MD.read_text(encoding="utf-8"))
@@ -197,10 +231,6 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
 
     out = cur + block + "\n"
     TRUTH_MD.write_text(out, encoding="utf-8", newline="\n")
-
-
-
-_DRAFT_FILE_RE = re.compile(r"^(?P<project>.+?)_TRUTH_V(?P<ver>\d+)_DRAFT\.txt$")
 
 
 def get_draft_dir(cfg: TruthConfig) -> Path:
