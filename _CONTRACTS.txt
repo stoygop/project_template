@@ -9,6 +9,8 @@ TRUTH SYSTEM
 - tools/mint_truth.ps1 MUST prompt for approval before minting TRUTH_V(n+1).
 - tools/mint_truth.ps1 truth statement input MUST terminate on a standalone line containing only: END (no Ctrl+Z/EOF termination).
 - Minting MUST NOT infer versions from filenames, TRUTH.md parsing, or other heuristics; only app/version.py.
+- D epoch reseed is a destructive operation: archive TRUTH.md to TRUTH_LEGACY.md, reset TRUTH_VERSION to 1, and enable phased truths.
+- When truth_phases_required is true, all TRUTH entries MUST use LOCKED PRE and LOCKED POST (legacy LOCKED is forbidden).
 
 TRUTH ARTIFACTS
 - Each mint produces two zips:

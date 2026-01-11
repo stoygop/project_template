@@ -16,6 +16,9 @@ VERSION_PY = REPO_ROOT / "app" / "version.py"
 TRUTH_MD = REPO_ROOT / "TRUTH.md"
 CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
 
+# D (phased) format support
+_SEPARATOR = "=" * 50
+
 _TRUTH_HEADER_RE = re.compile(r"^TRUTH\s*-\s*(.+)\s+\(TRUTH_V(\d+)\)\s*$")
 
 
@@ -28,6 +31,7 @@ class TruthConfig:
     slim_exclude_folders: List[str]
     slim_exclude_ext: List[str]
     slim_exclude_extra_folders: List[str]
+    truth_phases_required: bool
 
     @staticmethod
     def load(path: Path) -> "TruthConfig":
@@ -40,7 +44,14 @@ class TruthConfig:
             slim_exclude_folders=data.get("slim_exclude_folders", []),
             slim_exclude_ext=data.get("slim_exclude_ext", []),
             slim_exclude_extra_folders=data.get("slim_exclude_extra_folders", []),
+            truth_phases_required=bool(data.get("truth_phases_required", False)),
         )
+
+
+def _write_truth_config_truth_phases_required(required: bool) -> None:
+    data = json.loads(CONFIG_JSON.read_text(encoding="utf-8"))
+    data["truth_phases_required"] = bool(required)
+    CONFIG_JSON.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 def _norm_newlines(s: str) -> str:
@@ -87,6 +98,8 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
     if not TRUTH_MD.exists():
         raise RuntimeError(f"missing {TRUTH_MD}")
 
+    cfg = TruthConfig.load(CONFIG_JSON)
+
     block = _strip_bom(_norm_newlines(block_text)).strip("\n") + "\n"
     lines = block.split("\n")
 
@@ -111,6 +124,16 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
     if not any(_strip_bom(l).strip() == "END" for l in lines):
         raise RuntimeError("TRUTH block missing END terminator line")
 
+    # If phased truths are required, enforce LOCKED PRE + LOCKED POST within the block.
+    if cfg.truth_phases_required:
+        has_pre = any(_strip_bom(l).strip() == "LOCKED PRE" for l in lines)
+        has_post = any(_strip_bom(l).strip() == "LOCKED POST" for l in lines)
+        has_legacy = any(_strip_bom(l).strip() == "LOCKED" for l in lines)
+        if has_legacy:
+            raise RuntimeError("TRUTH block contains legacy 'LOCKED' header (phases required). Use LOCKED PRE/LOCKED POST.")
+        if not has_pre or not has_post:
+            raise RuntimeError("TRUTH block missing required phased headers: LOCKED PRE and LOCKED POST")
+
     # Normalize existing TRUTH.md and ensure it ends with exactly one blank line
     cur = _norm_newlines(TRUTH_MD.read_text(encoding="utf-8"))
     cur = cur.rstrip("\n") + "\n\n"
@@ -120,6 +143,12 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
 
 
 def should_exclude_common(rel: Path, cfg: TruthConfig) -> bool:
+    # Never package other zip files into truth zips.
+    if rel.suffix.lower() == ".zip":
+        return True
+    # Never package transient statement files.
+    if rel.name.startswith(".truth_statement_") and rel.suffix.lower() == ".txt":
+        return True
     if rel.name in cfg.exclude_common_files:
         return True
     for part in rel.parts:
@@ -134,9 +163,63 @@ def should_exclude_slim(rel: Path, cfg: TruthConfig) -> bool:
             return True
         if part in cfg.slim_exclude_extra_folders:
             return True
-    if rel.suffix.lower().lstrip(".") in cfg.slim_exclude_ext:
+    # Extensions in config are stored with the leading dot (e.g. ".png").
+    if rel.suffix.lower() in {e.lower() for e in cfg.slim_exclude_ext}:
         return True
     return False
+
+
+def _d_epoch_truth_v1(project: str) -> str:
+    # Canonical phased truth seed.
+    return "\n".join(
+        [
+            _SEPARATOR,
+            f"TRUTH - {project} (TRUTH_V1)",
+            _SEPARATOR,
+            "",
+            "LOCKED PRE",
+            "- D epoch reset: TRUTH.md is reseeded under phased format",
+            "- Prior truths are archived to TRUTH_LEGACY.md and are not enforced",
+            "- truth_phases_required is enabled (LOCKED PRE/LOCKED POST required)",
+            "- TRUTH_VERSION is reset to 1 in app/version.py",
+            "",
+            "LOCKED POST",
+            "- TRUTH_LEGACY.md exists and contains the pre-D truth history",
+            "- TRUTH.md is now the only authoritative truth log",
+            "- Verification enforces phased truth format for all future entries",
+            "",
+            "END",
+            "",
+        ]
+    )
+
+
+def reseed_truth_epoch(force: bool = False) -> None:
+    project, cur = read_project_and_truth_version()
+    if not force:
+        raise RuntimeError(f"reseed requires --force (current TRUTH_V{cur})")
+
+    # Archive TRUTH.md -> TRUTH_LEGACY.md (overwrite if present)
+    legacy = REPO_ROOT / "TRUTH_LEGACY.md"
+    if TRUTH_MD.exists():
+        legacy.write_text(_norm_newlines(TRUTH_MD.read_text(encoding="utf-8", errors="replace")), encoding="utf-8", newline="\n")
+        TRUTH_MD.unlink()
+
+    # Enable phased truths.
+    _write_truth_config_truth_phases_required(True)
+
+    # Reset version to 1.
+    write_truth_version(1)
+
+    # Create new TRUTH.md seeded with D epoch V1.
+    TRUTH_MD.write_text(_d_epoch_truth_v1(project), encoding="utf-8", newline="\n")
+
+    # Rebuild ai index and verify repo in pre phase (artifacts optional here).
+    build_ai_index()
+    verify_ai_index_main()
+
+    from tools import verify_truth
+    verify_truth.main(["--phase", "pre"])
 
 
 def iter_repo_files(cfg: TruthConfig) -> Iterable[Path]:
@@ -224,6 +307,9 @@ def main(argv: List[str] | None = None) -> int:
 
     sub.add_parser("status", help="print current project and TRUTH version")
 
+    ap_reseed = sub.add_parser("reseed", help="archive legacy TRUTH.md and reseed a new phased TRUTH epoch starting at V1")
+    ap_reseed.add_argument("--force", action="store_true", help="required: perform destructive reseed")
+
     ap_mint = sub.add_parser("mint", help="mint next TRUTH")
     ap_mint.add_argument("--statement-file", required=True, help="path to statement text file")
 
@@ -233,6 +319,11 @@ def main(argv: List[str] | None = None) -> int:
 
     if args.cmd == "status":
         print(f"{project} TRUTH_V{cur}")
+        return 0
+
+    if args.cmd == "reseed":
+        reseed_truth_epoch(force=bool(args.force))
+        print("OK: reseeded TRUTH epoch (TRUTH_V1) and enabled phased truths")
         return 0
 
     if args.cmd == "mint":

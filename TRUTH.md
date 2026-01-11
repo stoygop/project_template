@@ -69,3 +69,22 @@ NOTES
 
 END
 
+TRUTH - project_template (TRUTH_V4)
+==================================================
+
+LOCKED
+- SLIM zip MUST NOT include any .zip files (no zipping zips)
+- SLIM zip MUST exclude: _truth/**, .git/**, __pycache__/**, *.pyc, *.log, *.tmp, *.avi, *.mp4, *.png, *.jpg
+- SLIM zip content is whitelist-based: only app/**, tools/**, TRUTH.md, _CONTRACTS.txt, tools/truth_config.json, README*
+- Post-artifact verification MUST fail if SLIM contains forbidden extensions (including .zip) or forbidden dirs
+- Minting MUST print SLIM/FULL file sizes and top-level zip inventory summary
+
+STATE
+- tools/truth_manager.py zip builder enforces explicit include whitelist + explicit excludes
+- tools/verify_truth.py post-phase enforces forbidden-content checks on SLIM (and FULL where applicable)
+
+NOTES
+- This truth fixes runaway zip size caused by accidental inclusion of patch zips and artifacts in the repo root
+
+END
+

@@ -4,6 +4,10 @@
 # One-click behavior: auto-commit any dirty working tree state before minting.
 # Prints NEXT TRUTH version and creates FULL/SLIM zips via tools.truth_manager.
 
+param(
+  [switch]$Reseed
+)
+
 $ErrorActionPreference = "Stop"
 
 function Fail($msg) {
@@ -23,6 +27,19 @@ if ($porcelain -and $porcelain.Trim().Length -gt 0) {
   Write-Host "Auto-committing pre-mint changes..." -ForegroundColor Yellow
   git add -A
   git commit -m "AUTO: pre-mint state" | Out-Null
+}
+
+# Reseed mode (destructive): archive TRUTH.md -> TRUTH_LEGACY.md, reset TRUTH_VERSION to 1,
+# enable phased truths, and create a new TRUTH.md seeded with TRUTH_V1.
+if ($Reseed) {
+  $resp2 = Read-Host "RESEED truth epoch? This archives TRUTH.md to TRUTH_LEGACY.md and resets version to 1. Type RESEED to proceed"
+  if ($resp2 -ne "RESEED") {
+    Write-Host "Aborted." -ForegroundColor Yellow
+    exit 0
+  }
+  & python -m tools.truth_manager reseed --force
+  if ($LASTEXITCODE -ne 0) { Fail "truth_manager reseed failed" }
+  exit 0
 }
 
 # Determine current + next version from app/version.py (authoritative integer).
