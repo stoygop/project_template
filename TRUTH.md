@@ -902,3 +902,36 @@ STATEMENT
 - Mint tooling updated to auto-commit and enforce deterministic verification
 - END
 
+
+==================================================
+TRUTH - project_template (TRUTH_V33)
+==================================================
+
+LOCKED
+- Version: 33
+- Timestamp: 2026-01-11 09:52:23
+
+STATEMENT
+- ﻿==================================================
+- TRUTH - project_template (TRUTH_V34)
+- ==================================================
+- LOCKED
+- Truth minting is now truly one-command
+- Mint flow auto-commits any pre-mint dirty working tree state
+- Mint flow prompts in-terminal for TRUTH text
+- TRUTH semantic terminator is `END`
+- Input mechanics (paste sentinels) are implementation details only
+- Pre-mint verification runs `verify_truth --phase pre` and hard-fails on error
+- `_ai_index` is rebuilt and verified during every mint
+- STATE
+- One-click mint flow was successfully executed end-to-end
+- No manual git steps were required
+- No clipboard dependency exists
+- Doctor pre-phase passes after mint
+- Governance tooling now matches intended user workflow
+- NEXT
+- Define and implement explicit TRUTH phases
+- TRUTH format will support phased constraints without splitting truths
+- Phase semantics must align with existing doctor pre/post phases
+- END
+
