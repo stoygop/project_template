@@ -166,6 +166,94 @@ def parse_truth_md() -> Tuple[str, List[TruthEntry]]:
     return project, entries
 
 
+
+SECTION_HEADERS_ALLOWED = {"LOCKED", "LOCKED PRE", "LOCKED POST", "NOTES", "END"}
+
+def _iter_truth_entry_blocks(lines: List[str], entry: TruthEntry, next_start_line: int | None) -> List[Tuple[int, str]]:
+    """Return list of (lineno, line_stripped) for lines in this entry, excluding the header itself."""
+    start_idx = entry.start_line  # 1-based; header line itself at start_line
+    end_line = (next_start_line - 1) if next_start_line else len(lines)
+    out: List[Tuple[int, str]] = []
+    for lineno in range(start_idx + 1, end_line + 1):
+        out.append((lineno, lines[lineno - 1].rstrip("\n")))
+    return out
+
+
+def verify_truth_md_format(phases_required: bool) -> None:
+    """Validate TRUTH.md entry structure for legacy or phased formats.
+
+    Legacy: entry contains a single 'LOCKED' section and ends with 'END'.
+    Phased: entry contains 'LOCKED PRE' then 'LOCKED POST' (both required), optional 'NOTES', ends with 'END'.
+    If phases_required is True, legacy 'LOCKED' is forbidden.
+    """
+    raw_lines = TRUTH_MD.read_text(encoding="utf-8", errors="replace").splitlines()
+    _project, entries = parse_truth_md()
+
+    for idx, entry in enumerate(entries):
+        next_start = entries[idx + 1].start_line if idx + 1 < len(entries) else None
+        block = _iter_truth_entry_blocks(raw_lines, entry, next_start)
+
+        # Find section headers inside this entry (line stripped, uppercase-ish)
+        headers: List[Tuple[int, str]] = []
+        for lineno, line in block:
+            s = line.strip()
+            if not s:
+                continue
+            # Allow separator lines of '='
+            if set(s) <= {"="}:
+                continue
+            # We only care about exact section header lines
+            if s in ("LOCKED", "LOCKED PRE", "LOCKED POST", "NOTES", "END", "PHASE PRE", "PHASE POST"):
+                headers.append((lineno, s))
+
+        # Explicitly forbid old PHASE headers (reserved)
+        for lineno, h in headers:
+            if h in ("PHASE PRE", "PHASE POST"):
+                fail(f"TRUTH.md unsupported legacy phase header at line {lineno}: {h} (use LOCKED PRE/LOCKED POST)")
+
+        # Must have END
+        end_lines = [lineno for lineno, h in headers if h == "END"]
+        if not end_lines:
+            fail(f"TRUTH.md entry missing END terminator (TRUTH_V{entry.version})")
+        if len(end_lines) > 1:
+            fail(f"TRUTH.md entry has multiple END terminators (TRUTH_V{entry.version})")
+
+        has_locked_pre = any(h == "LOCKED PRE" for _, h in headers)
+        has_locked_post = any(h == "LOCKED POST" for _, h in headers)
+        has_locked_legacy = any(h == "LOCKED" for _, h in headers)
+
+        if has_locked_pre or has_locked_post:
+            # Phased entry: require both, forbid legacy LOCKED
+            if has_locked_legacy:
+                ln = next(lineno for lineno, h in headers if h == "LOCKED")
+                fail(f"TRUTH.md phased entry contains legacy LOCKED at line {ln} (TRUTH_V{entry.version})")
+            if not has_locked_pre:
+                fail(f"TRUTH.md phased entry missing LOCKED PRE (TRUTH_V{entry.version})")
+            if not has_locked_post:
+                fail(f"TRUTH.md phased entry missing LOCKED POST (TRUTH_V{entry.version})")
+
+            # Ordering: LOCKED PRE < LOCKED POST < (NOTES?) < END
+            pos = {h: lineno for lineno, h in headers if h in ("LOCKED PRE", "LOCKED POST", "NOTES", "END")}
+            if pos["LOCKED PRE"] > pos["LOCKED POST"]:
+                fail(f"TRUTH.md phased entry ordering invalid: LOCKED PRE after LOCKED POST (TRUTH_V{entry.version})")
+            if pos["LOCKED POST"] > pos["END"]:
+                fail(f"TRUTH.md phased entry ordering invalid: LOCKED POST after END (TRUTH_V{entry.version})")
+            if "NOTES" in pos and pos["NOTES"] > pos["END"]:
+                fail(f"TRUTH.md phased entry ordering invalid: NOTES after END (TRUTH_V{entry.version})")
+        else:
+            # Legacy entry
+            if phases_required:
+                fail(f"TRUTH.md legacy LOCKED entries are forbidden (phases required). First offending entry: TRUTH_V{entry.version}")
+            if not has_locked_legacy:
+                fail(f"TRUTH.md entry missing LOCKED section header (TRUTH_V{entry.version})")
+            # Legacy ordering: LOCKED must appear before END
+            llock = next(lineno for lineno, h in headers if h == "LOCKED")
+            lend = end_lines[0]
+            if llock > lend:
+                fail(f"TRUTH.md legacy entry ordering invalid: LOCKED after END (TRUTH_V{entry.version})")
+
+    ok("TRUTH.md format verified (legacy/phased)" + (" [phases required]" if phases_required else ""))
+
 def verify_truth_sequence(entries: List[TruthEntry]) -> None:
     versions = [e.version for e in entries]
     if versions[0] != 1:
@@ -351,6 +439,9 @@ def main(argv: List[str] | None = None) -> int:
     latest = entries[-1].version
     verify_version_matches_latest(project_py, ver_py, project_md, latest)
     verify_config_present()
+    cfg = load_config()
+    phases_required = bool(cfg.get("truth_phases_required", False))
+    verify_truth_md_format(phases_required)
     verify_single_project_name_authority()
 
     # Truncation/ellipsis guard (runs in both phases)
