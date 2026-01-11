@@ -16,6 +16,6 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Run doctor
+      - name: Run doctor (pre-phase)
         run: |
-          python -m tools.doctor
+          python -m tools.doctor --phase pre
