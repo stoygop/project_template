@@ -1,0 +1,17 @@
+# TRUTH - project_template (TRUTH_V4) [DREAM]
+
+LOCKED
+
+* Truth minting MUST support a two-stage workflow where draft truths do NOT mutate TRUTH.md or TRUTH_VERSION
+* Draft truths MUST be created, edited, and reviewed outside of TRUTH.md
+* Only an explicit confirm operation may:
+
+  * Append a draft truth into TRUTH.md
+  * Increment TRUTH_VERSION
+  * Generate truth artifacts (FULL / SLIM)
+* It MUST be possible to mark an existing confirmed truth as [CONFIRM] WITHOUT minting a new truth version
+* No truth workflow may require manual editing of TRUTH.md or copy/paste between files
+* At most ONE draft truth may exist at a time, always targeting TRUTH_V{current+1}
+* TRUTH_VERSION MUST always reflect the latest confirmed truth only
+
+END
