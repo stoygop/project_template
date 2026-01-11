@@ -2,6 +2,7 @@
 # One-command truth mint with PROMPT + PASTE
 # TERMINATION: Ctrl+Z then Enter (Windows stdin EOF)
 # One-click behavior: auto-commit any dirty working tree state before minting.
+# Prints NEXT TRUTH version and creates FULL/SLIM zips via tools.truth_manager.
 
 $ErrorActionPreference = "Stop"
 
@@ -24,11 +25,13 @@ if ($porcelain -and $porcelain.Trim().Length -gt 0) {
   git commit -m "AUTO: pre-mint state" | Out-Null
 }
 
-# repair any partial last TRUTH entry (missing END) before mint preflight
-& python -m tools.repair_truth_md
-if ($LASTEXITCODE -ne 0) { Fail "repair_truth_md failed" }
-
+# print next version
+$next = (& python -c "import re; from pathlib import Path; t=Path('app/version.py').read_text(encoding='utf-8'); m=re.search(r'TRUTH_VERSION\\s*=\\s*(\\d+)', t); print(int(m.group(1))+1)")
+if (-not $next) { Fail "could not determine next TRUTH version" }
 Write-Host ""
+Write-Host ("NEXT TRUTH WILL BE: TRUTH_V{0}" -f $next) -ForegroundColor Cyan
+Write-Host ""
+
 Write-Host "PASTE TRUTH STATEMENT. Finish with Ctrl+Z then Enter." -ForegroundColor Cyan
 Write-Host ""
 
@@ -38,13 +41,12 @@ while (($line = [Console]::In.ReadLine()) -ne $null) {
 }
 if ($statement.Trim().Length -lt 50) { Fail "truth statement too short or empty" }
 
-# temp file
 $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $tmp = Join-Path $PWD ".truth_statement_$stamp.txt"
 Set-Content -Path $tmp -Value $statement -Encoding UTF8
 
+# mint + zip
 & python -m tools.truth_manager mint --statement-file $tmp
 if ($LASTEXITCODE -ne 0) { Fail "truth_manager mint failed" }
 
 Remove-Item -Force $tmp -ErrorAction SilentlyContinue
-Write-Host "OK: Minted, pushed." -ForegroundColor Green
