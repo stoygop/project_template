@@ -84,6 +84,56 @@ def read_project_and_truth_version() -> Tuple[str, int]:
     return project, ver
 
 
+def read_truth_md_latest() -> Tuple[str, int, str | None]:
+    """Return (project, ver, type_tag) for the latest TRUTH entry in TRUTH.md."""
+    if not TRUTH_MD.exists():
+        raise RuntimeError(f"missing {TRUTH_MD}")
+
+    txt = _strip_bom(_norm_newlines(TRUTH_MD.read_text(encoding="utf-8")))
+    latest: Tuple[str, int, str | None] | None = None
+    for raw in txt.split("\n"):
+        line = _strip_bom(raw).strip()
+        m = _TRUTH_HEADER_RE.match(line)
+        if not m:
+            continue
+        proj = m.group(1).strip()
+        ver = int(m.group(2))
+        tag = m.group(3)
+        if latest is None or ver > latest[1]:
+            latest = (proj, ver, tag)
+
+    if latest is None:
+        raise RuntimeError("no TRUTH headers found in TRUTH.md")
+    return latest
+
+
+def set_truth_type_tag(ver: int, type_tag: str | None) -> None:
+    """Set (or clear) the optional [CONFIRM|DREAM|DEBUG] tag on a specific TRUTH header."""
+    if type_tag is not None and type_tag not in ("CONFIRM", "DREAM", "DEBUG"):
+        raise RuntimeError("type_tag must be one of CONFIRM, DREAM, DEBUG, or None")
+
+    txt = _strip_bom(_norm_newlines(TRUTH_MD.read_text(encoding="utf-8")))
+    out_lines: List[str] = []
+    changed = False
+    for raw in txt.split("\n"):
+        line = _strip_bom(raw).rstrip("\r")
+        m = _TRUTH_HEADER_RE.match(line.strip())
+        if m and int(m.group(2)) == ver:
+            proj = m.group(1).strip()
+            base = f"TRUTH - {proj} (TRUTH_V{ver})"
+            if type_tag:
+                base += f" [{type_tag}]"
+            out_lines.append(base)
+            changed = True
+        else:
+            out_lines.append(line)
+
+    if not changed:
+        raise RuntimeError(f"TRUTH_V{ver} header not found in TRUTH.md")
+
+    TRUTH_MD.write_text("\n".join(out_lines).rstrip("\n") + "\n", encoding="utf-8", newline="\n")
+
+
 def write_truth_version(new_ver: int) -> None:
     txt = _norm_newlines(VERSION_PY.read_text(encoding="utf-8"))
     if re.search(r"TRUTH_VERSION\s*=\s*\d+", txt) is None:
@@ -438,6 +488,10 @@ def main(argv: List[str] | None = None) -> int:
     ap_draft.add_argument("--statement-file", required=True, help="path to draft statement text file")
     ap_draft.add_argument("--overwrite", action="store_true", help="overwrite existing draft for the same version")
 
+    ap_set_type = sub.add_parser("set-type", help="set/clear the optional type tag [CONFIRM|DREAM|DEBUG] on an existing TRUTH header")
+    ap_set_type.add_argument("--ver", required=True, help="version number (e.g. 3) or 'latest'")
+    ap_set_type.add_argument("--type", default="CONFIRM", help="CONFIRM|DREAM|DEBUG|NONE (default: CONFIRM)")
+
     sub.add_parser("confirm-draft", help="confirm pending draft for next TRUTH (bumps version + zips)")
 
     args = ap.parse_args(argv)
@@ -446,11 +500,13 @@ def main(argv: List[str] | None = None) -> int:
     if args.cmd == "status":
         cfg = TruthConfig.load(CONFIG_JSON)
         pending = find_pending_draft(project, cfg)
+        md_proj, md_ver, md_tag = read_truth_md_latest()
         payload = {
             "project": project,
             "confirmed": cur,
             "next": cur + 1,
             "draft_pending": None,
+            "latest_header_type": md_tag,
         }
         if pending is not None:
             dv, dp = pending
@@ -463,9 +519,30 @@ def main(argv: List[str] | None = None) -> int:
             else:
                 print(f"{project} TRUTH_V{cur} (draft pending TRUTH_V{pending[0]})")
         return 0
+
     if args.cmd == "reseed":
         reseed_truth_epoch(force=bool(args.force))
         print("OK: reseeded TRUTH epoch (TRUTH_V1) and enabled phased truths")
+        return 0
+
+    if args.cmd == "set-type":
+        ver_arg = str(args.ver).strip().lower()
+        if ver_arg == "latest":
+            _, v_latest, _ = read_truth_md_latest()
+            target_ver = v_latest
+        else:
+            target_ver = int(ver_arg)
+
+        t = str(args.type).strip().upper()
+        if t in ("NONE", "", "NULL"):
+            tag: str | None = None
+        elif t in ("CONFIRM", "DREAM", "DEBUG"):
+            tag = t
+        else:
+            raise RuntimeError("--type must be CONFIRM, DREAM, DEBUG, or NONE")
+
+        set_truth_type_tag(target_ver, tag)
+        print(f"OK: set TRUTH_V{target_ver} header type to {tag or 'NONE'}")
         return 0
 
     if args.cmd == "mint-draft":

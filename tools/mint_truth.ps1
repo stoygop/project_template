@@ -55,12 +55,30 @@ try {
 $cur = [int]$st.confirmed
 $next = [int]$st.next
 $draft = $st.draft_pending
+$latestType = $st.latest_header_type
 
 
 Write-Host ""
 Write-Host ""
 Write-Host ("CURRENT CONFIRMED TRUTH: TRUTH_V{0}" -f $cur) -ForegroundColor DarkGray
 Write-Host ("NEXT VERSION SLOT:        TRUTH_V{0}" -f $next) -ForegroundColor Cyan
+
+# If the latest truth is missing a type tag (or isn't CONFIRM), offer to mark it CONFIRM
+# without minting a new version. This fixes the common "I want to confirm Vn" case.
+if ($latestType -ne "CONFIRM") {
+  Write-Host "" 
+  if ($latestType) {
+    Write-Host ("LATEST HEADER TYPE:       [{0}]" -f $latestType) -ForegroundColor Yellow
+  } else {
+    Write-Host "LATEST HEADER TYPE:       (none)" -ForegroundColor Yellow
+  }
+  $respType = Read-Host ("Mark latest TRUTH_V{0} as [CONFIRM] now (no version bump)? (y/n)" -f $cur)
+  if ($respType.ToLower() -eq "y") {
+    & python -m tools.truth_manager set-type --ver latest --type CONFIRM
+    if ($LASTEXITCODE -ne 0) { Fail "truth_manager set-type failed" }
+    exit 0
+  }
+}
 
 if ($draft) {
   $dv = [int]$draft.ver
