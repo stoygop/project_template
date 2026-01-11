@@ -1,6 +1,6 @@
 # tools/mint_truth.ps1
-# One-command truth mint with PROMPT + PASTE (ENDPASTE terminator)
-# TRUE one-click behavior: auto-commit any dirty working tree state before minting.
+# One-command truth mint with PROMPT + PASTE (END terminator)
+# One-click behavior: auto-commit any dirty working tree state before minting.
 
 $ErrorActionPreference = "Stop"
 
@@ -28,17 +28,17 @@ if ($porcelain -and $porcelain.Trim().Length -gt 0) {
 
 # --- prompt for truth statement ---
 Write-Host ""
-Write-Host "PASTE TRUTH STATEMENT. End with a single line containing only: ENDPASTE" -ForegroundColor Cyan
+Write-Host "PASTE TRUTH STATEMENT. End with a single line containing only: END" -ForegroundColor Cyan
 Write-Host ""
 
 $lines = @()
 while ($true) {
   $line = Read-Host
-  if ($line -eq "ENDPASTE") { break }
+  if ($line -eq "END") { break }
   $lines += $line
 }
 
-$statement = ($lines -join "`n")
+$statement = ($lines -join "`n") + "`nEND`n"
 if ($statement.Trim().Length -lt 50) {
   Fail "truth statement too short or empty"
 }
