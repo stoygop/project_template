@@ -864,3 +864,15 @@ LOCKED
 STATEMENT
 - ﻿powershell -ExecutionPolicy Bypass -File .\tools\mint_truth.ps1
 
+
+==================================================
+TRUTH - project_template (TRUTH_V31)
+==================================================
+
+LOCKED
+- Version: 31
+- Timestamp: 2026-01-11 09:43:25
+
+STATEMENT
+- ﻿powershell -ExecutionPolicy Bypass -File .\tools\mint_truth.ps1
+
