@@ -20,3 +20,46 @@ NOTES
 - Next: define and implement phased TRUTH format (LOCKED PRE / LOCKED POST) and migrate forward in new history.
 
 END
+
+==================================================
+TRUTH - project_template (TRUTH_V2)
+==================================================
+
+LOCKED
+- Version: 2
+- Timestamp: 2026-01-11 10:23:30
+
+STATEMENT
+- ﻿==================================================
+- TRUTH - project_template (TRUTH_V2)
+- ==================================================
+- LOCKED PRE
+- TRUTH format is standardized as D:
+  - `LOCKED PRE`
+  - `LOCKED POST`
+  - optional `NOTES`
+  - single `END`
+- Truth workflow must be enforced as a first-class process:
+  - CONFIRM step exists (lock “last changes verified by user”)
+  - DREAM step exists (lock next implementation requirements)
+  - DEBUG step exists (fast iteration path when DREAM fails)
+- Tooling must support the workflow without manual bookkeeping:
+  - `tools.truth_manager` must offer explicit commands or flags to mint CONFIRM/DREAM/DEBUG truths
+  - Mint must refuse malformed TRUTH blocks (missing sections, wrong order, missing END)
+- LOCKED POST
+- One-command mint flow supports the workflow end-to-end:
+  - prompts for TRUTH text
+  - runs pre-verify before modifying repo state
+  - mints TRUTH
+  - rebuilds `_ai_index`
+  - runs `tools.doctor --phase pre`
+  - commits + pushes
+- Provide a “repeat loop” path when tests fail:
+  - mint DEBUG truth
+  - patch
+  - test
+  - return to CONFIRM when fixed
+- NOTES
+- This truth is about workflow + enforcement only (no feature work)
+- END
+
