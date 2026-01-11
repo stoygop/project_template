@@ -1,0 +1,2208 @@
+{
+  "generator": "AI_INDEX_V1",
+  "generated_at": "2026-01-11 08:01:35",
+  "modules": [
+    {
+      "path": "app/__init__.py",
+      "module": "app",
+      "imports": [],
+      "classes": [],
+      "functions": [],
+      "defs": []
+    },
+    {
+      "path": "app/main.py",
+      "module": "app.main",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 2
+        },
+        {
+          "kind": "from",
+          "module": "app.version",
+          "name": "PROJECT_NAME",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "app.version",
+          "name": "TRUTH_VERSION",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "main",
+          "lineno": 7,
+          "end_lineno": 9,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 7,
+          "end_lineno": 9,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "app/version.py",
+      "module": "app.version",
+      "parse_error": "invalid non-printable character U+FEFF (<unknown>, line 1)",
+      "imports": [],
+      "classes": [],
+      "functions": [],
+      "defs": []
+    },
+    {
+      "path": "tools/__init__.py",
+      "module": "tools",
+      "imports": [],
+      "classes": [],
+      "functions": [],
+      "defs": []
+    },
+    {
+      "path": "tools/ai_index.py",
+      "module": "tools.ai_index",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "ast",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "hashlib",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "import",
+          "name": "re",
+          "asname": null,
+          "lineno": 6
+        },
+        {
+          "kind": "import",
+          "name": "shutil",
+          "asname": null,
+          "lineno": 7
+        },
+        {
+          "kind": "import",
+          "name": "tempfile",
+          "asname": null,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "dataclass",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "datetime",
+          "name": "datetime",
+          "asname": null,
+          "level": 0,
+          "lineno": 10
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 11
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Any",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Dict",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Iterable",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Optional",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 441
+        }
+      ],
+      "classes": [
+        {
+          "name": "Config",
+          "lineno": 71,
+          "end_lineno": 85,
+          "bases": []
+        },
+        {
+          "name": "PyVisitor",
+          "lineno": 147,
+          "end_lineno": 230,
+          "bases": [
+            "ast.NodeVisitor"
+          ]
+        }
+      ],
+      "functions": [
+        {
+          "name": "_precheck_truth_contract",
+          "lineno": 27,
+          "end_lineno": 67,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_norm_rel",
+          "lineno": 88,
+          "end_lineno": 89,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_should_skip",
+          "lineno": 92,
+          "end_lineno": 103,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "iter_repo_files",
+          "lineno": 106,
+          "end_lineno": 113,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "sha256_file",
+          "lineno": 116,
+          "end_lineno": 121,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_file_map",
+          "lineno": 124,
+          "end_lineno": 144,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "module_name_from_path",
+          "lineno": 233,
+          "end_lineno": 241,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "parse_python_file",
+          "lineno": 244,
+          "end_lineno": 258,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_python_index",
+          "lineno": 261,
+          "end_lineno": 315,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_entrypoints",
+          "lineno": 318,
+          "end_lineno": 340,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_index_manifest",
+          "lineno": 343,
+          "end_lineno": 353,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_readme",
+          "lineno": 356,
+          "end_lineno": 368,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_why",
+          "lineno": 371,
+          "end_lineno": 382,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_ai_index",
+          "lineno": 385,
+          "end_lineno": 437,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 440,
+          "end_lineno": 452,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_precheck_truth_contract",
+          "lineno": 27,
+          "end_lineno": 67,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "Config",
+          "lineno": 71,
+          "end_lineno": 85,
+          "bases": []
+        },
+        {
+          "kind": "method",
+          "name": "load",
+          "lineno": 78,
+          "end_lineno": 85,
+          "is_method": true,
+          "class": "Config"
+        },
+        {
+          "kind": "function",
+          "name": "_norm_rel",
+          "lineno": 88,
+          "end_lineno": 89,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_should_skip",
+          "lineno": 92,
+          "end_lineno": 103,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "iter_repo_files",
+          "lineno": 106,
+          "end_lineno": 113,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "sha256_file",
+          "lineno": 116,
+          "end_lineno": 121,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_file_map",
+          "lineno": 124,
+          "end_lineno": 144,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "PyVisitor",
+          "lineno": 147,
+          "end_lineno": 230,
+          "bases": [
+            "ast.NodeVisitor"
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__init__",
+          "lineno": 148,
+          "end_lineno": 155,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_Import",
+          "lineno": 157,
+          "end_lineno": 162,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_ImportFrom",
+          "lineno": 164,
+          "end_lineno": 177,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_FunctionDef",
+          "lineno": 179,
+          "end_lineno": 192,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_AsyncFunctionDef",
+          "lineno": 194,
+          "end_lineno": 208,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_ClassDef",
+          "lineno": 210,
+          "end_lineno": 230,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "function",
+          "name": "module_name_from_path",
+          "lineno": 233,
+          "end_lineno": 241,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "parse_python_file",
+          "lineno": 244,
+          "end_lineno": 258,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_python_index",
+          "lineno": 261,
+          "end_lineno": 315,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_entrypoints",
+          "lineno": 318,
+          "end_lineno": 340,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_index_manifest",
+          "lineno": 343,
+          "end_lineno": 353,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_readme",
+          "lineno": 356,
+          "end_lineno": 368,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_why",
+          "lineno": 371,
+          "end_lineno": 382,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_ai_index",
+          "lineno": 385,
+          "end_lineno": 437,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 440,
+          "end_lineno": 452,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/doctor.py",
+      "module": "tools.doctor",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "subprocess",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 4
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "_run",
+          "lineno": 7,
+          "end_lineno": 9,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 12,
+          "end_lineno": 25,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_run",
+          "lineno": 7,
+          "end_lineno": 9,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 12,
+          "end_lineno": 25,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/new_project.py",
+      "module": "tools.new_project",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 2
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "os",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "import",
+          "name": "re",
+          "asname": null,
+          "lineno": 6
+        },
+        {
+          "kind": "import",
+          "name": "shutil",
+          "asname": null,
+          "lineno": 7
+        },
+        {
+          "kind": "import",
+          "name": "subprocess",
+          "asname": null,
+          "lineno": 8
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 10
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "_die",
+          "lineno": 13,
+          "end_lineno": 15,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_read_text",
+          "lineno": 18,
+          "end_lineno": 19,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_write_text_atomic",
+          "lineno": 22,
+          "end_lineno": 25,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_safe_project_name",
+          "lineno": 28,
+          "end_lineno": 34,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_copy_tree",
+          "lineno": 37,
+          "end_lineno": 55,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_iter_text_files",
+          "lineno": 58,
+          "end_lineno": 74,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_replace_project_name",
+          "lineno": 77,
+          "end_lineno": 87,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_reset_dirs",
+          "lineno": 90,
+          "end_lineno": 99,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_set_version_and_project",
+          "lineno": 102,
+          "end_lineno": 119,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_seed_truth_md",
+          "lineno": 122,
+          "end_lineno": 138,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_run_ai_index_build",
+          "lineno": 142,
+          "end_lineno": 147,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_run_verify_pre",
+          "lineno": 150,
+          "end_lineno": 155,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 158,
+          "end_lineno": 191,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_die",
+          "lineno": 13,
+          "end_lineno": 15,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_read_text",
+          "lineno": 18,
+          "end_lineno": 19,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_write_text_atomic",
+          "lineno": 22,
+          "end_lineno": 25,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_safe_project_name",
+          "lineno": 28,
+          "end_lineno": 34,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_copy_tree",
+          "lineno": 37,
+          "end_lineno": 55,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_iter_text_files",
+          "lineno": 58,
+          "end_lineno": 74,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_replace_project_name",
+          "lineno": 77,
+          "end_lineno": 87,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_reset_dirs",
+          "lineno": 90,
+          "end_lineno": 99,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_set_version_and_project",
+          "lineno": 102,
+          "end_lineno": 119,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_seed_truth_md",
+          "lineno": 122,
+          "end_lineno": 138,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_run_ai_index_build",
+          "lineno": 142,
+          "end_lineno": 147,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_run_verify_pre",
+          "lineno": 150,
+          "end_lineno": 155,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 158,
+          "end_lineno": 191,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/truth_gui.py",
+      "module": "tools.truth_gui",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "tkinter",
+          "asname": "tk",
+          "lineno": 3
+        },
+        {
+          "kind": "from",
+          "module": "tkinter",
+          "name": "filedialog",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "tkinter",
+          "name": "messagebox",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "tkinter",
+          "name": "simpledialog",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 5
+        },
+        {
+          "kind": "from",
+          "module": "tools.truth_manager",
+          "name": "REPO_ROOT",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "tools.truth_manager",
+          "name": "CONFIG_JSON",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "tools.truth_manager",
+          "name": "TruthConfig",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "tools.truth_manager",
+          "name": "read_project_and_truth_version",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "tools.truth_manager",
+          "name": "mint_truth",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "import",
+          "name": "subprocess",
+          "asname": null,
+          "lineno": 137
+        }
+      ],
+      "classes": [
+        {
+          "name": "TruthTextDialog",
+          "lineno": 16,
+          "end_lineno": 23,
+          "bases": [
+            "simpledialog.Dialog"
+          ]
+        },
+        {
+          "name": "TruthGUI",
+          "lineno": 26,
+          "end_lineno": 142,
+          "bases": [
+            "tk.Tk"
+          ]
+        }
+      ],
+      "functions": [],
+      "defs": [
+        {
+          "kind": "class",
+          "name": "TruthTextDialog",
+          "lineno": 16,
+          "end_lineno": 23,
+          "bases": [
+            "simpledialog.Dialog"
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "body",
+          "lineno": 17,
+          "end_lineno": 20,
+          "is_method": true,
+          "class": "TruthTextDialog"
+        },
+        {
+          "kind": "method",
+          "name": "apply",
+          "lineno": 22,
+          "end_lineno": 23,
+          "is_method": true,
+          "class": "TruthTextDialog"
+        },
+        {
+          "kind": "class",
+          "name": "TruthGUI",
+          "lineno": 26,
+          "end_lineno": 142,
+          "bases": [
+            "tk.Tk"
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__init__",
+          "lineno": 27,
+          "end_lineno": 68,
+          "is_method": true,
+          "class": "TruthGUI"
+        },
+        {
+          "kind": "method",
+          "name": "refresh",
+          "lineno": 70,
+          "end_lineno": 77,
+          "is_method": true,
+          "class": "TruthGUI"
+        },
+        {
+          "kind": "method",
+          "name": "add_folder",
+          "lineno": 79,
+          "end_lineno": 98,
+          "is_method": true,
+          "class": "TruthGUI"
+        },
+        {
+          "kind": "method",
+          "name": "remove_selected",
+          "lineno": 100,
+          "end_lineno": 108,
+          "is_method": true,
+          "class": "TruthGUI"
+        },
+        {
+          "kind": "method",
+          "name": "save_config",
+          "lineno": 110,
+          "end_lineno": 112,
+          "is_method": true,
+          "class": "TruthGUI"
+        },
+        {
+          "kind": "method",
+          "name": "on_mint",
+          "lineno": 114,
+          "end_lineno": 134,
+          "is_method": true,
+          "class": "TruthGUI"
+        },
+        {
+          "kind": "method",
+          "name": "open_truth_folder",
+          "lineno": 136,
+          "end_lineno": 142,
+          "is_method": true,
+          "class": "TruthGUI"
+        }
+      ]
+    },
+    {
+      "path": "tools/truth_manager.py",
+      "module": "tools.truth_manager",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "re",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "dataclass",
+          "asname": null,
+          "level": 0,
+          "lineno": 6
+        },
+        {
+          "kind": "from",
+          "module": "datetime",
+          "name": "datetime",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Iterable",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZIP_DEFLATED",
+          "asname": null,
+          "level": 0,
+          "lineno": 10
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZipFile",
+          "asname": null,
+          "level": 0,
+          "lineno": 10
+        },
+        {
+          "kind": "from",
+          "module": "tools.ai_index",
+          "name": "build_ai_index",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "tools.verify_ai_index",
+          "name": "main",
+          "asname": "verify_ai_index_main",
+          "level": 0,
+          "lineno": 13
+        },
+        {
+          "kind": "from",
+          "module": "tools",
+          "name": "verify_truth",
+          "asname": null,
+          "level": 0,
+          "lineno": 219
+        }
+      ],
+      "classes": [
+        {
+          "name": "TruthConfig",
+          "lineno": 23,
+          "end_lineno": 43,
+          "bases": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "read_project_and_truth_version",
+          "lineno": 46,
+          "end_lineno": 59,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_truth_version",
+          "lineno": 62,
+          "end_lineno": 68,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_truth_version_assignment_paths",
+          "lineno": 72,
+          "end_lineno": 81,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "assert_single_truth_version_authority",
+          "lineno": 84,
+          "end_lineno": 92,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "append_truth_md",
+          "lineno": 95,
+          "end_lineno": 125,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_parts",
+          "lineno": 128,
+          "end_lineno": 131,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "should_exclude_common",
+          "lineno": 134,
+          "end_lineno": 144,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "should_exclude_slim",
+          "lineno": 147,
+          "end_lineno": 158,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "iter_repo_files",
+          "lineno": 161,
+          "end_lineno": 168,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "make_zip",
+          "lineno": 171,
+          "end_lineno": 189,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "mint_truth",
+          "lineno": 192,
+          "end_lineno": 234,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 237,
+          "end_lineno": 260,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "class",
+          "name": "TruthConfig",
+          "lineno": 23,
+          "end_lineno": 43,
+          "bases": []
+        },
+        {
+          "kind": "method",
+          "name": "load",
+          "lineno": 33,
+          "end_lineno": 43,
+          "is_method": true,
+          "class": "TruthConfig"
+        },
+        {
+          "kind": "function",
+          "name": "read_project_and_truth_version",
+          "lineno": 46,
+          "end_lineno": 59,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_truth_version",
+          "lineno": 62,
+          "end_lineno": 68,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_truth_version_assignment_paths",
+          "lineno": 72,
+          "end_lineno": 81,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "assert_single_truth_version_authority",
+          "lineno": 84,
+          "end_lineno": 92,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "append_truth_md",
+          "lineno": 95,
+          "end_lineno": 125,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_parts",
+          "lineno": 128,
+          "end_lineno": 131,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "should_exclude_common",
+          "lineno": 134,
+          "end_lineno": 144,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "should_exclude_slim",
+          "lineno": 147,
+          "end_lineno": 158,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "iter_repo_files",
+          "lineno": 161,
+          "end_lineno": 168,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "make_zip",
+          "lineno": 171,
+          "end_lineno": 189,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "mint_truth",
+          "lineno": 192,
+          "end_lineno": 234,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 237,
+          "end_lineno": 260,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/verify_ai_index.py",
+      "module": "tools.verify_ai_index",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "hashlib",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 5
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "sha256_file",
+          "lineno": 10,
+          "end_lineno": 15,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_manifest",
+          "lineno": 18,
+          "end_lineno": 48,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 51,
+          "end_lineno": 69,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "sha256_file",
+          "lineno": 10,
+          "end_lineno": 15,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_manifest",
+          "lineno": 18,
+          "end_lineno": 48,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 51,
+          "end_lineno": 69,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/verify_truth.py",
+      "module": "tools.verify_truth",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "re",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "dataclass",
+          "asname": null,
+          "level": 0,
+          "lineno": 6
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Iterable",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZipFile",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "tools.verify_ai_index",
+          "name": "main",
+          "asname": "verify_ai_index_main",
+          "level": 0,
+          "lineno": 11
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 281
+        }
+      ],
+      "classes": [
+        {
+          "name": "TruthEntry",
+          "lineno": 137,
+          "end_lineno": 140,
+          "bases": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "fail",
+          "lineno": 33,
+          "end_lineno": 35,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "ok",
+          "lineno": 38,
+          "end_lineno": 39,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "find_truth_version_assignments",
+          "lineno": 42,
+          "end_lineno": 52,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "find_project_name_assignments",
+          "lineno": 56,
+          "end_lineno": 70,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_single_project_name_authority",
+          "lineno": 73,
+          "end_lineno": 88,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_single_truth_version_authority",
+          "lineno": 91,
+          "end_lineno": 100,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_main_imports_version",
+          "lineno": 103,
+          "end_lineno": 115,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "read_version_py",
+          "lineno": 118,
+          "end_lineno": 133,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "parse_truth_md",
+          "lineno": 146,
+          "end_lineno": 166,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_truth_sequence",
+          "lineno": 169,
+          "end_lineno": 178,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_version_matches_latest",
+          "lineno": 181,
+          "end_lineno": 186,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_config_present",
+          "lineno": 189,
+          "end_lineno": 198,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_iter_text_files",
+          "lineno": 201,
+          "end_lineno": 215,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_no_truncation_lines",
+          "lineno": 218,
+          "end_lineno": 230,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_forbidden_marker_substrings",
+          "lineno": 234,
+          "end_lineno": 260,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_truth_zip_naming",
+          "lineno": 263,
+          "end_lineno": 277,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_load_truth_config",
+          "lineno": 280,
+          "end_lineno": 283,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "load_config",
+          "lineno": 287,
+          "end_lineno": 289,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_slim_contents",
+          "lineno": 291,
+          "end_lineno": 325,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 328,
+          "end_lineno": 369,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "fail",
+          "lineno": 33,
+          "end_lineno": 35,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "ok",
+          "lineno": 38,
+          "end_lineno": 39,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "find_truth_version_assignments",
+          "lineno": 42,
+          "end_lineno": 52,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "find_project_name_assignments",
+          "lineno": 56,
+          "end_lineno": 70,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_single_project_name_authority",
+          "lineno": 73,
+          "end_lineno": 88,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_single_truth_version_authority",
+          "lineno": 91,
+          "end_lineno": 100,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_main_imports_version",
+          "lineno": 103,
+          "end_lineno": 115,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "read_version_py",
+          "lineno": 118,
+          "end_lineno": 133,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "TruthEntry",
+          "lineno": 137,
+          "end_lineno": 140,
+          "bases": []
+        },
+        {
+          "kind": "function",
+          "name": "parse_truth_md",
+          "lineno": 146,
+          "end_lineno": 166,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_truth_sequence",
+          "lineno": 169,
+          "end_lineno": 178,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_version_matches_latest",
+          "lineno": 181,
+          "end_lineno": 186,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_config_present",
+          "lineno": 189,
+          "end_lineno": 198,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_iter_text_files",
+          "lineno": 201,
+          "end_lineno": 215,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_no_truncation_lines",
+          "lineno": 218,
+          "end_lineno": 230,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_forbidden_marker_substrings",
+          "lineno": 234,
+          "end_lineno": 260,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_truth_zip_naming",
+          "lineno": 263,
+          "end_lineno": 277,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_load_truth_config",
+          "lineno": 280,
+          "end_lineno": 283,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "load_config",
+          "lineno": 287,
+          "end_lineno": 289,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_slim_contents",
+          "lineno": 291,
+          "end_lineno": 325,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 328,
+          "end_lineno": 369,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    }
+  ],
+  "code_graph": {
+    "edges": [
+      {
+        "from": "app.main",
+        "to": "__future__"
+      },
+      {
+        "from": "app.main",
+        "to": "app.version"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "argparse"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "ast"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "dataclasses"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "datetime"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "hashlib"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "json"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "re"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "shutil"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "tempfile"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "typing"
+      },
+      {
+        "from": "tools.doctor",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.doctor",
+        "to": "subprocess"
+      },
+      {
+        "from": "tools.doctor",
+        "to": "sys"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "argparse"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "os"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "re"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "shutil"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "subprocess"
+      },
+      {
+        "from": "tools.new_project",
+        "to": "sys"
+      },
+      {
+        "from": "tools.truth_gui",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.truth_gui",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.truth_gui",
+        "to": "subprocess"
+      },
+      {
+        "from": "tools.truth_gui",
+        "to": "tkinter"
+      },
+      {
+        "from": "tools.truth_gui",
+        "to": "tools.truth_manager"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "argparse"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "dataclasses"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "datetime"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "json"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "re"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "tools"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "tools.ai_index"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "tools.verify_ai_index"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "typing"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "zipfile"
+      },
+      {
+        "from": "tools.verify_ai_index",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.verify_ai_index",
+        "to": "hashlib"
+      },
+      {
+        "from": "tools.verify_ai_index",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.verify_ai_index",
+        "to": "sys"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "argparse"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "dataclasses"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "json"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "re"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "sys"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "tools.verify_ai_index"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "typing"
+      },
+      {
+        "from": "tools.verify_truth",
+        "to": "zipfile"
+      }
+    ],
+    "imported_by": {
+      "__future__": [
+        "app.main",
+        "tools.ai_index",
+        "tools.doctor",
+        "tools.new_project",
+        "tools.truth_gui",
+        "tools.truth_manager",
+        "tools.verify_ai_index",
+        "tools.verify_truth"
+      ],
+      "app.version": [
+        "app.main"
+      ],
+      "argparse": [
+        "tools.ai_index",
+        "tools.new_project",
+        "tools.truth_manager",
+        "tools.verify_truth"
+      ],
+      "ast": [
+        "tools.ai_index"
+      ],
+      "dataclasses": [
+        "tools.ai_index",
+        "tools.truth_manager",
+        "tools.verify_truth"
+      ],
+      "datetime": [
+        "tools.ai_index",
+        "tools.truth_manager"
+      ],
+      "hashlib": [
+        "tools.ai_index",
+        "tools.verify_ai_index"
+      ],
+      "json": [
+        "tools.ai_index",
+        "tools.truth_manager",
+        "tools.verify_truth"
+      ],
+      "pathlib": [
+        "tools.ai_index",
+        "tools.new_project",
+        "tools.truth_gui",
+        "tools.truth_manager",
+        "tools.verify_ai_index",
+        "tools.verify_truth"
+      ],
+      "re": [
+        "tools.ai_index",
+        "tools.new_project",
+        "tools.truth_manager",
+        "tools.verify_truth"
+      ],
+      "shutil": [
+        "tools.ai_index",
+        "tools.new_project"
+      ],
+      "tempfile": [
+        "tools.ai_index"
+      ],
+      "typing": [
+        "tools.ai_index",
+        "tools.truth_manager",
+        "tools.verify_truth"
+      ],
+      "subprocess": [
+        "tools.doctor",
+        "tools.new_project",
+        "tools.truth_gui"
+      ],
+      "sys": [
+        "tools.doctor",
+        "tools.new_project",
+        "tools.verify_ai_index",
+        "tools.verify_truth"
+      ],
+      "os": [
+        "tools.new_project"
+      ],
+      "tkinter": [
+        "tools.truth_gui"
+      ],
+      "tools.truth_manager": [
+        "tools.truth_gui"
+      ],
+      "tools": [
+        "tools.truth_manager"
+      ],
+      "tools.ai_index": [
+        "tools.truth_manager"
+      ],
+      "tools.verify_ai_index": [
+        "tools.truth_manager",
+        "tools.verify_truth"
+      ],
+      "zipfile": [
+        "tools.truth_manager",
+        "tools.verify_truth"
+      ]
+    }
+  }
+}

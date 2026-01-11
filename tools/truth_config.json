@@ -1,0 +1,51 @@
+{
+  "zip_root": "_truth",
+  "ai_index_root": "_ai_index",
+  "exclude_common_folders": [
+    ".git",
+    "__pycache__",
+    "_logs",
+    "_outputs",
+    "_build",
+    "_dist",
+    ".venv",
+    "_truth"
+  ],
+  "exclude_common_files": [
+    ".env"
+  ],
+  "slim_exclude_folders": [
+    "_videos",
+    "_images",
+    "_media"
+  ],
+  "slim_exclude_ext": [
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".webp",
+    ".bmp",
+    ".tif",
+    ".tiff",
+    ".mp4",
+    ".mov",
+    ".avi",
+    ".mkv",
+    ".wmv",
+    ".mp3",
+    ".wav",
+    ".flac",
+    ".m4a",
+    ".zip",
+    ".7z",
+    ".rar"
+  ],
+  "slim_exclude_extra_folders": [],
+  "forbidden_marker_substrings": [
+    "<<<TRUNCATED>>>",
+    "<<TRUNCATED>>",
+    "... (truncated)",
+    "# SNIP"
+  ]
+}

@@ -1,0 +1,41 @@
+_BOOTSTRAP — project_template orientation
+
+This file is intended for “zip-first” workflows: when you (or an assistant) are handed a TRUTH zip, read this first.
+
+Repository invariants
+- TRUTH_VERSION is authoritative and stored as an integer in app/version.py
+- TRUTH.md is append-only history (each TRUTH_V<N> entry is immutable)
+- Mints produce TWO zips (FULL + SLIM) in _truth/
+- FULL includes assets; SLIM excludes assets + exception folders
+- AI index lives in _ai_index/ (no ai-index zip required)
+
+One-liners (PowerShell)
+- Mint next Truth:
+  cd "C:\Users\stoyg\Documents\Programming\project_template"
+  powershell -ExecutionPolicy Bypass -File .\tools\mint_truth.ps1
+
+- New project from template:
+  cd "C:\Users\stoyg\Documents\Programming\project_template"
+  powershell -ExecutionPolicy Bypass -File .\tools\new_project.ps1 -NewName test_project
+
+- Truth Manager GUI:
+  cd "C:\Users\stoyg\Documents\Programming\project_template"
+  python -m tools.truth_gui
+
+- Doctor (cross-platform):
+  cd "C:\Users\stoyg\Documents\Programming\project_template"
+  python -m tools.doctor
+
+- AI index:
+  cd "C:\Users\stoyg\Documents\Programming\project_template"
+  python -m tools.ai_index build
+  python -m tools.verify_ai_index
+
+Assistant response contract (non-negotiable)
+- Before making code changes: mint a new Truth (or confirm the Truth that authorizes the work).
+- When inspecting files: open/read the FULL file contents (no truncated/ellipsis summaries).
+- Deliverables for code changes:
+  - a patch zip (modified files only)
+  - PowerShell commands to extract + run
+  - Truth statement in the correct project Truth format (if minting)
+- Do not claim a patch exists unless the zip was actually produced from inspected files.

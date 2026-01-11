@@ -1,0 +1,45 @@
+REPOSITORY CONTRACTS
+====================
+
+TRUTH SYSTEM
+- TRUTH_VERSION is an integer and must be monotonic increasing.
+- app/version.py is the authoritative location for TRUTH_VERSION and PROJECT_NAME.
+- TRUTH.md is append-only; never edit past entries.
+- Minting a Truth is the ONLY supported way to advance repository state.
+
+TRUTH ARTIFACTS
+- Each mint produces two zips:
+  - FULL: includes all assets except common build/env/caches per config
+  - SLIM: excludes media/large extensions + configured exception folders
+- Truth zips are written atomically (temp then rename) to avoid partial files/locks.
+
+AI INDEX
+- _ai_index/ is generated; never hand-edit its contents.
+- _ai_index generation must avoid self-recursion during scanning.
+- tools/verify_ai_index.py must pass for a valid index snapshot.
+
+TEMPLATE RULES
+- project_template itself is a template, not the long-term development target.
+- New work happens in cloned projects created by tools/new_project.ps1.
+- Any change to template behavior or contracts requires a new Truth.
+
+If a contract is violated or needs to change, mint a new Truth describing the change.
+
+
+ASSISTANT RESPONSE CONTRACT (for any future assistant work)
+- Always mint a new Truth (or explicitly confirm the Truth that authorizes the work) BEFORE making code changes.
+- When inspecting files, open/read the FULL file contents (no truncated/ellipsis inspection).
+- For any code change delivery, responses must include:
+  - Patch zip link (modified files only)
+  - PowerShell extract + run commands
+  - Modified files list
+  - No claims of success without verification steps.
+
+ASSISTANT RESPONSE CONTRACT (for any future assistant work)
+- Always mint a new Truth (or explicitly confirm the Truth that authorizes the work) BEFORE making code changes.
+- When inspecting files, open/read the FULL file contents (no truncated/ellipsis inspection).
+- For any code change delivery, responses must include:
+  - Patch zip link (modified files only)
+  - PowerShell commands to extract + run
+  - Modified files list
+- Do not claim a patch exists unless the zip was actually produced from inspected files.

@@ -1,0 +1,11 @@
+WHY THIS INDEX EXISTS
+====================
+
+_ai_index exists to reduce re-analysis cost for humans and AI.
+
+It is:
+- deterministic
+- non-authoritative
+- regenerated during Truth minting
+
+It should never be treated as the source of truth.

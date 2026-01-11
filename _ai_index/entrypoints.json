@@ -1,0 +1,34 @@
+{
+  "generator": "AI_INDEX_V1",
+  "generated_at": "2026-01-11 08:01:35",
+  "entrypoints": [
+    {
+      "path": "app/main.py",
+      "how_to_run": "python -m app.main"
+    },
+    {
+      "path": "tools/truth_gui.py",
+      "how_to_run": "python -m tools.truth_gui"
+    },
+    {
+      "path": "tools/truth_manager.py",
+      "how_to_run": "python -m tools.truth_manager status|mint"
+    },
+    {
+      "path": "tools/ai_index.py",
+      "how_to_run": "python -m tools.ai_index build|verify"
+    },
+    {
+      "path": "tools/verify_ai_index.py",
+      "how_to_run": "python -m tools.verify_ai_index"
+    },
+    {
+      "path": "tools/mint_truth.ps1",
+      "how_to_run": "powershell -ExecutionPolicy Bypass -File .\\tools\\mint_truth.ps1"
+    },
+    {
+      "path": "tools/new_project.ps1",
+      "how_to_run": "powershell -ExecutionPolicy Bypass -File .\\tools\\new_project.ps1 -NewName <name>"
+    }
+  ]
+}
