@@ -203,7 +203,7 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
 
     # Build ai index AFTER version bump, then verify contracts
     build_ai_index()
-    verify_ai_index_main(["--rebuild"])
+    verify_ai_index_main()
 
     zip_root = REPO_ROOT / cfg.zip_root
     full_zip = zip_root / f"{project}_TRUTH_V{new_ver}_FULL.zip"

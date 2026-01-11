@@ -1,6 +1,6 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 10:23:30",
+  "generated_at": "2026-01-11 11:13:30",
   "repo_root": "C:\\Users\\stoyg\\Documents\\Programming\\project_template",
   "files": [
     {
@@ -24,14 +24,44 @@
       "sha256": "0430ad968b5be20a40e5f6cbe5d4c2ab7323cab388d6421915276fc01ee2e6cc"
     },
     {
+      "path": ".truth_statement_20260111_102446.txt",
+      "size": 1208,
+      "sha256": "f0b01ddc748e356af318fb7009c00feb7eb6fe899ba1de7beec1c8d56bca7e97"
+    },
+    {
+      "path": ".truth_statement_20260111_103100.txt",
+      "size": 1209,
+      "sha256": "0a2c62629e634e71ea8ff76875e4652b863720def8a0ccc7385739c9ccc7763a"
+    },
+    {
+      "path": ".truth_statement_20260111_103659.txt",
+      "size": 1208,
+      "sha256": "f0b01ddc748e356af318fb7009c00feb7eb6fe899ba1de7beec1c8d56bca7e97"
+    },
+    {
+      "path": ".truth_statement_20260111_110439.txt",
+      "size": 939,
+      "sha256": "3afc02da69fa2056521428817089b2153ffb2379fcbcdde76670b087b4c9a27b"
+    },
+    {
+      "path": ".truth_statement_20260111_110844.txt",
+      "size": 1021,
+      "sha256": "8e33fe61565e65813f2fd007149c3dfa843eaeedf1a1443eb3b932ed19922374"
+    },
+    {
+      "path": ".truth_statement_20260111_111330.txt",
+      "size": 1232,
+      "sha256": "776a3b5e96eed5a78f2f7fe418d72e19907db6073a5c22029a945983c10da6ca"
+    },
+    {
       "path": "README.txt",
       "size": 1766,
       "sha256": "d2a57c033267ab27d1343e1b17d4ff75e8b5cd38790fcbd05cbb2c4264d7cd95"
     },
     {
       "path": "TRUTH.md",
-      "size": 2513,
-      "sha256": "599f1dd1abb4aa39106f568ece75855f7f6c1de53844ffa66e6d8bb0ea29dee9"
+      "size": 2305,
+      "sha256": "9d1ecb21e55479e0e097b4b85d1dfb60c36a93175734b41cebf0dd9ecdb91bf6"
     },
     {
       "path": "_BOOTSTRAP.txt",
@@ -40,8 +70,8 @@
     },
     {
       "path": "_CONTRACTS.txt",
-      "size": 2127,
-      "sha256": "d0da48a4ff59652482549b7c61fd2ef29c1586a5a0cd48a94aa77e65e3014c65"
+      "size": 2445,
+      "sha256": "7e82a0ec1c99838fd2f36a72ae7a2b0502b59336129afc2ac47561b62147d779"
     },
     {
       "path": "app/__init__.py",
@@ -55,8 +85,8 @@
     },
     {
       "path": "app/version.py",
-      "size": 165,
-      "sha256": "32faa88a205c0be6435c6c8033b21ed6209a81532fe030f3dca5ce4f59991c5f"
+      "size": 158,
+      "sha256": "59050d44b2ac2b68711396f8194316100dd153a3b6927f99f81667d16156772b"
     },
     {
       "path": "tools/__init__.py",
@@ -80,8 +110,8 @@
     },
     {
       "path": "tools/mint_truth.ps1",
-      "size": 2403,
-      "sha256": "94ff5353b0d9473d80d85a50ae9a1f41bb2352d3a99a57a8d4728a1a5818968f"
+      "size": 2896,
+      "sha256": "7382f2f9459964625c30b228a26d864a41ee1f2685b99cf2845198823f4736d5"
     },
     {
       "path": "tools/new_project.ps1",
@@ -94,9 +124,19 @@
       "sha256": "ccab923404b360d58b712adf358ed44c2af5f0ebdaa4447e5cbbbb0c93c501f7"
     },
     {
+      "path": "tools/normalize_truth_md.py",
+      "size": 629,
+      "sha256": "24a296042bd63fc993b0b5c3553078a504dab40aeb11061c325e495bf1046ece"
+    },
+    {
       "path": "tools/rebuild_truth_zip.ps1",
       "size": 2753,
       "sha256": "e35c31a65f149aa527dbe15ee1df88fa5bff03f946e1b8df1d225aa67c15ee7d"
+    },
+    {
+      "path": "tools/repair_truth_md.py",
+      "size": 2608,
+      "sha256": "7b8333df8cacb3ecd904b3f1a178d144dda8d499e087bc20055f882017cbc123"
     },
     {
       "path": "tools/truth_config.json",
@@ -110,8 +150,8 @@
     },
     {
       "path": "tools/truth_manager.py",
-      "size": 8685,
-      "sha256": "c8c3b20fcdb335df3c0b289ec27593d5927cef6042fad86b7168924a56fa46a6"
+      "size": 8170,
+      "sha256": "5a0925022dc02533eef6af4df959a2a06f00d95cdfd57e5d0f6a1f233454b7ba"
     },
     {
       "path": "tools/verify_ai_index.py",
@@ -122,6 +162,11 @@
       "path": "tools/verify_truth.py",
       "size": 17466,
       "sha256": "3b956fbd84576bb700d5c85a0a018385150bf03e01a6f7ab7926f6b0a6bfc8ba"
+    },
+    {
+      "path": "usethis.zip",
+      "size": 448447,
+      "sha256": "e3b036df0ee71ba7f9a1f2982c1606722ddca0b52f7c6dcc284288aa8ab66182"
     }
   ]
 }
