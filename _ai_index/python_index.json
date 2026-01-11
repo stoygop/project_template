@@ -1,6 +1,6 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 09:33:50",
+  "generated_at": "2026-01-11 09:42:45",
   "modules": [
     {
       "path": "app/__init__.py",
@@ -1187,7 +1187,7 @@
           "name": "verify_truth",
           "asname": null,
           "level": 0,
-          "lineno": 219
+          "lineno": 197
         }
       ],
       "classes": [
@@ -1272,14 +1272,14 @@
         {
           "name": "mint_truth",
           "lineno": 192,
-          "end_lineno": 234,
+          "end_lineno": 241,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 237,
-          "end_lineno": 260,
+          "lineno": 244,
+          "end_lineno": 267,
           "is_method": false,
           "class": null
         }
@@ -1384,15 +1384,15 @@
           "kind": "function",
           "name": "mint_truth",
           "lineno": 192,
-          "end_lineno": 234,
+          "end_lineno": 241,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 237,
-          "end_lineno": 260,
+          "lineno": 244,
+          "end_lineno": 267,
           "is_method": false,
           "class": null
         }

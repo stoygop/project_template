@@ -852,3 +852,15 @@ STATEMENT
 - _ai_index MUST be rebuilt and verified as part of mint
 - Bootstrap, index, and contract files MUST be validated during mint
 
+
+==================================================
+TRUTH - project_template (TRUTH_V30)
+==================================================
+
+LOCKED
+- Version: 30
+- Timestamp: 2026-01-11 09:42:44
+
+STATEMENT
+- ﻿powershell -ExecutionPolicy Bypass -File .\tools\mint_truth.ps1
+
