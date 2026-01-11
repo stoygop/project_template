@@ -1,7 +1,7 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 14:29:44",
-  "repo_root": "/mnt/data/pt_v28",
+  "generated_at": "2026-01-11 09:33:50",
+  "repo_root": "C:\\Users\\stoyg\\Documents\\Programming\\project_template",
   "files": [
     {
       "path": ".gitattributes",
@@ -25,8 +25,8 @@
     },
     {
       "path": "TRUTH.md",
-      "size": 38506,
-      "sha256": "d417ee4898d57ba4ed30759767cd018676cf13c9ccfc56636aa73ec6e9996e39"
+      "size": 39184,
+      "sha256": "0dfd64dd5e63322bc4cdc6124295fa093e58f198a3a4d4ad32ff84fac600b760"
     },
     {
       "path": "_BOOTSTRAP.txt",
@@ -51,7 +51,7 @@
     {
       "path": "app/version.py",
       "size": 175,
-      "sha256": "6a6e60e9893b46dff53da740dcc4e81cc64ad32a3bfb7a46cbad4901dc953a83"
+      "sha256": "76a6a27fb498bc928313aed77576d774b5f88581768e314816d405f19f2603fe"
     },
     {
       "path": "tools/__init__.py",

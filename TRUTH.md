@@ -791,3 +791,64 @@ STATEMENT
 - CI failure root cause: doctor was running post-phase (artifact-required) on a clean checkout
 - Local failure root cause: broken `verify_ai_index.py` introduced by a bad patch
 
+
+==================================================
+TRUTH - project_template (TRUTH_V28)
+==================================================
+
+LOCKED
+- Version: 28
+- Timestamp: 2026-01-11 09:25:33
+
+STATEMENT
+- ﻿==================================================
+- TRUTH - project_template (TRUTH_V28)
+- ==================================================
+- LOCKED
+- CI doctor MUST pass in PRE phase on GitHub Actions Linux runners
+- _ai_index verification MUST be byte-stable across platforms
+- Line ending normalization MUST NOT cause manifest size mismatches
+- _WHY.txt MUST NOT cause recurring integrity failures
+- STATE
+- CI failure observed:
+  - VERIFY FAIL: size mismatch for _WHY.txt (manifest 249 != actual 238)
+- Local Windows verification may pass after rebuild, but CI fails on Linux
+- Indicates manifest was generated from CRLF bytes while CI verifies LF bytes
+- ROOT CAUSE
+- _ai_index manifest captured file sizes from a CRLF working tree
+- GitHub Actions checks out files with LF line endings
+- _WHY.txt byte count differs between environments, triggering failure
+- REQUIRED CHANGES
+- Enforce LF line endings at the repository level via .gitattributes
+- Renormalize tracked files so repository stores LF, not CRLF
+- Rebuild _ai_index AFTER normalization so manifest reflects LF bytes
+- Ensure _WHY.txt is treated as LF-only input for manifest generation
+- ACCEPTANCE
+- Fresh clone on GitHub Actions passes:
+  - python -m tools.doctor --phase pre
+- Fresh Windows clone + rebuild does NOT reintroduce CI mismatch
+- No size mismatch errors for _WHY.txt or any manifest-tracked file
+- NOTES
+- This TRUTH explicitly addresses cross-platform byte determinism
+- No weakening of verification logic is permitted
+
+
+==================================================
+TRUTH - project_template (TRUTH_V29)
+==================================================
+
+LOCKED
+- Version: 29
+- Timestamp: 2026-01-11 09:33:50
+
+STATEMENT
+- ﻿==================================================
+- TRUTH - project_template (TRUTH_V29)
+- ==================================================
+- LOCKED
+- A single authoritative TRUTH_VERSION MUST exist
+- All version references MUST be synchronized at mint time
+- Truth minting MUST fail if any version drift is detected
+- _ai_index MUST be rebuilt and verified as part of mint
+- Bootstrap, index, and contract files MUST be validated during mint
+

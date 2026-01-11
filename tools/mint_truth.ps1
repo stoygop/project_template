@@ -1,60 +1,61 @@
-param()
+# tools/mint_truth.ps1
+# One-command mint: uses clipboard for the TRUTH statement, mints, runs doctor(pre), commits, pushes.
 
 $ErrorActionPreference = "Stop"
 
-$root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-Set-Location $root
-
-$verPath = Join-Path $root "app\version.py"
-if (-not (Test-Path $verPath)) { throw "Missing app/version.py" }
-
-function Read-TruthVersionFromPy([string]$path) {
-  $text = Get-Content -Raw -Path $path
-  $m = [regex]::Match($text, 'TRUTH_VERSION\s*=\s*(\d+)')
-  if (-not $m.Success) { throw "TRUTH_VERSION not found in $path" }
-  return [int]$m.Groups[1].Value
+function Fail($msg) {
+  Write-Host "ERROR: $msg" -ForegroundColor Red
+  exit 1
 }
 
-function Read-ProjectName([string]$path) {
-  $text = Get-Content -Raw -Path $path
-  $m = [regex]::Match($text, 'PROJECT_NAME\s*=\s*"(.*?)"')
-  if (-not $m.Success) { throw "PROJECT_NAME not found in $path" }
-  return $m.Groups[1].Value
+# --- prereqs ---
+if (-not (Get-Command git -ErrorAction SilentlyContinue)) { Fail "git not found on PATH" }
+if (-not (Test-Path ".git")) { Fail "run from repo root (folder containing .git)" }
+
+# Ensure python can run
+& python -c "import sys; print(sys.executable)" *> $null
+if ($LASTEXITCODE -ne 0) { Fail "python not runnable" }
+
+# Must be clean to start (prevents accidental commits)
+$porcelain = (& git status --porcelain)
+if ($porcelain -and $porcelain.Trim().Length -gt 0) {
+  Fail "working tree not clean. Commit/stash first."
 }
 
-$project = Read-ProjectName $verPath
-$cur = Read-TruthVersionFromPy $verPath
-$new = $cur + 1
-
-Write-Host ""
-Write-Host "$project current TRUTH_V$cur"
-$ans = Read-Host "Mint new truth TRUTH_V$new ? (y/n)"
-if ($ans.ToLower() -ne "y") {
-  Write-Host "Cancelled."
-  exit 0
+# --- get statement from clipboard ---
+$statement = ""
+try { $statement = (Get-Clipboard -Raw) } catch { Fail "could not read clipboard" }
+if (-not $statement -or $statement.Trim().Length -lt 10) {
+  Fail "clipboard is empty. Copy the full TRUTH statement text, then rerun."
 }
 
-Write-Host ""
-Write-Host "Paste TRUTH statement (multi-line)."
-Write-Host "Finish with a single line containing: END"
+# --- write statement file (temp) ---
+$stamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$tmp = Join-Path $PWD ".truth_statement_$stamp.txt"
+Set-Content -Path $tmp -Value $statement -Encoding UTF8
 
-$lines = New-Object System.Collections.Generic.List[string]
-while ($true) {
-  $line = Read-Host
-  if ($line -eq "END") { break }
-  $lines.Add($line)
-}
+# --- mint ---
+& python -m tools.truth_manager mint --statement-file $tmp
+if ($LASTEXITCODE -ne 0) { Fail "truth_manager mint failed" }
 
-$statement = ($lines -join "`n")
-if ([string]::IsNullOrWhiteSpace($statement)) { throw "Empty TRUTH statement not allowed." }
+# --- verify ---
+& python -m tools.doctor --phase pre
+if ($LASTEXITCODE -ne 0) { Fail "doctor(pre) failed" }
 
-$tmpDir = Join-Path $root "_outputs"
-New-Item -ItemType Directory -Force -Path $tmpDir | Out-Null
-$tmpFile = Join-Path $tmpDir ("truth_statement_tmp_{0}.txt" -f ([guid]::NewGuid().ToString("N")))
-Set-Content -Path $tmpFile -Value $statement -Encoding UTF8
+# --- determine version for commit message ---
+$versionLine = (& python -c "from app.version import TRUTH_VERSION; print(TRUTH_VERSION)") 2>$null
+if (-not $versionLine) { $versionLine = "TRUTH" }
+$versionLine = $versionLine.Trim()
 
-try {
-  python -m tools.truth_manager mint --statement-file $tmpFile
-} finally {
-  Remove-Item $tmpFile -Force -ErrorAction SilentlyContinue
-}
+# --- commit + push ---
+& git add TRUTH.md app/version.py _ai_index _truth tools/truth_config.json
+& git commit -m "Mint $versionLine"
+if ($LASTEXITCODE -ne 0) { Fail "git commit failed" }
+
+& git push
+if ($LASTEXITCODE -ne 0) { Fail "git push failed" }
+
+# Cleanup temp statement file
+Remove-Item -Force $tmp -ErrorAction SilentlyContinue
+
+Write-Host "OK: Minted $versionLine, DOCTOR OK, pushed." -ForegroundColor Green
