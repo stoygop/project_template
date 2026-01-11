@@ -20,9 +20,13 @@ CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
 _SEPARATOR = "=" * 50
 
 # Header supports optional D type tag: [CONFIRM|DREAM|DEBUG]
+# Tolerate unicode dash variants (en/em dashes) that users sometimes paste.
 _TRUTH_HEADER_RE = re.compile(
-    r"^TRUTH\s*-\s*(.+)\s+\(TRUTH_V(\d+)\)\s*(?:\[(CONFIRM|DREAM|DEBUG)\])?\s*$"
+    r"^TRUTH\s*[-\u2013\u2014]\s*(.+)\s+\(TRUTH_V(\d+)\)\s*(?:\[(CONFIRM|DREAM|DEBUG)\])?\s*$"
 )
+
+# Draft filename: <project>_TRUTH_V<ver>_DRAFT.txt
+_DRAFT_FILE_RE = re.compile(r"^(?P<project>.+)_TRUTH_V(?P<ver>\d+)_DRAFT\.txt$", re.IGNORECASE)
 
 
 def _normalize_truth_candidate(line: str) -> str:
