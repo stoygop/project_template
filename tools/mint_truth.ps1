@@ -1,7 +1,7 @@
 # tools/mint_truth.ps1
 # One-command truth mint with PROMPT + PASTE
 # TERMINATION: Ctrl+Z then Enter (Windows stdin EOF)
-# TRUE one-click behavior: auto-commit any dirty working tree state before minting.
+# One-click behavior: auto-commit any dirty working tree state before minting.
 
 $ErrorActionPreference = "Stop"
 
@@ -26,6 +26,10 @@ if ($porcelain -and $porcelain.Trim().Length -gt 0) {
   git commit -m "AUTO: pre-mint state" | Out-Null
 }
 
+# normalize TRUTH.md line endings (prevents END\r issues)
+& python -m tools.normalize_truth_md
+if ($LASTEXITCODE -ne 0) { Fail "normalize_truth_md failed" }
+
 Write-Host ""
 Write-Host "PASTE TRUTH STATEMENT. Finish with Ctrl+Z then Enter." -ForegroundColor Cyan
 Write-Host ""
@@ -48,6 +52,10 @@ Set-Content -Path $tmp -Value $statement -Encoding UTF8
 # mint
 & python -m tools.truth_manager mint --statement-file $tmp
 if ($LASTEXITCODE -ne 0) { Fail "truth_manager mint failed" }
+
+# normalize TRUTH.md again (truth_manager may have written CRLF)
+& python -m tools.normalize_truth_md
+if ($LASTEXITCODE -ne 0) { Fail "normalize_truth_md failed" }
 
 # verify
 & python -m tools.doctor --phase pre
