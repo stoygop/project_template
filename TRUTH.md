@@ -876,3 +876,29 @@ LOCKED
 STATEMENT
 - ﻿powershell -ExecutionPolicy Bypass -File .\tools\mint_truth.ps1
 
+
+==================================================
+TRUTH - project_template (TRUTH_V32)
+==================================================
+
+LOCKED
+- Version: 32
+- Timestamp: 2026-01-11 09:48:25
+
+STATEMENT
+- ﻿==================================================
+- TRUTH - project_template (TRUTH_V32)
+- ==================================================
+- LOCKED
+- Truth minting MUST be one-command, zero-manual-steps
+- Mint flow MUST auto-commit any pre-mint dirty state
+- Mint flow MUST prompt in-terminal for TRUTH text (ENDPASTE terminator)
+- Pre-mint verification MUST run `verify_truth --phase pre` and hard-fail on error
+- `_ai_index` MUST be rebuilt during mint and verified byte-stable
+- Cross-platform determinism (CRLF/LF) MUST NOT affect integrity checks
+- STATE
+- Prior mint flow required manual git cleanup and/or clipboard state
+- CI failures traced to platform-dependent line endings
+- Mint tooling updated to auto-commit and enforce deterministic verification
+- END
+

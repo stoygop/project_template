@@ -1,6 +1,6 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 09:43:25",
+  "generated_at": "2026-01-11 09:48:25",
   "repo_root": "C:\\Users\\stoyg\\Documents\\Programming\\project_template",
   "files": [
     {
@@ -19,9 +19,9 @@
       "sha256": "38c459d61b5a880d644528d7d457899ecdec16410707a7cd6010ada44801c33d"
     },
     {
-      "path": ".truth_statement_20260111_094325.txt",
-      "size": 70,
-      "sha256": "9eeabc841cfdf95b3408b6c72d8f3717abcb9e23ed0ea3bf2300a1dd609ee702"
+      "path": ".truth_statement_20260111_094824.txt",
+      "size": 771,
+      "sha256": "77defd486ffc8a995363445e7a3753276a4ee6517d68d6be477bd0e3c5553541"
     },
     {
       "path": "README.txt",
@@ -30,8 +30,8 @@
     },
     {
       "path": "TRUTH.md",
-      "size": 39760,
-      "sha256": "fd0836de0334de67fce3ed6a036fb3d89e329d35f595281b307d849f0066846b"
+      "size": 40770,
+      "sha256": "8da0e41da22fbf5924dec5c22285f61a8be1d9ea523876f76c1b642d376d7ca6"
     },
     {
       "path": "_BOOTSTRAP.txt",
@@ -56,7 +56,7 @@
     {
       "path": "app/version.py",
       "size": 175,
-      "sha256": "e34b123606b4daf94f572e193b7eaeaf5a56f3870c6dc46924f121c607e153a0"
+      "sha256": "ed510e1e3c402ff91fbeeee8baa136d6a7f8d8e06f8e3e959f40c8dd3662e164"
     },
     {
       "path": "tools/__init__.py",
@@ -80,8 +80,8 @@
     },
     {
       "path": "tools/mint_truth.ps1",
-      "size": 2206,
-      "sha256": "cf38ae6360bd162f5af1c09d156d5c762ddb53abeaa47d46f038d9c6d5506470"
+      "size": 2411,
+      "sha256": "1dba4153f95128293b376ab744d3c26ac5144943ca81740e3c5c6c848d6636cd"
     },
     {
       "path": "tools/new_project.ps1",
