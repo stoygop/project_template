@@ -67,7 +67,10 @@ def _precheck_truth_contract() -> None:
 
     tlines = TRUTH_MD.read_text(encoding="utf-8", errors="replace").splitlines()
     latest = 0
-    hdr = re.compile(r"^TRUTH - .+? \(TRUTH_V(\d+)\)\s*$")
+    # D-epoch: header may optionally include a type tag: [CONFIRM|DREAM|DEBUG]
+    hdr = re.compile(
+        r"^TRUTH\s*-\s*.+?\s+\(TRUTH_V(\d+)\)\s*(?:\[(CONFIRM|DREAM|DEBUG)\])?\s*$"
+    )
     for ln in tlines:
         mm = hdr.match(ln.strip())
         if mm:
