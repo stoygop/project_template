@@ -24,6 +24,19 @@ VERSION_PY = REPO_ROOT / "app" / "version.py"
 TRUTH_MD = REPO_ROOT / "TRUTH.md"
 
 
+def _write_text_lf(path: Path, text: str) -> None:
+    """Write UTF-8 text with LF newlines on all platforms.
+
+    _ai_index integrity checks use raw byte sizes + sha256.
+    If index artifacts are written with CRLF on Windows but verified with LF on
+    GitHub Actions (Linux), the manifest will fail (size mismatch).
+    """
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+
+
 def _precheck_truth_contract() -> None:
     # Enforce single TRUTH_VERSION authority (app/version.py only)
     pat = re.compile(r"^\s*TRUTH_VERSION\s*=\s*\d+\s*$", re.MULTILINE)
@@ -350,7 +363,7 @@ def write_index_manifest(ai_dir: Path, files_written: List[Path]) -> None:
         h = sha256_file(p)
         size = p.stat().st_size
         lines.append(f"{p.name}\t{size}\t{h}")
-    (ai_dir / "_ai_index_INDEX.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    _write_text_lf(ai_dir / "_ai_index_INDEX.txt", "\n".join(lines) + "\n")
 
 
 def write_readme(ai_dir: Path) -> None:
@@ -365,7 +378,7 @@ def write_readme(ai_dir: Path) -> None:
         "- entrypoints.json: semantic entrypoints (how to run / where to start)\n"
         "- _ai_index_INDEX.txt: integrity manifest (sha256 of index outputs)\n"
     )
-    (ai_dir / "_ai_index_README.txt").write_text(txt, encoding="utf-8")
+    _write_text_lf(ai_dir / "_ai_index_README.txt", txt)
 
 
 def write_why(ai_dir: Path) -> None:
@@ -379,7 +392,7 @@ def write_why(ai_dir: Path) -> None:
         "- regenerated during Truth minting\n\n"
         "It should never be treated as the source of truth.\n"
     )
-    (ai_dir / "_WHY.txt").write_text(txt, encoding="utf-8")
+    _write_text_lf(ai_dir / "_WHY.txt", txt)
 
 
 def build_ai_index() -> Path:
@@ -396,17 +409,17 @@ def build_ai_index() -> Path:
     # Generate
     file_map = build_file_map(cfg)
     p_file_map = tmp_dir / "_file_map.json"
-    p_file_map.write_text(json.dumps(file_map, indent=2), encoding="utf-8")
+    _write_text_lf(p_file_map, json.dumps(file_map, indent=2) + "\n")
     files_written.append(p_file_map)
 
     py_index = build_python_index(cfg)
     p_py = tmp_dir / "python_index.json"
-    p_py.write_text(json.dumps(py_index, indent=2), encoding="utf-8")
+    _write_text_lf(p_py, json.dumps(py_index, indent=2) + "\n")
     files_written.append(p_py)
 
     entrypoints = build_entrypoints(cfg)
     p_ep = tmp_dir / "entrypoints.json"
-    p_ep.write_text(json.dumps(entrypoints, indent=2), encoding="utf-8")
+    _write_text_lf(p_ep, json.dumps(entrypoints, indent=2) + "\n")
     files_written.append(p_ep)
 
     write_readme(tmp_dir)
