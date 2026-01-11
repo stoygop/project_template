@@ -47,6 +47,12 @@ def _norm_newlines(s: str) -> str:
     return s.replace("\r\n", "\n").replace("\r", "\n")
 
 
+def _strip_bom(s: str) -> str:
+    # Guard against UTF-8 BOM appearing as U+FEFF at the start of a line.
+    # This commonly happens when text is written by PowerShell with a BOM.
+    return s.lstrip("\ufeff")
+
+
 def read_project_and_truth_version() -> Tuple[str, int]:
     txt = VERSION_PY.read_text(encoding="utf-8")
     m1 = re.search(r'PROJECT_NAME\s*=\s*"(.*?)"', txt)
@@ -81,15 +87,16 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
     if not TRUTH_MD.exists():
         raise RuntimeError(f"missing {TRUTH_MD}")
 
-    block = _norm_newlines(block_text).strip("\n") + "\n"
+    block = _strip_bom(_norm_newlines(block_text)).strip("\n") + "\n"
     lines = block.split("\n")
 
     # Validate header/version
     header_line = None
     for line in lines:
-        m = _TRUTH_HEADER_RE.match(line.strip())
+        candidate = _strip_bom(line).strip()
+        m = _TRUTH_HEADER_RE.match(candidate)
         if m:
-            header_line = line.strip()
+            header_line = candidate
             got_project = m.group(1).strip()
             got_ver = int(m.group(2))
             if got_project != project:
@@ -101,7 +108,7 @@ def append_truth_md_verbatim(project: str, new_ver: int, block_text: str) -> Non
         raise RuntimeError("TRUTH block missing header line: TRUTH - <project> (TRUTH_V#)")
 
     # Validate END terminator exists as standalone line
-    if not any(l.strip() == "END" for l in lines):
+    if not any(_strip_bom(l).strip() == "END" for l in lines):
         raise RuntimeError("TRUTH block missing END terminator line")
 
     # Normalize existing TRUTH.md and ensure it ends with exactly one blank line

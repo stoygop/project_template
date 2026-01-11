@@ -1,6 +1,6 @@
 # tools/mint_truth.ps1
 # One-command truth mint with PROMPT + PASTE
-# TERMINATION: a standalone line containing only: END
+# TERMINATION: Ctrl+Z then Enter (Windows stdin EOF)
 # One-click behavior: auto-commit any dirty working tree state before minting.
 # Prints NEXT TRUTH version and creates FULL/SLIM zips via tools.truth_manager.
 
@@ -65,14 +65,9 @@ Write-Host ""
 $lines = @()
 while ($true) {
   $line = [Console]::ReadLine()
-  if ($null -eq $line) {
-    Fail "unexpected EOF before END"
-  }
-
+  if ($null -eq $line) { Fail "unexpected EOF before END" }
   $lines += $line
-  if ($line.Trim() -eq "END") {
-    break
-  }
+  if ($line.Trim() -eq "END") { break }
 }
 
 $statement = ($lines -join "`n") + "`n"
@@ -80,7 +75,10 @@ if ($statement.Trim().Length -lt 50) { Fail "truth statement too short or empty"
 
 $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $tmp = Join-Path $PWD ".truth_statement_$stamp.txt"
-Set-Content -Path $tmp -Value $statement -Encoding UTF8
+
+# Write UTF-8 WITHOUT BOM. (PowerShell 5.1's -Encoding UTF8 writes a BOM, which breaks strict header parsing.)
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText($tmp, $statement, $utf8NoBom)
 
 # mint + zip
 & python -m tools.truth_manager mint --statement-file $tmp

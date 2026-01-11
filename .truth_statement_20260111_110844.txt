@@ -1,0 +1,25 @@
+﻿TRUTH - project_template (TRUTH_V2)
+==================================================
+
+LOCKED
+- TRUTH_VERSION is an integer and the single authoritative truth version
+- TRUTH_VERSION is stored only in app/version.py
+- Minting a truth MUST require explicit user approval before incrementing version
+- Minting MUST increment TRUTH_VERSION exactly by +1
+- Minting MUST always produce FULL and SLIM zip artifacts on success
+- Truth statement input MUST terminate on a standalone line `END` (sentinel-based)
+- EOF / Ctrl+Z based termination is forbidden
+- Minting MUST fail fast and loudly on version or format errors
+
+STATE
+- tools/mint_truth.ps1 reads truth input line-by-line until `END`
+- Ctrl+Z is no longer required or supported
+- Version parsing does not assume TRUTH_V-prefixed strings
+- Version increment and artifact creation are atomic (no partial mint)
+
+NOTES
+- This truth formalizes integer-only versioning and END-sentinel input
+- Any remaining EOF-based input handling is invalid and must be removed
+
+END
+
