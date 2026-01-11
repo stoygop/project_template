@@ -764,3 +764,30 @@ STATEMENT
 - NOTES
 - V25 mint crashed before artifact creation; V26 restores a green artifact state with the fixed verifier.
 
+
+==================================================
+TRUTH - project_template (TRUTH_V27)
+==================================================
+
+LOCKED
+- Version: 27
+- Timestamp: 2026-01-11 09:15:39
+
+STATEMENT
+- ﻿==================================================
+- TRUTH - project_template (TRUTH_V27)
+- ==================================================
+- LOCKED
+- No broken patches: verification/doctor MUST not crash (SyntaxError is forbidden)
+- CI Doctor MUST be phase-correct:
+  - CI MUST NOT require local-only truth artifacts (FULL/SLIM zips) to exist in the repo
+  - CI MUST run doctor in PRE phase
+- Local Doctor MAY remain POST phase by default
+- STATE
+- `tools/doctor.py` MUST accept `--phase pre|post` (default: post)
+- GitHub Actions workflow MUST run: `python -m tools.doctor --phase pre`
+- Restore `tools/verify_ai_index.py` to a valid, strict implementation (no syntax errors)
+- NOTES
+- CI failure root cause: doctor was running post-phase (artifact-required) on a clean checkout
+- Local failure root cause: broken `verify_ai_index.py` introduced by a bad patch
+
