@@ -1,0 +1,262 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "a90d91b4edbf6b18d085693242eaa978fa457c714a2b487e82faa55a9e4aac19",
+      "size": 123
+    },
+    {
+      "path": ".github/workflows/doctor.yml",
+      "sha256": "a46168863cf127fd11de5c36b057abe979c489ba12b3f5f317137f2f673ec05b",
+      "size": 392
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "38c459d61b5a880d644528d7d457899ecdec16410707a7cd6010ada44801c33d",
+      "size": 77
+    },
+    {
+      "path": ".truth_statement_20260111_102330.txt",
+      "sha256": "14353d4cfc3e2ac015119e1ea7700e4a9a3cbf559c1b25884f39f73ef049d422",
+      "size": 1215
+    },
+    {
+      "path": ".truth_statement_20260111_102446.txt",
+      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03",
+      "size": 1207
+    },
+    {
+      "path": ".truth_statement_20260111_103100.txt",
+      "sha256": "08d27b0c1c33171d49f90c1de9450ac4caaa9464fbedd6478d1509fb09101299",
+      "size": 1208
+    },
+    {
+      "path": ".truth_statement_20260111_103659.txt",
+      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03",
+      "size": 1207
+    },
+    {
+      "path": ".truth_statement_20260111_110439.txt",
+      "sha256": "9a01fc21fe0cd5202464c8bc73bd78a7b0aa5a01f3ad0c53e9d8f337369aeb26",
+      "size": 938
+    },
+    {
+      "path": ".truth_statement_20260111_110844.txt",
+      "sha256": "14375194ba9fefec9c4c7d88abbc890675f54468ad0a47fa4afd97a0c0b45ecd",
+      "size": 1020
+    },
+    {
+      "path": ".truth_statement_20260111_111330.txt",
+      "sha256": "776a3b5e96eed5a78f2f7fe418d72e19907db6073a5c22029a945983c10da6ca",
+      "size": 1232
+    },
+    {
+      "path": ".truth_statement_20260111_111621.txt",
+      "sha256": "3d5f9f8f7400f5f491578371369be57595295881b772d7ecb46aa74fdcc1bbfd",
+      "size": 736
+    },
+    {
+      "path": ".truth_statement_20260111_113638.txt",
+      "sha256": "dc29841832b9a3082b222b0cadb12851633ec30f4776cbfd9e54654fc1712b1f",
+      "size": 1099
+    },
+    {
+      "path": ".truth_statement_20260111_114108.txt",
+      "sha256": "25cdf1fa41309259d839f9d6d957290c49a1e5a2ce800474ec6e22ba98d5b6cc",
+      "size": 837
+    },
+    {
+      "path": "_ai_index/_ai_index_INDEX.txt",
+      "sha256": "fa8ce1801c3217ee3fe5c2a7de8cacaaa718d795e0ef7b1be969611d198f50e2",
+      "size": 492
+    },
+    {
+      "path": "_ai_index/_ai_index_README.txt",
+      "sha256": "7c007b6a6339e593b1bac54e0b967fc5c38e033d77645a17946e1f5daa5450ab",
+      "size": 415
+    },
+    {
+      "path": "_ai_index/_file_map.json",
+      "sha256": "0e38275ea96300b5c5e38063b0ba1868b2ac7d519ea5804957cec55c47e394f9",
+      "size": 6456
+    },
+    {
+      "path": "_ai_index/_WHY.txt",
+      "sha256": "cef5f803aaab1107def4ab95b47cf4de9e1507e4a56e1ee9cd673e97ed8cd55f",
+      "size": 238
+    },
+    {
+      "path": "_ai_index/entrypoints.json",
+      "sha256": "885de1487ecad5d2fe26cb08ec89f1dd238224336f7fa690f25b7679689fbdbc",
+      "size": 907
+    },
+    {
+      "path": "_ai_index/python_index.json",
+      "sha256": "265cfb3f384dc21e21df39bd8f9ac5c90a74f38313bf6b675f04b9494b31f7ce",
+      "size": 64379
+    },
+    {
+      "path": "_BOOTSTRAP.txt",
+      "sha256": "b2dee933a063c680d664932691d1191d7190bfab08c32d3cc86dc433b2719648",
+      "size": 1731
+    },
+    {
+      "path": "_CONTRACTS.txt",
+      "sha256": "07d06a1515c2d00654e332c428cc29883f1695a889f2aeb3e7dc81259ba25f1f",
+      "size": 2701
+    },
+    {
+      "path": "_truth_drafts/project_template_TRUTH_V7_DRAFT.txt",
+      "sha256": "10d1990dc8e742067a25b0e88b1ba112b3d55be4359283e94111fe451cac82f0",
+      "size": 863
+    },
+    {
+      "path": "ai_index.py",
+      "sha256": "39902d925b758e8580b817dba0c60ca8e50d4c7b9edcb814b48cacc972decbd0",
+      "size": 15799
+    },
+    {
+      "path": "app/__init__.py",
+      "sha256": "b4520a6655684fb390f76ed206f8a498a7c9af60fd38f9b0d2a0226e4fc91143",
+      "size": 19
+    },
+    {
+      "path": "app/main.py",
+      "sha256": "2042666e467afdcc468c8b2f5a22d04da212ffd952dc67f6f91b9be15d05cc3a",
+      "size": 263
+    },
+    {
+      "path": "app/version.py",
+      "sha256": "9d16cc0134339d1c2ce14a8f0f58a4a38b2af083c2ef02cd9340f191debe4e58",
+      "size": 157
+    },
+    {
+      "path": "project_repo_map.json",
+      "sha256": "a01ce3d28a29dee6f86632ccfe8854f30c44629d6cf97e28b2b099b7a71b8a4d",
+      "size": 7658
+    },
+    {
+      "path": "README.txt",
+      "sha256": "d2a57c033267ab27d1343e1b17d4ff75e8b5cd38790fcbd05cbb2c4264d7cd95",
+      "size": 1766
+    },
+    {
+      "path": "repo_excludes.py",
+      "sha256": "ecc4827ab16cb4cadfeb20f0b88124aec3a77ceb56d7567ac87954a2154069e0",
+      "size": 1506
+    },
+    {
+      "path": "tools/__init__.py",
+      "sha256": "edf7c86d4ed2cdcfda8f4e631dcd971092f8d477d670065588db985e8bbcc7c1",
+      "size": 15
+    },
+    {
+      "path": "tools/ai_index.py",
+      "sha256": "d2c454609223bf4d4945c93c751b4226e44999bfe588be009c3fa0b8f1e0ca12",
+      "size": 15841
+    },
+    {
+      "path": "tools/doctor.ps1",
+      "sha256": "db8b15e545668bf4fe475225eeb9f148ecdfe0865628005e9aea84e3d290f529",
+      "size": 257
+    },
+    {
+      "path": "tools/doctor.py",
+      "sha256": "a818ccee8693db221a0b14954841f4b5c296fc7d1cadfc945b6874c0f57534c3",
+      "size": 960
+    },
+    {
+      "path": "tools/mint_truth.ps1",
+      "sha256": "41644ffc27395fe365cba42af98d2d3494ea9016da4e62dc45ab8ae12c538bd1",
+      "size": 4924
+    },
+    {
+      "path": "tools/new_project.ps1",
+      "sha256": "c7eb2888d128e3ab1b7c0a625dd122a9e704b3b77dec65604a49d9efd0e78b34",
+      "size": 391
+    },
+    {
+      "path": "tools/new_project.py",
+      "sha256": "ccab923404b360d58b712adf358ed44c2af5f0ebdaa4447e5cbbbb0c93c501f7",
+      "size": 6216
+    },
+    {
+      "path": "tools/normalize_truth_md.py",
+      "sha256": "24a296042bd63fc993b0b5c3553078a504dab40aeb11061c325e495bf1046ece",
+      "size": 629
+    },
+    {
+      "path": "tools/rebuild_truth_zip.ps1",
+      "sha256": "e35c31a65f149aa527dbe15ee1df88fa5bff03f946e1b8df1d225aa67c15ee7d",
+      "size": 2753
+    },
+    {
+      "path": "tools/repair_truth_md.py",
+      "sha256": "e82cd7b1ac96e66bad52c04b6a246060c55bbc5ff91f4d0ef68804316de07ce7",
+      "size": 2705
+    },
+    {
+      "path": "tools/stoplight_gui.py",
+      "sha256": "7d5b8c737767bfe648885410903051e21c957cf1b0ec9a829813d5924e3f4471",
+      "size": 8277
+    },
+    {
+      "path": "tools/truth_config.json",
+      "sha256": "7553bd60397bf7b51975f3b5a9f179da67e5e7c34401309d214dc32870076b94",
+      "size": 819
+    },
+    {
+      "path": "tools/truth_gui.py",
+      "sha256": "bf1aa1def7960d0270e5945ab91c24259f1a9f9898af89446ff66fb5c97a1181",
+      "size": 5007
+    },
+    {
+      "path": "tools/truth_manager.py",
+      "sha256": "231e07daee4347e2c41ba69effee3df7f7f453394794ecfaa1d380ef0716ec14",
+      "size": 23253
+    },
+    {
+      "path": "tools/update_repo_map.py",
+      "sha256": "3e8460c142574a0ba89c2f4729a19d5fb3eed64e69e903fe5b9c3a788a99e0a8",
+      "size": 2361
+    },
+    {
+      "path": "tools/verify_ai_index.py",
+      "sha256": "b23549e15099a8137cd2f2c44e820c6284f9e4c4850fd4ae9dc98add54f10149",
+      "size": 2064
+    },
+    {
+      "path": "tools/verify_truth.py",
+      "sha256": "954dd6922e52cab9504f13dc59228af9678e5b7fdaecb19007ef190575939c8e",
+      "size": 17557
+    },
+    {
+      "path": "TRUTH.md",
+      "sha256": "62cef2ab93a79f579ed7f876af484115af96e98ab0a367fd1796cf3374f8c617",
+      "size": 5642
+    },
+    {
+      "path": "TRUTH_LEGACY.md",
+      "sha256": "c815735505d109f240e912913be8a0416ab057975c054bdebab3c98516b3a097",
+      "size": 3948
+    },
+    {
+      "path": "truth_manager.py",
+      "sha256": "b5db5ee12d66dfe0111e1416ace72c7483bd6a571981d96ab4646b246ae2aaa2",
+      "size": 25223
+    },
+    {
+      "path": "update_repo_map.py",
+      "sha256": "19a539f4fceea6ee9d46f98b57ed9264ca920e8f2866ba3f33a0a1acce399c2f",
+      "size": 2509
+    },
+    {
+      "path": "verify_truth.py",
+      "sha256": "9bab7f4237014a5d4884ac63488598221ddab054b1f6edd6415beda191ab05e2",
+      "size": 17471
+    }
+  ],
+  "meta": {
+    "project": "project_template"
+  }
+}

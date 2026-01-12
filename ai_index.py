@@ -11,6 +11,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
+from tools.repo_excludes import is_excluded_path
+
 # This script generates a NON-AUTHORITATIVE repository index intended for AI + humans.
 # Output goes to <repo>/_ai_index/
 
@@ -38,26 +40,69 @@ def _write_text_lf(path: Path, text: str) -> None:
 
 
 def _precheck_truth_contract() -> None:
-    """Fast contract check that must never recurse into generated state.
-
-    Enforce single TRUTH_VERSION authority (app/version.py only).
-    """
+    # Enforce single TRUTH_VERSION authority (root-scoped to app/version.py only).
+    # We do NOT walk the repo for TRUTH_VERSION because that can recursively ingest
+    # backups/drafts and other generated state.
     pat = re.compile(r"^\s*TRUTH_VERSION\s*=\s*\d+\s*$", re.MULTILINE)
-    txt = VERSION_PY.read_text(encoding="utf-8", errors="replace") if VERSION_PY.exists() else ""
-    hits = [VERSION_PY] if pat.search(txt) else []
+    if not VERSION_PY.exists():
+        raise SystemExit("AI_INDEX precheck failed: missing app/version.py")
+    vtxt = VERSION_PY.read_text(encoding="utf-8", errors="replace")
+    if not pat.search(vtxt):
+        raise SystemExit("AI_INDEX precheck failed: TRUTH_VERSION not found in app/version.py")
 
-    if len(hits) != 1:
-        rels = [str(p.relative_to(REPO_ROOT)) for p in hits] if hits else []
-        raise RuntimeError(
-            "AI_INDEX precheck failed: TRUTH_VERSION authority violation. "
-            "Expected exactly one assignment in app/version.py; "
-            f"found {len(hits)} in {rels}"
+    # Ensure app/version.py matches latest TRUTH.md entry
+    if not VERSION_PY.exists() or not TRUTH_MD.exists():
+        raise SystemExit("AI_INDEX precheck failed: missing app/version.py or TRUTH.md")
+
+    mver = re.search(r"TRUTH_VERSION\s*=\s*(\d+)", vtxt)
+    if not mver:
+        raise SystemExit("AI_INDEX precheck failed: TRUTH_VERSION not found in app/version.py")
+    ver_py = int(mver.group(1))
+
+    tlines = TRUTH_MD.read_text(encoding="utf-8", errors="replace").splitlines()
+    latest = 0
+    # D-epoch: header may optionally include a type tag: [CONFIRM|DREAM|DEBUG]
+    hdr = re.compile(
+        r"^TRUTH\s*-\s*.+?\s+\(TRUTH_V(\d+)\)\s*(?:\[(CONFIRM|DREAM|DEBUG)\])?\s*$"
+    )
+    for ln in tlines:
+        mm = hdr.match(ln.strip())
+        if mm:
+            latest = int(mm.group(1))
+    if latest == 0:
+        raise SystemExit("AI_INDEX precheck failed: no TRUTH entries found in TRUTH.md")
+    if ver_py != latest:
+        raise SystemExit(
+            f"AI_INDEX precheck failed: app/version.py TRUTH_VERSION={ver_py} != TRUTH.md latest TRUTH_V{latest}"
         )
+
+
+@dataclass
+class Config:
+    zip_root: str
+    ai_index_root: str
+    exclude_common_folders: List[str]
+    exclude_common_files: List[str]
+
+    @staticmethod
+    def load(path: Path) -> "Config":
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return Config(
+            zip_root=data.get("zip_root", "_truth"),
+            ai_index_root=data.get("ai_index_root", "_ai_index"),
+            exclude_common_folders=list(data.get("exclude_common_folders", [])),
+            exclude_common_files=list(data.get("exclude_common_files", [])),
+        )
+
+
 def _norm_rel(p: Path) -> str:
     return str(p).replace("\\", "/")
 
 
 def _should_skip(rel: Path, cfg: Config) -> bool:
+    # Central exclusion fence (prevents recursive contamination)
+    if is_excluded_path(REPO_ROOT / rel, REPO_ROOT):
+        return True
     # skip common folders anywhere in path
     parts = rel.parts
     for token in parts[:-1]:

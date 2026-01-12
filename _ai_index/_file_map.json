@@ -1,7 +1,7 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 11:48:41",
-  "repo_root": "C:\\Users\\stoyg\\Documents\\Programming\\project_template",
+  "generated_at": "2026-01-11 23:17:18",
+  "repo_root": "/mnt/data/work_pt/current",
   "files": [
     {
       "path": ".gitattributes",
@@ -20,33 +20,33 @@
     },
     {
       "path": ".truth_statement_20260111_102330.txt",
-      "size": 1216,
-      "sha256": "0430ad968b5be20a40e5f6cbe5d4c2ab7323cab388d6421915276fc01ee2e6cc"
+      "size": 1215,
+      "sha256": "14353d4cfc3e2ac015119e1ea7700e4a9a3cbf559c1b25884f39f73ef049d422"
     },
     {
       "path": ".truth_statement_20260111_102446.txt",
-      "size": 1208,
-      "sha256": "f0b01ddc748e356af318fb7009c00feb7eb6fe899ba1de7beec1c8d56bca7e97"
+      "size": 1207,
+      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03"
     },
     {
       "path": ".truth_statement_20260111_103100.txt",
-      "size": 1209,
-      "sha256": "0a2c62629e634e71ea8ff76875e4652b863720def8a0ccc7385739c9ccc7763a"
+      "size": 1208,
+      "sha256": "08d27b0c1c33171d49f90c1de9450ac4caaa9464fbedd6478d1509fb09101299"
     },
     {
       "path": ".truth_statement_20260111_103659.txt",
-      "size": 1208,
-      "sha256": "f0b01ddc748e356af318fb7009c00feb7eb6fe899ba1de7beec1c8d56bca7e97"
+      "size": 1207,
+      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03"
     },
     {
       "path": ".truth_statement_20260111_110439.txt",
-      "size": 939,
-      "sha256": "3afc02da69fa2056521428817089b2153ffb2379fcbcdde76670b087b4c9a27b"
+      "size": 938,
+      "sha256": "9a01fc21fe0cd5202464c8bc73bd78a7b0aa5a01f3ad0c53e9d8f337369aeb26"
     },
     {
       "path": ".truth_statement_20260111_110844.txt",
-      "size": 1021,
-      "sha256": "8e33fe61565e65813f2fd007149c3dfa843eaeedf1a1443eb3b932ed19922374"
+      "size": 1020,
+      "sha256": "14375194ba9fefec9c4c7d88abbc890675f54468ad0a47fa4afd97a0c0b45ecd"
     },
     {
       "path": ".truth_statement_20260111_111330.txt",
@@ -69,19 +69,14 @@
       "sha256": "25cdf1fa41309259d839f9d6d957290c49a1e5a2ce800474ec6e22ba98d5b6cc"
     },
     {
-      "path": ".truth_statement_20260111_114841.txt",
-      "size": 768,
-      "sha256": "285798d1a22168e34ca160afc7a611583879adeeef5488f013dd9749d2bf55c9"
-    },
-    {
       "path": "README.txt",
       "size": 1766,
       "sha256": "d2a57c033267ab27d1343e1b17d4ff75e8b5cd38790fcbd05cbb2c4264d7cd95"
     },
     {
       "path": "TRUTH.md",
-      "size": 2199,
-      "sha256": "49d9d293a22267f83529dddfcbad719b2ed5ebab35789790e24e6b3a906497e1"
+      "size": 3713,
+      "sha256": "76b6414d249057552ca3e9417dc8b4ea2a575c61c7e89709e19b8acf29b42089"
     },
     {
       "path": "TRUTH_LEGACY.md",
@@ -99,6 +94,21 @@
       "sha256": "07d06a1515c2d00654e332c428cc29883f1695a889f2aeb3e7dc81259ba25f1f"
     },
     {
+      "path": "_truth_drafts/_draft_input.txt",
+      "size": 1067,
+      "sha256": "5e7b81a3e444dbd78e71b8d5ddeefae7244e757621ee2da05d96d838a71e3921"
+    },
+    {
+      "path": "_truth_drafts/project_template_TRUTH_V4_DRAFT.txt",
+      "size": 992,
+      "sha256": "ea04eb015d4adf576defb2fbddc715dce47c5000a4127eedfdebccd3769e322d"
+    },
+    {
+      "path": "_truth_drafts/project_template_TRUTH_V6_DRAFT.txt",
+      "size": 1067,
+      "sha256": "5e7b81a3e444dbd78e71b8d5ddeefae7244e757621ee2da05d96d838a71e3921"
+    },
+    {
       "path": "app/__init__.py",
       "size": 19,
       "sha256": "b4520a6655684fb390f76ed206f8a498a7c9af60fd38f9b0d2a0226e4fc91143"
@@ -110,8 +120,8 @@
     },
     {
       "path": "app/version.py",
-      "size": 158,
-      "sha256": "cca8349c094a9481f906b5f4a819391bed71cac8c4544ab63daa866ed4ac60d5"
+      "size": 157,
+      "sha256": "35cae0f1d88c439b344b5de23aa92da372e7253dc7ce3340e2bcd21a0d963108"
     },
     {
       "path": "tools/__init__.py",
@@ -135,13 +145,13 @@
     },
     {
       "path": "tools/mint_truth.ps1",
-      "size": 3457,
-      "sha256": "5671da24e2045a07445585d294853cc827a137c59e5cfded84055bc0992414ef"
+      "size": 4924,
+      "sha256": "41644ffc27395fe365cba42af98d2d3494ea9016da4e62dc45ab8ae12c538bd1"
     },
     {
       "path": "tools/new_project.ps1",
-      "size": 374,
-      "sha256": "b8ba1592d251151505c51929ac7f44f72ef1a3e416f63a8582fe3d7922f231a6"
+      "size": 391,
+      "sha256": "c7eb2888d128e3ab1b7c0a625dd122a9e704b3b77dec65604a49d9efd0e78b34"
     },
     {
       "path": "tools/new_project.py",
@@ -165,8 +175,8 @@
     },
     {
       "path": "tools/truth_config.json",
-      "size": 787,
-      "sha256": "63935854601416d9fac18da68a2d2ee4c88a6f1b15b79662a7a03b6990114a06"
+      "size": 819,
+      "sha256": "7553bd60397bf7b51975f3b5a9f179da67e5e7c34401309d214dc32870076b94"
     },
     {
       "path": "tools/truth_gui.py",
@@ -175,8 +185,13 @@
     },
     {
       "path": "tools/truth_manager.py",
-      "size": 12060,
-      "sha256": "86e3aaa96faa7e4e6c6823719fe650859417cc2c399b0a9365f4508b14fb5cb0"
+      "size": 23253,
+      "sha256": "231e07daee4347e2c41ba69effee3df7f7f453394794ecfaa1d380ef0716ec14"
+    },
+    {
+      "path": "tools/update_repo_map.py",
+      "size": 2361,
+      "sha256": "3e8460c142574a0ba89c2f4729a19d5fb3eed64e69e903fe5b9c3a788a99e0a8"
     },
     {
       "path": "tools/verify_ai_index.py",
@@ -187,11 +202,6 @@
       "path": "tools/verify_truth.py",
       "size": 17557,
       "sha256": "954dd6922e52cab9504f13dc59228af9678e5b7fdaecb19007ef190575939c8e"
-    },
-    {
-      "path": "usethis.zip",
-      "size": 557061,
-      "sha256": "a16cc5f67594a6182d44543ef44a03334047461c994ce768f05645ffe43b7e68"
     }
   ]
 }

@@ -9,6 +9,7 @@ from typing import Iterable, List, Tuple
 from zipfile import ZipFile
 
 from tools.verify_ai_index import main as verify_ai_index_main
+from tools.repo_excludes import is_excluded_path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERSION_PY = REPO_ROOT / "app" / "version.py"
@@ -42,34 +43,34 @@ def ok(msg: str) -> None:
 def find_truth_version_assignments() -> List[Path]:
     """Return paths that contain a TRUTH_VERSION integer assignment.
 
-    In phased truth mode, TRUTH_VERSION has a single authority: app/version.py.
-    We intentionally do NOT scan the repo, to prevent generated folders (backups, artifacts)
-    from poisoning the authority check.
+    NOTE: Authority for TRUTH_VERSION is *root-scoped* to app/version.py only.
+    This function therefore checks app/version.py and returns either [] or [it].
     """
     pat = re.compile(r"^\s*TRUTH_VERSION\s*=\s*\d+\s*$", re.MULTILINE)
-    p = VERSION_PY
-    if not p.exists():
+    if not VERSION_PY.exists():
         return []
-    txt = p.read_text(encoding="utf-8", errors="replace")
-    return [p] if pat.search(txt) else []
-def find_project_name_assignments() -> List[Tuple[Path, int, str]]:
-    """Return list of (path, lineno, line) where PROJECT_NAME is assigned.
+    txt = VERSION_PY.read_text(encoding="utf-8", errors="replace")
+    return [VERSION_PY] if pat.search(txt) else []
 
-    PROJECT_NAME authority is app/version.py only. Do not scan the repo.
-    """
+
+
+def find_project_name_assignments() -> List[Tuple[Path, int, str]]:
+    """Return list of (path, lineno, line) where PROJECT_NAME is assigned."""
     pat = re.compile(r'^\s*PROJECT_NAME\s*=\s*".*?"\s*$')
     out: List[Tuple[Path, int, str]] = []
-    p = VERSION_PY
-    if not p.exists():
-        return out
-    try:
-        lines = p.read_text(encoding="utf-8", errors="replace").splitlines()
-    except Exception:
-        return out
-    for idx, ln in enumerate(lines, start=1):
-        if pat.match(ln):
-            out.append((p, idx, ln))
+    for p in _iter_text_files():
+        if p.suffix.lower() != ".py":
+            continue
+        try:
+            lines = p.read_text(encoding="utf-8").splitlines()
+        except UnicodeDecodeError:
+            lines = p.read_text(encoding="utf-8", errors="replace").splitlines()
+        for idx, ln in enumerate(lines, start=1):
+            if pat.match(ln):
+                out.append((p, idx, ln))
     return out
+
+
 def verify_single_project_name_authority() -> None:
     assigns = find_project_name_assignments()
     allowed = REPO_ROOT / "app" / "version.py"
@@ -92,7 +93,7 @@ def verify_single_truth_version_authority() -> None:
     hits = find_truth_version_assignments()
     expected = VERSION_PY.resolve()
     if len(hits) != 1 or hits[0].resolve() != expected:
-        rels = [str(p.relative_to(REPO_ROOT)) for p in hits]
+        rels = [str(p.relative_to(REPO_ROOT)) for p in hits] if hits else []
         fail(
             "TRUTH_VERSION authority violation: expected exactly one integer assignment in app/version.py; "
             f"found {len(hits)} in: {rels}"
@@ -290,14 +291,10 @@ def verify_config_present() -> None:
 def _iter_text_files() -> Iterable[Path]:
     # This scans the repo for "text" files that should never contain truncation markers.
     # Exclude generated/output directories.
-    exclude_roots = {"_truth", "_truth_backups", "_truth_drafts", "_ai_index", "__pycache__", ".git", ".venv", "venv"}
     for p in REPO_ROOT.rglob("*"):
         if not p.is_file():
             continue
-        rel = p.relative_to(REPO_ROOT)
-        if rel.parts and rel.parts[0] in exclude_roots:
-            continue
-        if "_ai_index" in rel.parts:
+        if is_excluded_path(p, REPO_ROOT):
             continue
         if p.suffix.lower() not in TEXT_EXTS:
             continue

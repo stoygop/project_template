@@ -51,3 +51,89 @@ LOCKED POST
 
 END
 
+TRUTH - project_template (TRUTH_V4)
+==================================================
+
+LOCKED PRE
+- Implement Stoplight Phase GUI with phases: Draft (🔴), Editing (🟡), Debug (🟠), Confirm (🟢)
+- GUI displays TRUTH_V#, draft path, last verification summary
+- Buttons: Refresh Phase, Open Draft, Confirm Draft, Append Debug Truths, Revert Draft/Repo, Generate Debug ZIP, Doctor PRE/POST, Open Folders
+- Logging: live subprocess output
+- Draft template auto-insert: header, LOCKED PRE/POST, END
+- Read-only safety: GUI does not modify TRUTH.md directly
+
+LOCKED POST
+- Draft stored at _truth_drafts/<project>_TRUTH_V{next}_DRAFT.txt
+- Append debug truths safely in Debug phase
+- Revert restores draft text or full repo snapshot
+- Debug ZIP includes full repo + draft + _ai_index/ for sharing
+- Pre-flight / phase rules disable invalid actions
+- Preserve original draft copy
+
+END
+
+TRUTH - project_template (TRUTH_V5)
+==================================================
+
+LOCKED PRE
+- Stoplight Phase GUI fully interactive, thread-safe Confirm Draft
+- FULL zip ~50 KB (explicit files only)
+- Debug ZIP ~14 KB
+- Phase defaults to Debug (🟠) if any appended truth exists
+- Logging live, Draft backup preserved
+- Missing 'os' import fixed for Confirm Draft
+
+LOCKED POST
+- Draft stored at _truth_drafts/<project>_TRUTH_V{next}_DRAFT.txt
+- Append debug truths safely during Debug phase
+- Revert restores draft or full repo snapshot
+- Confirm Draft fully locks TRUTH_V5
+- GUI fully interactive, no auto-clicking
+END
+
+TRUTH - project_template (TRUTH_V6)
+==================================================
+
+LOCKED PRE
+- Confirm Draft must automatically refresh repo metadata that other tools depend on (no manual steps)
+- “Update Map” is authoritative and must be regenerated on every Confirm Draft:
+  - project_repo_map.json (repo structure + key files + tool entrypoints + invariants)
+- AI indexing must also regenerate on every Confirm Draft:
+  - _ai_index/_file_map.json
+  - _ai_index/python_index.json
+  - _ai_index/entrypoints.json
+- Confirm Draft must create local backups before mutating TRUTH.md/version:
+  - _truth_backups/before_confirm_<timestamp>/TRUTH.md
+  - _truth_backups/before_confirm_<timestamp>/version.py
+
+LOCKED POST
+- Confirm Draft pipeline order is standardized:
+  1) pre-verify
+  2) backup TRUTH.md + version.py
+  3) append truth + bump TRUTH_VERSION
+  4) regenerate project_repo_map.json
+  5) regenerate _ai_index outputs
+  6) create FULL + SLIM zips
+  7) post-verify
+- Draft detection is version-aware (TRUTH_V(next)) and does not hardcode filenames.
+END
+
+TRUTH - project_template (TRUTH_V7)
+==================================================
+
+LOCKED PRE
+- End recursive contamination of Truth tooling:
+  - Introduce a central exclude fence used by all repo walks
+  - TRUTH_VERSION authority checks must only read app/version.py (no repo-wide scans)
+  - confirm-draft must be atomic: any failure triggers rollback (TRUTH.md + app/version.py) and preserves draft
+- Prevent backups/drafts/artifacts from poisoning scans:
+  - _truth_backups, _truth_drafts, _truth, _ai_index, __pycache__, *.pyc must be excluded consistently
+
+LOCKED POST
+- confirm-draft is safe to run repeatedly:
+  - No half-confirmed states
+  - On failure: restore TRUTH.md and app/version.py, keep draft, delete partial artifacts
+- Authority scanners do not recurse:
+  - Only app/version.py is used for TRUTH_VERSION and PROJECT_NAME authority
+END
+

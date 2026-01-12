@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import os
 import json
 import shutil
 import datetime
@@ -16,19 +15,6 @@ from tools.verify_ai_index import main as verify_ai_index_main
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERSION_PY = REPO_ROOT / "app" / "version.py"
-def _backup_root_external(project: str) -> Path:
-    """Return backup root directory for confirm-draft snapshots.
-
-    Default behavior stores backups OUTSIDE the repo to prevent recursive contamination.
-    Override with env var TRUTH_BACKUP_DIR to choose a base directory.
-    """
-    base = os.environ.get("TRUTH_BACKUP_DIR", "").strip()
-    if base:
-        base_dir = Path(base).expanduser()
-    else:
-        base_dir = Path.home() / "Documents" / "Programming" / f"{project}_backups"
-    stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    return base_dir / f"before_confirm_{stamp}"
 TRUTH_MD = REPO_ROOT / "TRUTH.md"
 CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
 
@@ -457,18 +443,18 @@ def confirm_draft() -> Tuple[int, Path, Path]:
 
     statement_text = draft_path.read_text(encoding="utf-8")
 
+    # Transaction: capture originals for atomic rollback (no half-confirmed states)
+    orig_truth_md = TRUTH_MD.read_text(encoding="utf-8", errors="replace") if TRUTH_MD.exists() else ""
+    orig_version_py = VERSION_PY.read_text(encoding="utf-8", errors="replace") if VERSION_PY.exists() else ""
+
     # Backup key files before modifying anything (so we can go back without Git)
-    # Create a rollback snapshot BEFORE mutation (backups stored outside repo by default)
-    backup_root = _backup_root_external(project)
+    backup_root = REPO_ROOT / "_truth_backups" / f"before_confirm_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
     backup_root.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(TRUTH_MD, backup_root / "TRUTH.md")
-    shutil.copy2(VERSION_PY, backup_root / "version.py")
+    if TRUTH_MD.exists():
+        shutil.copy2(TRUTH_MD, backup_root / "TRUTH.md")
+    if VERSION_PY.exists():
+        shutil.copy2(VERSION_PY, backup_root / "version.py")
 
-    # Read originals so we can rollback atomically on any failure
-    truth_md_before = TRUTH_MD.read_text(encoding="utf-8", errors="replace")
-    version_py_before = VERSION_PY.read_text(encoding="utf-8", errors="replace")
-
-    # Compute artifact paths up-front so rollback can delete partial zips
     zip_root = REPO_ROOT / cfg.zip_root
     full_zip = zip_root / f"{project}_TRUTH_V{new_ver}_FULL.zip"
     slim_zip = zip_root / f"{project}_TRUTH_V{new_ver}_SLIM.zip"
@@ -477,6 +463,7 @@ def confirm_draft() -> Tuple[int, Path, Path]:
         # Append truth then bump version (keeps TRUTH.md as primary log)
         append_truth_md_verbatim(project, new_ver, statement_text)
         write_truth_version(new_ver)
+
         # Update repo map BEFORE ai_index so indexing can include it
         from tools.update_repo_map import main as update_repo_map_main
         update_repo_map_main([])
@@ -491,31 +478,26 @@ def confirm_draft() -> Tuple[int, Path, Path]:
         print("PHASE 2/2: Post-artifact verification")
         verify_truth.main(["--phase", "post"])
 
-        # Delete the draft only after a fully successful confirm
-        try:
-            draft_path.unlink()
-        except FileNotFoundError:
-            pass
-
+        delete_draft(draft_path)
+        print(f"OK: confirmed TRUTH_V{new_ver} (draft deleted)")
         return new_ver, full_zip, slim_zip
 
     except Exception as e:
-        # Atomic rollback: restore authoritative files and delete any partial artifacts
+        # Roll back mutated state to restore a consistent repo.
+        print(f"ERROR: confirm-draft failed: {e}")
         try:
-            TRUTH_MD.write_text(truth_md_before, encoding="utf-8")
-        except Exception:
-            pass
-        try:
-            VERSION_PY.write_text(version_py_before, encoding="utf-8")
-        except Exception:
-            pass
-        for z in (full_zip, slim_zip):
+            TRUTH_MD.write_text(orig_truth_md, encoding="utf-8", newline="\n")
+            VERSION_PY.write_text(orig_version_py, encoding="utf-8", newline="\n")
+        except Exception as e2:
+            raise RuntimeError(f"ROLLBACK FAILED: {e2}")
+        # Best-effort cleanup of partial artifacts
+        for p in (full_zip, slim_zip):
             try:
-                if z.exists():
-                    z.unlink()
+                if p.exists():
+                    p.unlink()
             except Exception:
                 pass
-        print(f"ROLLBACK COMPLETE: {e}", file=sys.stderr)
+        print("ROLLBACK COMPLETE: restored TRUTH.md and app/version.py; draft preserved")
         raise
 
 def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
@@ -538,39 +520,57 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     project, cur = read_project_and_truth_version()
     new_ver = cur + 1
 
+    # Transaction: capture originals for atomic rollback (no half-minted states)
+    orig_truth_md = TRUTH_MD.read_text(encoding="utf-8", errors="replace") if TRUTH_MD.exists() else ""
+    orig_version_py = VERSION_PY.read_text(encoding="utf-8", errors="replace") if VERSION_PY.exists() else ""
+
     # Backup key files before modifying anything (so we can go back without Git)
-    # Create a rollback snapshot BEFORE mutation (backups stored outside repo by default)
-    backup_root = _backup_root_external(project)
+    backup_root = REPO_ROOT / "_truth_backups" / f"before_confirm_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
     backup_root.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(TRUTH_MD, backup_root / "TRUTH.md")
-    shutil.copy2(VERSION_PY, backup_root / "version.py")
-
-    # Append truth then bump version (keeps TRUTH.md as primary log)
-    append_truth_md_verbatim(project, new_ver, statement_text)
-    write_truth_version(new_ver)
-
-    # Update repo map BEFORE ai_index so indexing can include it
-    try:
-        from tools.update_repo_map import main as update_repo_map_main
-        update_repo_map_main([])
-    except Exception as e:
-        raise RuntimeError(f"update_repo_map failed: {e}")
-
-    # Build ai index AFTER version bump, then verify contracts
-    build_ai_index()
-    verify_ai_index_main()
+    if TRUTH_MD.exists():
+        shutil.copy2(TRUTH_MD, backup_root / "TRUTH.md")
+    if VERSION_PY.exists():
+        shutil.copy2(VERSION_PY, backup_root / "version.py")
 
     zip_root = REPO_ROOT / cfg.zip_root
     full_zip = zip_root / f"{project}_TRUTH_V{new_ver}_FULL.zip"
     slim_zip = zip_root / f"{project}_TRUTH_V{new_ver}_SLIM.zip"
 
-    make_zip(full_zip, cfg, slim=False)
-    make_zip(slim_zip, cfg, slim=True)
+    try:
+        # Append truth then bump version (keeps TRUTH.md as primary log)
+        append_truth_md_verbatim(project, new_ver, statement_text)
+        write_truth_version(new_ver)
 
-    print("PHASE 2/2: Post-artifact verification")
-    verify_truth.main(["--phase", "post"])
+        # Update repo map BEFORE ai_index so indexing can include it
+        from tools.update_repo_map import main as update_repo_map_main
+        update_repo_map_main([])
 
-    return new_ver, full_zip, slim_zip
+        # Build ai index AFTER version bump, then verify contracts
+        build_ai_index()
+        verify_ai_index_main()
+
+        make_zip(full_zip, cfg, slim=False)
+        make_zip(slim_zip, cfg, slim=True)
+
+        print("PHASE 2/2: Post-artifact verification")
+        verify_truth.main(["--phase", "post"])
+
+        return new_ver, full_zip, slim_zip
+    except Exception as e:
+        print(f"ERROR: mint failed: {e}")
+        try:
+            TRUTH_MD.write_text(orig_truth_md, encoding="utf-8", newline="\n")
+            VERSION_PY.write_text(orig_version_py, encoding="utf-8", newline="\n")
+        except Exception as e2:
+            raise RuntimeError(f"ROLLBACK FAILED: {e2}")
+        for p in (full_zip, slim_zip):
+            try:
+                if p.exists():
+                    p.unlink()
+            except Exception:
+                pass
+        print("ROLLBACK COMPLETE: restored TRUTH.md and app/version.py")
+        raise
 
 
 def main(argv: List[str] | None = None) -> int:
