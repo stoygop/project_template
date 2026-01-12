@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
+from tools.truth_config import Config
 
 # This script generates a NON-AUTHORITATIVE repository index intended for AI + humans.
 # Output goes to <repo>/_ai_index/
