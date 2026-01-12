@@ -1,5 +1,4 @@
 from __future__ import annotations
-from tools.repo_walk import iter_repo_files as _canon_iter_repo_files
 
 import ast
 import hashlib
@@ -12,6 +11,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 from tools.truth_config import Config
+from tools.repo_walk import iter_repo_files as _canon_iter_repo_files
 
 # This script generates a NON-AUTHORITATIVE repository index intended for AI + humans.
 # Output goes to <repo>/_ai_index/
@@ -74,22 +74,18 @@ def _should_skip(rel: Path, cfg: Config) -> bool:
 
 
 def iter_repo_files(cfg: Config) -> Iterable[Path]:
-    """Canonical repo file enumerator used by ai_index.
+    """Yield repo files according to the canonical enumerator.
 
-    Uses tools.repo_walk as the single source of truth and yields Path objects.
+    Returns absolute Paths (rooted at REPO_ROOT). Files are filtered by the same
+    TruthConfig policy used everywhere else.
     """
-    try:
-        it = _canon_iter_repo_files(cfg, slim=False, allow_top_level=set())
-    except TypeError:
-        # Backwards compat if repo_walk.iter_repo_files signature differs
-        it = _canon_iter_repo_files(cfg)
-    for x in it:
-        yield x if isinstance(x, Path) else Path(str(x))
-
+    for p in _canon_iter_repo_files(cfg, slim=False, allow_top_level=set()):
+        # repo_walk may return Path or str, and may be relative or absolute.
+        if not isinstance(p, Path):
+            p = Path(p)
+        if not p.is_absolute():
+            p = (REPO_ROOT / p).resolve()
         if not p.is_file():
-            continue
-        rel = p.relative_to(REPO_ROOT)
-        if _should_skip(rel, cfg):
             continue
         yield p
 

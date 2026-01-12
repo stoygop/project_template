@@ -122,8 +122,8 @@
     },
     {
       "path": "project_repo_map.json",
-      "sha256": "6565f94ba17936df913a05be09eadba1db6d8a5aef9349c50dcfea7f770939e8",
-      "size": 8531
+      "sha256": "527afe8a90996e94aa24ecdcac7390877a181391c533d9a3a167531aeaea5fbe",
+      "size": 8792
     },
     {
       "path": "README.txt",
@@ -137,8 +137,8 @@
     },
     {
       "path": "tools/ai_index.py",
-      "sha256": "80143ba355cfc15eb326ab3b30894ba19ac29f9696c5d4cc39abb1b6a75c4f79",
-      "size": 11955
+      "sha256": "d02e048e07b3c4586e218ab59e3ce959cae29394131d7eea7ae6cd71538efd60",
+      "size": 14568
     },
     {
       "path": "tools/doctor.ps1",
