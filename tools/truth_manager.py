@@ -13,6 +13,7 @@ from typing import Iterable, List, Tuple
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from tools.ai_index import build_ai_index
+from tools.make_truth_zip import make_zip
 from tools.truth_config import Config
 from tools.verify_ai_index import main as verify_ai_index_main
 
