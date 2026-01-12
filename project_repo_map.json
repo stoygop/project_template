@@ -122,7 +122,7 @@
     },
     {
       "path": "project_repo_map.json",
-      "sha256": "9563e17dcd1f557a17776a3e54a2b2bd3975d813b738dc71d6ab273eb1b0bb1f",
+      "sha256": "fcf5c16207ac122dc76a996f6b014e2978843aa9ad77ec66b34fc0acd97c79be",
       "size": 8792
     },
     {
@@ -149,6 +149,11 @@
       "path": "tools/doctor.py",
       "sha256": "a818ccee8693db221a0b14954841f4b5c296fc7d1cadfc945b6874c0f57534c3",
       "size": 960
+    },
+    {
+      "path": "tools/make_truth_zip.py",
+      "sha256": "42507020643e19516c83c3382451eabb4fb96412a139f3a78bba9c22832dd428",
+      "size": 1698
     },
     {
       "path": "tools/mint_truth.ps1",
@@ -222,8 +227,8 @@
     },
     {
       "path": "tools/truth_manager.py",
-      "sha256": "99cea033f9edc9a91835324f9d314bbf90c524d4caa5aaea34dbe86a1af0b2f3",
-      "size": 26047
+      "sha256": "c895787b0ffb67f577aa87f14d6bb5c518caf366d3c343a385e9ab612ef4829e",
+      "size": 26088
     },
     {
       "path": "tools/update_repo_map.py",
