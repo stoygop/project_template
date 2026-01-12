@@ -16,104 +16,94 @@
       "size": 77
     },
     {
-      "path": ".truth_statement_20260111_102330.txt",
-      "sha256": "14353d4cfc3e2ac015119e1ea7700e4a9a3cbf559c1b25884f39f73ef049d422",
-      "size": 1215
-    },
-    {
-      "path": ".truth_statement_20260111_102446.txt",
-      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03",
-      "size": 1207
-    },
-    {
-      "path": ".truth_statement_20260111_103100.txt",
-      "sha256": "08d27b0c1c33171d49f90c1de9450ac4caaa9464fbedd6478d1509fb09101299",
-      "size": 1208
-    },
-    {
-      "path": ".truth_statement_20260111_103659.txt",
-      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03",
-      "size": 1207
-    },
-    {
-      "path": ".truth_statement_20260111_110439.txt",
-      "sha256": "9a01fc21fe0cd5202464c8bc73bd78a7b0aa5a01f3ad0c53e9d8f337369aeb26",
-      "size": 938
-    },
-    {
-      "path": ".truth_statement_20260111_110844.txt",
-      "sha256": "14375194ba9fefec9c4c7d88abbc890675f54468ad0a47fa4afd97a0c0b45ecd",
-      "size": 1020
-    },
-    {
-      "path": ".truth_statement_20260111_111330.txt",
-      "sha256": "776a3b5e96eed5a78f2f7fe418d72e19907db6073a5c22029a945983c10da6ca",
-      "size": 1232
-    },
-    {
-      "path": ".truth_statement_20260111_111621.txt",
-      "sha256": "3d5f9f8f7400f5f491578371369be57595295881b772d7ecb46aa74fdcc1bbfd",
-      "size": 736
-    },
-    {
-      "path": ".truth_statement_20260111_113638.txt",
-      "sha256": "dc29841832b9a3082b222b0cadb12851633ec30f4776cbfd9e54654fc1712b1f",
-      "size": 1099
-    },
-    {
-      "path": ".truth_statement_20260111_114108.txt",
-      "sha256": "25cdf1fa41309259d839f9d6d957290c49a1e5a2ce800474ec6e22ba98d5b6cc",
-      "size": 837
-    },
-    {
-      "path": "_ai_index/_ai_index_INDEX.txt",
-      "sha256": "fa8ce1801c3217ee3fe5c2a7de8cacaaa718d795e0ef7b1be969611d198f50e2",
-      "size": 492
-    },
-    {
-      "path": "_ai_index/_ai_index_README.txt",
-      "sha256": "7c007b6a6339e593b1bac54e0b967fc5c38e033d77645a17946e1f5daa5450ab",
-      "size": 415
-    },
-    {
-      "path": "_ai_index/_file_map.json",
-      "sha256": "0e38275ea96300b5c5e38063b0ba1868b2ac7d519ea5804957cec55c47e394f9",
-      "size": 6456
-    },
-    {
-      "path": "_ai_index/_WHY.txt",
-      "sha256": "cef5f803aaab1107def4ab95b47cf4de9e1507e4a56e1ee9cd673e97ed8cd55f",
-      "size": 238
-    },
-    {
-      "path": "_ai_index/entrypoints.json",
-      "sha256": "885de1487ecad5d2fe26cb08ec89f1dd238224336f7fa690f25b7679689fbdbc",
-      "size": 907
-    },
-    {
-      "path": "_ai_index/python_index.json",
-      "sha256": "265cfb3f384dc21e21df39bd8f9ac5c90a74f38313bf6b675f04b9494b31f7ce",
-      "size": 64379
-    },
-    {
-      "path": "_BOOTSTRAP.txt",
+      "path": "_legacy_root/docs_misc/_BOOTSTRAP.txt",
       "sha256": "b2dee933a063c680d664932691d1191d7190bfab08c32d3cc86dc433b2719648",
       "size": 1731
     },
     {
-      "path": "_CONTRACTS.txt",
+      "path": "_legacy_root/docs_misc/_CONTRACTS.txt",
       "sha256": "07d06a1515c2d00654e332c428cc29883f1695a889f2aeb3e7dc81259ba25f1f",
       "size": 2701
     },
     {
-      "path": "_truth_drafts/project_template_TRUTH_V8_DRAFT.txt",
-      "sha256": "c4c06ac9180822a6581a4ecd39b8389d38fb9012b4792386d8023f1a18faffe2",
-      "size": 1366
+      "path": "_legacy_root/docs_misc/TRUTH_LEGACY.md",
+      "sha256": "c815735505d109f240e912913be8a0416ab057975c054bdebab3c98516b3a097",
+      "size": 3948
     },
     {
-      "path": "ai_index.py",
+      "path": "_legacy_root/root_scripts_superseded/ai_index.py",
       "sha256": "39902d925b758e8580b817dba0c60ca8e50d4c7b9edcb814b48cacc972decbd0",
       "size": 15799
+    },
+    {
+      "path": "_legacy_root/root_scripts_superseded/repo_excludes.py",
+      "sha256": "ecc4827ab16cb4cadfeb20f0b88124aec3a77ceb56d7567ac87954a2154069e0",
+      "size": 1506
+    },
+    {
+      "path": "_legacy_root/root_scripts_superseded/truth_manager.py",
+      "sha256": "b5db5ee12d66dfe0111e1416ace72c7483bd6a571981d96ab4646b246ae2aaa2",
+      "size": 25223
+    },
+    {
+      "path": "_legacy_root/root_scripts_superseded/update_repo_map.py",
+      "sha256": "19a539f4fceea6ee9d46f98b57ed9264ca920e8f2866ba3f33a0a1acce399c2f",
+      "size": 2509
+    },
+    {
+      "path": "_legacy_root/root_scripts_superseded/verify_truth.py",
+      "sha256": "9bab7f4237014a5d4884ac63488598221ddab054b1f6edd6415beda191ab05e2",
+      "size": 17471
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_102330.txt",
+      "sha256": "14353d4cfc3e2ac015119e1ea7700e4a9a3cbf559c1b25884f39f73ef049d422",
+      "size": 1215
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_102446.txt",
+      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03",
+      "size": 1207
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_103100.txt",
+      "sha256": "08d27b0c1c33171d49f90c1de9450ac4caaa9464fbedd6478d1509fb09101299",
+      "size": 1208
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_103659.txt",
+      "sha256": "43a2b472c0848834d84f40d76007b88b19376d850e8f72800b8270f37dbd2f03",
+      "size": 1207
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_110439.txt",
+      "sha256": "9a01fc21fe0cd5202464c8bc73bd78a7b0aa5a01f3ad0c53e9d8f337369aeb26",
+      "size": 938
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_110844.txt",
+      "sha256": "14375194ba9fefec9c4c7d88abbc890675f54468ad0a47fa4afd97a0c0b45ecd",
+      "size": 1020
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_111330.txt",
+      "sha256": "776a3b5e96eed5a78f2f7fe418d72e19907db6073a5c22029a945983c10da6ca",
+      "size": 1232
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_111621.txt",
+      "sha256": "3d5f9f8f7400f5f491578371369be57595295881b772d7ecb46aa74fdcc1bbfd",
+      "size": 736
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_113638.txt",
+      "sha256": "dc29841832b9a3082b222b0cadb12851633ec30f4776cbfd9e54654fc1712b1f",
+      "size": 1099
+    },
+    {
+      "path": "_legacy_root/truth_statement_spool/.truth_statement_20260111_114108.txt",
+      "sha256": "25cdf1fa41309259d839f9d6d957290c49a1e5a2ce800474ec6e22ba98d5b6cc",
+      "size": 837
     },
     {
       "path": "app/__init__.py",
@@ -127,23 +117,18 @@
     },
     {
       "path": "app/version.py",
-      "sha256": "c68b15baad44856b79363393bdb68f9434673dcb57f208d64bc4e4704629fc9a",
+      "sha256": "371d5bdf6e721f73e1f5e63be16602cb9b3d2d031ae2743838a0257c192c79e8",
       "size": 157
     },
     {
       "path": "project_repo_map.json",
-      "sha256": "0e9c1be6858f6b8637408d1b116544763fb954a67429444a8435a4ec6150fee3",
-      "size": 8376
+      "sha256": "6565f94ba17936df913a05be09eadba1db6d8a5aef9349c50dcfea7f770939e8",
+      "size": 8531
     },
     {
       "path": "README.txt",
       "sha256": "d2a57c033267ab27d1343e1b17d4ff75e8b5cd38790fcbd05cbb2c4264d7cd95",
       "size": 1766
-    },
-    {
-      "path": "repo_excludes.py",
-      "sha256": "ecc4827ab16cb4cadfeb20f0b88124aec3a77ceb56d7567ac87954a2154069e0",
-      "size": 1506
     },
     {
       "path": "tools/__init__.py",
@@ -152,8 +137,8 @@
     },
     {
       "path": "tools/ai_index.py",
-      "sha256": "53ab8c3c1724600e5ca09f2602aa6fff010c9c0b766e0a565f9ab635690679dc",
-      "size": 14092
+      "sha256": "80143ba355cfc15eb326ab3b30894ba19ac29f9696c5d4cc39abb1b6a75c4f79",
+      "size": 11955
     },
     {
       "path": "tools/doctor.ps1",
@@ -186,6 +171,16 @@
       "size": 629
     },
     {
+      "path": "tools/patch_ai_index_repo_walk.py",
+      "sha256": "c07f7cdd9143883d402b22962605fe6a977133c8afaa244763c86ee5bfdff3a3",
+      "size": 1547
+    },
+    {
+      "path": "tools/project_meta.py",
+      "sha256": "d0bb69917898b119559670737b39492d4096240aaca5ec8120b899004f055cfe",
+      "size": 795
+    },
+    {
       "path": "tools/rebuild_truth_zip.ps1",
       "sha256": "e35c31a65f149aa527dbe15ee1df88fa5bff03f946e1b8df1d225aa67c15ee7d",
       "size": 2753
@@ -197,8 +192,13 @@
     },
     {
       "path": "tools/repo_backup.py",
-      "sha256": "80099ce44e57dbd825c840795834f5d40f3d05238cf7bd9fa978ca6b978c7a26",
-      "size": 5190
+      "sha256": "d6322da098728c49024d29890d2e511545d37e05c2ffd02eba8a8293b14541b1",
+      "size": 2916
+    },
+    {
+      "path": "tools/repo_walk.py",
+      "sha256": "6e93f39dd136916cecf25804a2fafc29aee3033dd3e329d65028616540b844c5",
+      "size": 2592
     },
     {
       "path": "tools/stoplight_gui.py",
@@ -207,8 +207,8 @@
     },
     {
       "path": "tools/truth_config.json",
-      "sha256": "7553bd60397bf7b51975f3b5a9f179da67e5e7c34401309d214dc32870076b94",
-      "size": 819
+      "sha256": "bf3808c26c3aed9aeb7ec52f0c62ca5a5430d5d50cb3dc709ef72ef8aa95a6f8",
+      "size": 785
     },
     {
       "path": "tools/truth_config.py",
@@ -222,18 +222,23 @@
     },
     {
       "path": "tools/truth_manager.py",
-      "sha256": "37edb738ec64b65b2885b75d627600668a0a586b1b7da93e8ecbaa5786f03835",
-      "size": 25712
+      "sha256": "99cea033f9edc9a91835324f9d314bbf90c524d4caa5aaea34dbe86a1af0b2f3",
+      "size": 26047
     },
     {
       "path": "tools/update_repo_map.py",
-      "sha256": "3e8460c142574a0ba89c2f4729a19d5fb3eed64e69e903fe5b9c3a788a99e0a8",
-      "size": 2361
+      "sha256": "b648091c380a3b9368d6f13a9271a146b7911c98db73c8c9a70629c641eb8619",
+      "size": 1823
+    },
+    {
+      "path": "tools/validate_backup_zip.py",
+      "sha256": "b5513395d1139914b364882ba79cc280e62c5d0a41505c92834cc21bd6d4191b",
+      "size": 5624
     },
     {
       "path": "tools/validate_truth_zip.py",
-      "sha256": "2080b0026e05fdcc1f404d02d6ed3e4779f7555f901985f79ab08f0228f725db",
-      "size": 1592
+      "sha256": "51d0c74789a15bd69d526b7285e2b883db977f96508f60f2e420266cdc29d292",
+      "size": 4140
     },
     {
       "path": "tools/verify_ai_index.py",
@@ -241,34 +246,19 @@
       "size": 2064
     },
     {
+      "path": "tools/verify_enumerator.py",
+      "sha256": "4e599bda64ce93bdcc35a8633417bc6ae75384bc2e6f5c7e3de1a202e09c245c",
+      "size": 3532
+    },
+    {
       "path": "tools/verify_truth.py",
-      "sha256": "b5abb6f71375102bc1d19a18cba5db61ae7a22644a9de6a205882c2f9ba3fcb3",
-      "size": 17778
+      "sha256": "cbbb3ebfe1d65b8a5c43ec3dc99669c2f204fd88e47f4b0b76cbe45b2e31c604",
+      "size": 20507
     },
     {
       "path": "TRUTH.md",
-      "sha256": "3b0bf41b9a89c59bcaa4d0a37dee461bcdde72edfed8e745c76367344d527ec7",
-      "size": 7017
-    },
-    {
-      "path": "TRUTH_LEGACY.md",
-      "sha256": "c815735505d109f240e912913be8a0416ab057975c054bdebab3c98516b3a097",
-      "size": 3948
-    },
-    {
-      "path": "truth_manager.py",
-      "sha256": "b5db5ee12d66dfe0111e1416ace72c7483bd6a571981d96ab4646b246ae2aaa2",
-      "size": 25223
-    },
-    {
-      "path": "update_repo_map.py",
-      "sha256": "19a539f4fceea6ee9d46f98b57ed9264ca920e8f2866ba3f33a0a1acce399c2f",
-      "size": 2509
-    },
-    {
-      "path": "verify_truth.py",
-      "sha256": "9bab7f4237014a5d4884ac63488598221ddab054b1f6edd6415beda191ab05e2",
-      "size": 17471
+      "sha256": "e13c345f356fb6f8d5de34a9451c3c8b891fc8f119492122cd5379988cda58c0",
+      "size": 9365
     }
   ],
   "meta": {
