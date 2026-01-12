@@ -118,7 +118,7 @@ LOCKED POST
 - Draft detection is version-aware (TRUTH_V(next)) and does not hardcode filenames.
 END
 
-TRUTH - project_template (TRUTH_V7)
+TRUTH - project_template (TRUTH_V7) [CONFIRM]
 ==================================================
 
 LOCKED PRE
@@ -136,4 +136,3 @@ LOCKED POST
 - Authority scanners do not recurse:
   - Only app/version.py is used for TRUTH_VERSION and PROJECT_NAME authority
 END
-
