@@ -137,7 +137,7 @@ LOCKED POST
   - Only app/version.py is used for TRUTH_VERSION and PROJECT_NAME authority
 END
 
-TRUTH - project_template (TRUTH_V8)
+TRUTH - project_template (TRUTH_V8) [CONFIRM]
 
 LOCKED PRE
 
@@ -171,4 +171,3 @@ LOCKED POST
     - repo map + ai_index exist, are regenerated for the confirmed version, and contain no excluded-root paths
     - repeated confirm-draft runs do not drift (idempotent outputs given unchanged repo)
       END
-
