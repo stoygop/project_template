@@ -172,7 +172,7 @@ LOCKED POST
     - repeated confirm-draft runs do not drift (idempotent outputs given unchanged repo)
       END
 
-TRUTH - project_template (TRUTH_V9)
+TRUTH - project_template (TRUTH_V9) [CONFIRM]
 
 LOCKED PRE
 
@@ -231,4 +231,3 @@ LOCKED POST
     - Truth FULL/SLIM zips (artifact contract + contents contract)
     - the latest "before_confirm" backup zip produced by confirm-draft in that run
       END
-
