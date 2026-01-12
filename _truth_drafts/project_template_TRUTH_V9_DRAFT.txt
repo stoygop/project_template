@@ -1,0 +1,59 @@
+# TRUTH - project_template (TRUTH_V9)
+
+LOCKED PRE
+
+* Artifact zip contracts are explicit and enforced:
+
+  * "Artifact zips" (Truth FULL/SLIM, Repo Backups) MUST be nested:
+
+    * Exactly one top-level folder named `project_template/`
+    * All contents are stored as `project_template/<repo-relative-path>`
+    * No flattening is permitted; duplicate archive paths are forbidden
+  * "Patch zips" (applied into an existing repo) MUST be repo-relative (not nested):
+
+    * No `project_template/` root folder
+    * Safe to `Expand-Archive ... .` from repo root
+* Deterministic enumeration is single-source:
+
+  * A single canonical enumerator/filter policy is the only authority for all repo walks:
+
+    * repo map generation
+    * ai_index generation
+    * Truth FULL/SLIM packaging
+    * backup packaging
+    * any verification that enumerates repo files
+  * Excludes/Includes are centralized (TruthConfig) and must be identical across tools
+* Validation is first-class (no "silent success"):
+
+  * Validators MUST print explicit "OK:" lines on success (no empty output on pass)
+  * Validators MUST support `--json` for machine-readable diagnostics
+
+LOCKED POST
+
+* confirm-draft pipeline order and regeneration rules are deterministic:
+
+  * On confirm-draft:
+
+    1. Create and validate a "before_confirm" repo backup (artifact zip, nested)
+    2. Regenerate `project_repo_map.json` using the canonical enumerator
+    3. Regenerate `_ai_index` using the canonical enumerator
+    4. Build Truth FULL/SLIM zips (artifact zips, nested)
+    5. Validate Truth FULL/SLIM zips (structure + config contents)
+    6. Post-verify (`verify_truth --phase post`)
+  * repo map and ai_index MUST be regenerated on confirm-draft (not on pre-verify)
+* Rollback integrity is non-negotiable:
+
+  * confirm-draft rollback MUST never crash
+  * If confirm-draft fails after any mutation, it MUST restore:
+
+    * `TRUTH.md`
+    * `app/version.py`
+    * any partially written artifacts (delete or restore to last known-good)
+  * Rollback MUST end in a verifiable state (pre/post as appropriate) or hard-fail with a clear error
+* Doctor enforcement:
+
+  * `python -m tools.doctor --phase post` MUST validate:
+
+    * Truth FULL/SLIM zips (artifact contract + contents contract)
+    * the latest "before_confirm" backup zip produced by confirm-draft in that run
+      END
