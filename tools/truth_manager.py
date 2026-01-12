@@ -387,7 +387,7 @@ def iter_repo_files(cfg: TruthConfig) -> Iterable[Path]:
         yield p
 
 
-def make_zip(zip_path: Path, cfg: TruthConfig, slim: bool) -> None:
+def make_zip(zip_path: Path, cfg: TruthConfig, slim: bool, project: str) -> None:
     zip_path.parent.mkdir(parents=True, exist_ok=True)
 
     tmp_path = zip_path.with_name(f"tmp_{zip_path.stem}{zip_path.suffix}")
@@ -403,7 +403,7 @@ def make_zip(zip_path: Path, cfg: TruthConfig, slim: bool) -> None:
             if slim and should_exclude_slim(rel, cfg):
                 continue
 
-            z.write(p, arcname=str(rel).replace("\\", "/"))
+            z.write(p, arcname=(f"{project}/" + rel.as_posix()))
 
     tmp_path.replace(zip_path)
 
@@ -464,6 +464,11 @@ def confirm_draft() -> Tuple[int, Path, Path]:
     shutil.copy2(TRUTH_MD, backup_root / "TRUTH.md")
     shutil.copy2(VERSION_PY, backup_root / "version.py")
 
+    # Create a faithful repo snapshot backup (nested zip + manifest)
+    from tools.repo_backup import build_repo_backup_zip, validate_repo_backup_zip
+    backup_zip = build_repo_backup_zip(project=project, cfg=cfg, dest_dir=backup_root)
+    validate_repo_backup_zip(backup_zip)
+
     # Read originals so we can rollback atomically on any failure
     truth_md_before = TRUTH_MD.read_text(encoding="utf-8", errors="replace")
     version_py_before = VERSION_PY.read_text(encoding="utf-8", errors="replace")
@@ -485,8 +490,13 @@ def confirm_draft() -> Tuple[int, Path, Path]:
         build_ai_index()
         verify_ai_index_main()
 
-        make_zip(full_zip, cfg, slim=False)
-        make_zip(slim_zip, cfg, slim=True)
+        make_zip(full_zip, cfg, slim=False, project=project)
+        make_zip(slim_zip, cfg, slim=True, project=project)
+
+        # Validate truth zip structure (must be nested under <project>/)
+        from tools.validate_truth_zip import validate_truth_zip
+        validate_truth_zip(full_zip)
+        validate_truth_zip(slim_zip)
 
         print("PHASE 2/2: Post-artifact verification")
         verify_truth.main(["--phase", "post"])
@@ -545,6 +555,11 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     shutil.copy2(TRUTH_MD, backup_root / "TRUTH.md")
     shutil.copy2(VERSION_PY, backup_root / "version.py")
 
+    # Create a faithful repo snapshot backup (nested zip + manifest)
+    from tools.repo_backup import build_repo_backup_zip, validate_repo_backup_zip
+    backup_zip = build_repo_backup_zip(project=project, cfg=cfg, dest_dir=backup_root)
+    validate_repo_backup_zip(backup_zip)
+
     # Append truth then bump version (keeps TRUTH.md as primary log)
     append_truth_md_verbatim(project, new_ver, statement_text)
     write_truth_version(new_ver)
@@ -564,8 +579,8 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     full_zip = zip_root / f"{project}_TRUTH_V{new_ver}_FULL.zip"
     slim_zip = zip_root / f"{project}_TRUTH_V{new_ver}_SLIM.zip"
 
-    make_zip(full_zip, cfg, slim=False)
-    make_zip(slim_zip, cfg, slim=True)
+    make_zip(full_zip, cfg, slim=False, project=project)
+    make_zip(slim_zip, cfg, slim=True, project=project)
 
     print("PHASE 2/2: Post-artifact verification")
     verify_truth.main(["--phase", "post"])

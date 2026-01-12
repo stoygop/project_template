@@ -455,6 +455,10 @@ def main(argv: List[str] | None = None) -> int:
 
     if phase == "post":
         _full, slim = verify_truth_zip_naming(project_py, ver_py)
+
+        from tools.validate_truth_zip import validate_truth_zip
+        validate_truth_zip(_full)
+        validate_truth_zip(slim)
         verify_slim_contents(slim)
 
     ok("Truth verification complete")

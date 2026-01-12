@@ -1,0 +1,34 @@
+# TRUTH - project_template (TRUTH_V8)
+
+LOCKED PRE
+
+* Artifact pipeline filtering must be centralized and deterministic:
+
+  * A single exclude/allow policy (TruthConfig) is the only authority for *all* repo walks:
+
+    * zip packaging (FULL/SLIM)
+    * repo map generation (project_repo_map.json)
+    * ai_index generation (_ai_index)
+    * any verification that enumerates files
+  * Generated/ephemeral roots must never poison scans:
+
+    * Exclude (at minimum): _truth, _truth_backups, _truth_drafts, _ai_index, **pycache**, *.pyc
+* Artifact outputs must still be includable intentionally:
+
+  * Introduce an explicit allowlist for "artifact outputs to include" (e.g., project_repo_map.json and _ai_index.zip) even if their parent folders are excluded
+  * No implicit inclusion of entire artifact folders
+
+LOCKED POST
+
+* confirm-draft rebuilds and includes map/index correctly and safely:
+
+  * On confirm-draft, after TRUTH_VERSION bump:
+
+    * Rebuild project_repo_map.json using the centralized filter policy
+    * Rebuild ai_index using the centralized filter policy
+    * Package FULL+SLIM using the same policy + slim extras
+  * Post-verify asserts:
+
+    * repo map + ai_index exist, are regenerated for the confirmed version, and contain no excluded-root paths
+    * repeated confirm-draft runs do not drift (idempotent outputs given unchanged repo)
+      END
