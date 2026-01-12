@@ -1,6 +1,9 @@
 {
-  "zip_root": "_truth",
   "ai_index_root": "_ai_index",
+  "draft_root": "_truth_drafts",
+  "exclude_common_files": [
+    ".env"
+  ],
   "exclude_common_folders": [
     ".git",
     "__pycache__",
@@ -11,14 +14,7 @@
     ".venv",
     "_truth"
   ],
-  "exclude_common_files": [
-    ".env"
-  ],
-  "slim_exclude_folders": [
-    "_videos",
-    "_images",
-    "_media"
-  ],
+  "forbidden_marker_substrings": [],
   "slim_exclude_ext": [
     ".png",
     ".jpg",
@@ -42,12 +38,11 @@
     ".rar"
   ],
   "slim_exclude_extra_folders": [],
-  "forbidden_marker_substrings": [
-    "<<<TRUNCATED>>>",
-    "<<TRUNCATED>>",
-    "... (truncated)",
-    "# SNIP"
+  "slim_exclude_folders": [
+    "_videos",
+    "_images",
+    "_media"
   ],
   "truth_phases_required": true,
-  "draft_root": "_truth_drafts"
+  "zip_root": "_truth"
 }

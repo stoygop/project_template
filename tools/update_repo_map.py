@@ -4,13 +4,15 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List
+
+from tools.truth_config import Config
+from tools.repo_walk import list_repo_files
+from tools.project_meta import read_project_name
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 OUT_PATH = REPO_ROOT / "project_repo_map.json"
-
-EXCLUDE_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".venv", "venv", "env", ".tox"}
-EXCLUDE_TOP_LEVEL = {"_truth_backups"}  # keep backups out of map
+CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
 
 
 def _sha256_file(path: Path) -> str:
@@ -21,41 +23,25 @@ def _sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def _iter_files() -> List[Path]:
-    files: List[Path] = []
-    for p in REPO_ROOT.rglob("*"):
-        if p.is_dir():
-            continue
-        rel = p.relative_to(REPO_ROOT)
-        parts = rel.parts
-        if parts and parts[0] in EXCLUDE_TOP_LEVEL:
-            continue
-        if any(part in EXCLUDE_DIRS for part in parts):
-            continue
-        # skip obvious large/binary artifacts (but keep .json/.md/.py etc.)
-        if p.suffix.lower() in {".zip", ".png", ".jpg", ".jpeg", ".gif", ".mp4", ".avi"}:
-            continue
-        files.append(p)
-    files.sort(key=lambda x: str(x.relative_to(REPO_ROOT)).lower())
-    return files
+def build_repo_map() -> Dict[str, object]:
+    cfg = Config.load(CONFIG_JSON)
+    project = read_project_name()
+    walk = list_repo_files(cfg, slim=False)
 
-
-def build_repo_map() -> Dict:
-    items = []
-    for p in _iter_files():
-        rel = str(p.relative_to(REPO_ROOT)).replace("\\", "/")
-        items.append(
+    files: List[Dict[str, object]] = []
+    for p in walk.files:
+        rel = p.relative_to(REPO_ROOT).as_posix()
+        files.append(
             {
                 "path": rel,
-                "size": p.stat().st_size,
                 "sha256": _sha256_file(p),
+                "size": p.stat().st_size,
             }
         )
+
     return {
-        "meta": {
-            "project": "project_template",
-        },
-        "files": items,
+        "meta": {"project": project},
+        "files": files,
     }
 
 

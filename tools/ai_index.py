@@ -11,6 +11,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 from tools.truth_config import Config
+from tools.repo_walk import iter_repo_files as _canon_iter_repo_files
 
 # This script generates a NON-AUTHORITATIVE repository index intended for AI + humans.
 # Output goes to <repo>/_ai_index/
@@ -57,93 +58,6 @@ def _precheck_truth_contract() -> None:
 def _norm_rel(p: Path) -> str:
     return str(p).replace("\\", "/")
 
-
-def _should_skip(rel: Path, cfg: Config) -> bool:
-    # skip common folders anywhere in path
-    parts = rel.parts
-    for token in parts[:-1]:
-        if token in cfg.exclude_common_folders:
-            return True
-    if rel.name in cfg.exclude_common_files:
-        return True
-    # always skip truth output + ai index output when *scanning repo* (to avoid recursion)
-    if parts and parts[0] in (cfg.zip_root, cfg.ai_index_root):
-        return True
-    return False
-
-
-def iter_repo_files(cfg: Config) -> Iterable[Path]:
-    for p in REPO_ROOT.rglob("*"):
-        if not p.is_file():
-            continue
-        rel = p.relative_to(REPO_ROOT)
-        if _should_skip(rel, cfg):
-            continue
-        yield p
-
-
-def sha256_file(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
-def build_file_map(cfg: Config) -> Dict[str, Any]:
-    out: Dict[str, Any] = {
-        "generator": GENERATOR_VERSION,
-        "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "repo_root": str(REPO_ROOT),
-        "files": [],
-    }
-
-    for p in iter_repo_files(cfg):
-        rel = p.relative_to(REPO_ROOT)
-        out["files"].append(
-            {
-                "path": _norm_rel(rel),
-                "size": p.stat().st_size,
-                "sha256": sha256_file(p),
-            }
-        )
-
-    # stable ordering
-    out["files"].sort(key=lambda x: x["path"])
-    return out
-
-
-class PyVisitor(ast.NodeVisitor):
-    def __init__(self, module_path: str) -> None:
-        self.module_path = module_path
-        self.imports: List[Dict[str, Any]] = []
-        self.defs: List[Dict[str, Any]] = []
-        self.classes: List[Dict[str, Any]] = []
-        self.functions: List[Dict[str, Any]] = []
-
-        self._class_stack: List[str] = []
-
-    def visit_Import(self, node: ast.Import) -> Any:
-        for a in node.names:
-            self.imports.append(
-                {"kind": "import", "name": a.name, "asname": a.asname, "lineno": getattr(node, "lineno", None)}
-            )
-        self.generic_visit(node)
-
-    def visit_ImportFrom(self, node: ast.ImportFrom) -> Any:
-        mod = node.module or ""
-        for a in node.names:
-            self.imports.append(
-                {
-                    "kind": "from",
-                    "module": mod,
-                    "name": a.name,
-                    "asname": a.asname,
-                    "level": node.level,
-                    "lineno": getattr(node, "lineno", None),
-                }
-            )
-        self.generic_visit(node)
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> Any:
         entry = {
@@ -423,3 +337,15 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+# === CANONICAL ENUMERATOR SHIM (V9 TASK 03) ===
+try:
+    from tools.repo_walk import iter_repo_files as _canon_iter_repo_files  # noqa: F401
+except Exception as _e:
+    _canon_iter_repo_files = None
+
+def iter_repo_files(cfg, *args, **kwargs):
+    if _canon_iter_repo_files is None:
+        raise RuntimeError("canonical repo_walk iter_repo_files unavailable: %r" % (_e,))
+    return _canon_iter_repo_files(cfg, *args, **kwargs)
+# === END SHIM ===

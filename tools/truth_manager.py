@@ -13,6 +13,7 @@ from typing import Iterable, List, Tuple
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from tools.ai_index import build_ai_index
+from tools.truth_config import Config
 from tools.verify_ai_index import main as verify_ai_index_main
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +33,27 @@ def _backup_root_external(project: str) -> Path:
     return base_dir / f"before_confirm_{stamp}"
 TRUTH_MD = REPO_ROOT / "TRUTH.md"
 CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
+
+
+def _write_last_backup_marker(cfg: "TruthConfig", backup_zip: Path) -> None:
+    """Write a small marker so post-phase doctor/verify can validate the latest before_confirm backup.
+
+    Stored at: <zip_root>/_last_before_confirm_backup.json
+    Not included in truth zips because _truth is excluded from enumeration.
+    """
+    try:
+        marker_dir = REPO_ROOT / cfg.zip_root
+        marker_dir.mkdir(parents=True, exist_ok=True)
+        marker = marker_dir / "_last_before_confirm_backup.json"
+        payload = {
+            "backup_zip": str(backup_zip),
+            "written_at_local": datetime.datetime.now().strftime("%Y%m%d_%H%M%S"),
+        }
+        marker.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    except Exception:
+        # marker is best-effort; backup validation already occurred
+        pass
+
 
 # D (phased) format support
 _SEPARATOR = "=" * 50
@@ -372,43 +394,11 @@ def reseed_truth_epoch(force: bool = False) -> None:
 
 
 def iter_repo_files(cfg: TruthConfig) -> Iterable[Path]:
-    for p in REPO_ROOT.rglob("*"):
-        if not p.is_file():
-            continue
-        rel = p.relative_to(REPO_ROOT)
-
-        # Never include .git
-        if ".git" in rel.parts:
-            continue
-
-        # Exclude common
-        if should_exclude_common(rel, cfg):
-            continue
-
-        yield p
-
-
-def make_zip(zip_path: Path, cfg: TruthConfig, slim: bool, project: str) -> None:
-    zip_path.parent.mkdir(parents=True, exist_ok=True)
-
-    tmp_path = zip_path.with_name(f"tmp_{zip_path.stem}{zip_path.suffix}")
-    if tmp_path.exists():
-        tmp_path.unlink()
-    if zip_path.exists():
-        zip_path.unlink()
-
-    with ZipFile(tmp_path, "w", compression=ZIP_DEFLATED) as z:
-        for p in iter_repo_files(cfg):
-            rel = p.relative_to(REPO_ROOT)
-
-            if slim and should_exclude_slim(rel, cfg):
-                continue
-
-            z.write(p, arcname=(f"{project}/" + rel.as_posix()))
-
-    tmp_path.replace(zip_path)
-
-
+    # Back-compat wrapper: authoritative walk is tools.repo_walk
+    cfg_obj = Config.load(CONFIG_JSON)
+    allow_top = {cfg_obj.ai_index_root} if cfg_obj.ai_index_root else set()
+    from tools.repo_walk import iter_repo_files as _iter
+    yield from _iter(cfg_obj, slim=False, allow_top_level=allow_top)
 
 def mint_draft(statement_text: str, overwrite: bool = False) -> Tuple[int, Path]:
     """
@@ -469,6 +459,7 @@ def confirm_draft() -> Tuple[int, Path, Path]:
     from tools.repo_backup import build_repo_backup_zip, validate_repo_backup_zip
     backup_zip = build_repo_backup_zip(project=project, cfg=cfg, dest_dir=backup_root)
     validate_repo_backup_zip(backup_zip)
+    _write_last_backup_marker(cfg, backup_zip)
 
     # Read originals so we can rollback atomically on any failure
     truth_md_before = TRUTH_MD.read_text(encoding="utf-8", errors="replace")
@@ -560,6 +551,7 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     from tools.repo_backup import build_repo_backup_zip, validate_repo_backup_zip
     backup_zip = build_repo_backup_zip(project=project, cfg=cfg, dest_dir=backup_root)
     validate_repo_backup_zip(backup_zip)
+    _write_last_backup_marker(cfg, backup_zip)
 
     # Append truth then bump version (keeps TRUTH.md as primary log)
     append_truth_md_verbatim(project, new_ver, statement_text)

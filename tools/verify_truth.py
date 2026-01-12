@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -9,6 +10,7 @@ from typing import Iterable, List, Tuple
 from zipfile import ZipFile
 
 from tools.verify_ai_index import main as verify_ai_index_main
+from tools.truth_config import Config
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERSION_PY = REPO_ROOT / "app" / "version.py"
@@ -288,21 +290,47 @@ def verify_config_present() -> None:
 
 
 def _iter_text_files() -> Iterable[Path]:
-    # This scans the repo for "text" files that should never contain truncation markers.
-    # Exclude generated/output directories.
-    exclude_roots = {"_truth", "_truth_backups", "_truth_drafts", "_ai_index", "__pycache__", ".git", ".venv", "venv"}
-    for p in REPO_ROOT.rglob("*"):
-        if not p.is_file():
-            continue
-        rel = p.relative_to(REPO_ROOT)
-        if rel.parts and rel.parts[0] in exclude_roots:
-            continue
-        if "_ai_index" in rel.parts:
-            continue
-        if p.suffix.lower() not in TEXT_EXTS:
-            continue
-        yield p
+    # Scan repo "text" files that should never contain truncation markers.
+    # This MUST use the canonical enumerator (repo_walk) so filtering is single-source.
+    cfg = load_config()
 
+    # Keep this conservative: only scan common text-like source files.
+    exclude_roots = {
+        "_truth",
+        "_truth_backups",
+        "_truth_drafts",
+        "_ai_index",
+        "_outputs",
+        "_legacy_root",
+        "__pycache__",
+        ".git",
+        ".venv",
+        "venv",
+    }
+
+    try:
+        from tools.repo_walk import list_repo_files
+        rels = list_repo_files(cfg, slim=False, allow_top_level=set())
+        for rel in rels:
+            rp = Path(rel)
+            if rp.parts and rp.parts[0] in exclude_roots:
+                continue
+            if rp.suffix.lower() not in TEXT_EXTS:
+                continue
+            p = (REPO_ROOT / rp)
+            if p.is_file():
+                yield p
+    except Exception:
+        # Fallback: should be rare, but never crash. Keep same exclusions.
+        for p in REPO_ROOT.rglob("*"):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(REPO_ROOT)
+            if rel.parts and rel.parts[0] in exclude_roots:
+                continue
+            if p.suffix.lower() not in TEXT_EXTS:
+                continue
+            yield p
 
 def verify_no_truncation_lines() -> None:
     # Standalone ellipsis line is the safe, low false-positive detection.
@@ -322,30 +350,50 @@ def verify_no_truncation_lines() -> None:
 
 def verify_forbidden_marker_substrings() -> None:
     cfg = load_config()
-    markers = cfg.get("forbidden_marker_substrings") or []
+    markers = list(getattr(cfg, "forbidden_marker_substrings", []) or [])
+
+    # If config does not specify markers, fall back to a strict, unambiguous default set.
     if not markers:
-        ok("no forbidden marker substrings configured")
-        return
+        markers = [
+            "<<<TRUNCATED>>>",
+            "<<<TRUNCATION>>>",
+            "<<TRUNCATED>>",
+            "[TRUNCATED]",
+            "…TRUNCATED…",
+        ]
 
     offenders = []
     for p in _iter_text_files():
-        # Don't scan the authoritative config file itself; it is expected to
-        # contain the marker strings as configuration values.
+        # Never scan the authoritative config file or this verifier; otherwise the scan
+        # can self-trigger due to policy text.
         if p.resolve() == CONFIG_JSON.resolve():
             continue
+        if p.resolve() == Path(__file__).resolve():
+            continue
         try:
-            text = p.read_text(encoding="utf-8")
+            s = p.read_text(encoding="utf-8")
         except UnicodeDecodeError:
-            text = p.read_text(encoding="utf-8", errors="replace")
-
-        for marker in markers:
-            if marker and marker in text:
+            s = p.read_text(encoding="utf-8", errors="replace")
+        for m in markers:
+            if m and (m in s):
                 rel = p.relative_to(REPO_ROOT)
-                offenders.append(f"{rel} (contains {marker!r})")
-                break
+                # report line if possible
+                try:
+                    for i, line in enumerate(s.splitlines(), start=1):
+                        if m in line:
+                            offenders.append(f"{rel}:{i}:{m}")
+                            break
+                    else:
+                        offenders.append(f"{rel}:{m}")
+                except Exception:
+                    offenders.append(f"{rel}:{m}")
+                if len(offenders) >= 5:
+                    break
+        if len(offenders) >= 5:
+            break
 
     if offenders:
-        fail("forbidden truncation markers found: " + "; ".join(offenders))
+        fail("forbidden truncation marker substrings found (e.g. " + ", ".join(offenders[:5]) + ")")
     ok("no forbidden truncation marker substrings")
 
 
@@ -373,18 +421,17 @@ def _load_truth_config() -> dict:
 
 
 
-def load_config() -> dict:
-    """Backward-compatible config loader for verification helpers."""
-    return _load_truth_config()
+def load_config() -> Config:
+    return Config.load(CONFIG_JSON)
 
 def verify_slim_contents(slim_zip: Path) -> None:
     cfg = _load_truth_config()
 
     # Drive forbidden sets by config only.
-    forbidden_folders = set(cfg.get("exclude_common_folders", []))
-    forbidden_folders |= set(cfg.get("slim_exclude_folders", []))
-    forbidden_folders |= set(cfg.get("slim_exclude_extra_folders", []))
-    forbidden_exts = {str(x).lower() for x in cfg.get("slim_exclude_ext", [])}
+    forbidden_folders = set(getattr(cfg, "exclude_common_folders", []) or [])
+    forbidden_folders |= set(getattr(cfg, "slim_exclude_folders", []) or [])
+    forbidden_folders |= set(getattr(cfg, "slim_exclude_extra_folders", []) or [])
+    forbidden_exts = {str(x).lower() for x in (getattr(cfg, "slim_exclude_ext", []) or [])}
 
     offenders: List[str] = []
     with ZipFile(slim_zip, "r") as z:
@@ -414,6 +461,41 @@ def verify_slim_contents(slim_zip: Path) -> None:
     ok("SLIM zip contents verified against config")
 
 
+
+
+def verify_last_before_confirm_backup_if_present() -> None:
+    """Validate the most recent before_confirm backup zip if a marker exists.
+
+    confirm-draft writes: _truth/_last_before_confirm_backup.json
+    containing { "backup_zip": "<absolute path>", ... }.
+
+    If marker is absent: skip (OK).
+    If marker is present but invalid: FAIL.
+    """
+    marker = REPO_ROOT / "_truth" / "_last_before_confirm_backup.json"
+    if not marker.exists():
+        ok("No recent before_confirm backup marker; skipping backup validation")
+        return
+
+    try:
+        payload = json.loads(marker.read_text(encoding="utf-8"))
+    except Exception as e:
+        fail(f"backup marker is not valid JSON: {marker} ({e})")
+
+    backup_zip = str(payload.get("backup_zip") or "").strip()
+    if not backup_zip:
+        fail(f"backup marker missing 'backup_zip': {marker}")
+
+    zpath = Path(backup_zip)
+    from tools.validate_backup_zip import validate_backup_zip
+    try:
+        validate_backup_zip(zpath)
+    except Exception as e:
+        fail(f"backup zip validation failed: {zpath} ({e})")
+
+    ok(f"before_confirm backup validated: {zpath}")
+
+
 def main(argv: List[str] | None = None) -> int:
     """Verify repo truth invariants.
 
@@ -441,7 +523,7 @@ def main(argv: List[str] | None = None) -> int:
     verify_version_matches_latest(project_py, ver_py, project_md, latest)
     verify_config_present()
     cfg = load_config()
-    phases_required = bool(cfg.get("truth_phases_required", False))
+    phases_required = bool(getattr(cfg, "truth_phases_required", False))
     verify_truth_md_format(phases_required)
     verify_single_project_name_authority()
 
@@ -460,6 +542,8 @@ def main(argv: List[str] | None = None) -> int:
         validate_truth_zip(_full)
         validate_truth_zip(slim)
         verify_slim_contents(slim)
+
+        verify_last_before_confirm_backup_if_present()
 
     ok("Truth verification complete")
     return 0
