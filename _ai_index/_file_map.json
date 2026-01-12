@@ -1,7 +1,7 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 23:17:18",
-  "repo_root": "/mnt/data/work_pt/current",
+  "generated_at": "2026-01-11 19:52:36",
+  "repo_root": "C:\\Users\\stoyg\\Documents\\Programming\\project_template",
   "files": [
     {
       "path": ".gitattributes",
@@ -75,8 +75,8 @@
     },
     {
       "path": "TRUTH.md",
-      "size": 3713,
-      "sha256": "76b6414d249057552ca3e9417dc8b4ea2a575c61c7e89709e19b8acf29b42089"
+      "size": 7017,
+      "sha256": "3b0bf41b9a89c59bcaa4d0a37dee461bcdde72edfed8e745c76367344d527ec7"
     },
     {
       "path": "TRUTH_LEGACY.md",
@@ -94,19 +94,9 @@
       "sha256": "07d06a1515c2d00654e332c428cc29883f1695a889f2aeb3e7dc81259ba25f1f"
     },
     {
-      "path": "_truth_drafts/_draft_input.txt",
-      "size": 1067,
-      "sha256": "5e7b81a3e444dbd78e71b8d5ddeefae7244e757621ee2da05d96d838a71e3921"
-    },
-    {
-      "path": "_truth_drafts/project_template_TRUTH_V4_DRAFT.txt",
-      "size": 992,
-      "sha256": "ea04eb015d4adf576defb2fbddc715dce47c5000a4127eedfdebccd3769e322d"
-    },
-    {
-      "path": "_truth_drafts/project_template_TRUTH_V6_DRAFT.txt",
-      "size": 1067,
-      "sha256": "5e7b81a3e444dbd78e71b8d5ddeefae7244e757621ee2da05d96d838a71e3921"
+      "path": "ai_index.py",
+      "size": 15799,
+      "sha256": "39902d925b758e8580b817dba0c60ca8e50d4c7b9edcb814b48cacc972decbd0"
     },
     {
       "path": "app/__init__.py",
@@ -121,7 +111,22 @@
     {
       "path": "app/version.py",
       "size": 157,
-      "sha256": "35cae0f1d88c439b344b5de23aa92da372e7253dc7ce3340e2bcd21a0d963108"
+      "sha256": "c68b15baad44856b79363393bdb68f9434673dcb57f208d64bc4e4704629fc9a"
+    },
+    {
+      "path": "current_directory.zip",
+      "size": 1448792,
+      "sha256": "af6d9204a7ebbe509226c5291a7cd9cdae478d2fadee8c0e9c01195ec5ae38ac"
+    },
+    {
+      "path": "project_repo_map.json",
+      "size": 8531,
+      "sha256": "6565f94ba17936df913a05be09eadba1db6d8a5aef9349c50dcfea7f770939e8"
+    },
+    {
+      "path": "repo_excludes.py",
+      "size": 1506,
+      "sha256": "ecc4827ab16cb4cadfeb20f0b88124aec3a77ceb56d7567ac87954a2154069e0"
     },
     {
       "path": "tools/__init__.py",
@@ -130,8 +135,8 @@
     },
     {
       "path": "tools/ai_index.py",
-      "size": 15841,
-      "sha256": "d2c454609223bf4d4945c93c751b4226e44999bfe588be009c3fa0b8f1e0ca12"
+      "size": 14092,
+      "sha256": "53ab8c3c1724600e5ca09f2602aa6fff010c9c0b766e0a565f9ab635690679dc"
     },
     {
       "path": "tools/doctor.ps1",
@@ -174,9 +179,24 @@
       "sha256": "e82cd7b1ac96e66bad52c04b6a246060c55bbc5ff91f4d0ef68804316de07ce7"
     },
     {
+      "path": "tools/repo_backup.py",
+      "size": 5190,
+      "sha256": "80099ce44e57dbd825c840795834f5d40f3d05238cf7bd9fa978ca6b978c7a26"
+    },
+    {
+      "path": "tools/stoplight_gui.py",
+      "size": 8277,
+      "sha256": "7d5b8c737767bfe648885410903051e21c957cf1b0ec9a829813d5924e3f4471"
+    },
+    {
       "path": "tools/truth_config.json",
       "size": 819,
       "sha256": "7553bd60397bf7b51975f3b5a9f179da67e5e7c34401309d214dc32870076b94"
+    },
+    {
+      "path": "tools/truth_config.py",
+      "size": 2917,
+      "sha256": "608918e349e1ace34ef2b598a646d142d21564e291f5473a826001aa69dfaf33"
     },
     {
       "path": "tools/truth_gui.py",
@@ -185,13 +205,18 @@
     },
     {
       "path": "tools/truth_manager.py",
-      "size": 23253,
-      "sha256": "231e07daee4347e2c41ba69effee3df7f7f453394794ecfaa1d380ef0716ec14"
+      "size": 25712,
+      "sha256": "37edb738ec64b65b2885b75d627600668a0a586b1b7da93e8ecbaa5786f03835"
     },
     {
       "path": "tools/update_repo_map.py",
       "size": 2361,
       "sha256": "3e8460c142574a0ba89c2f4729a19d5fb3eed64e69e903fe5b9c3a788a99e0a8"
+    },
+    {
+      "path": "tools/validate_truth_zip.py",
+      "size": 1592,
+      "sha256": "2080b0026e05fdcc1f404d02d6ed3e4779f7555f901985f79ab08f0228f725db"
     },
     {
       "path": "tools/verify_ai_index.py",
@@ -200,8 +225,23 @@
     },
     {
       "path": "tools/verify_truth.py",
-      "size": 17557,
-      "sha256": "954dd6922e52cab9504f13dc59228af9678e5b7fdaecb19007ef190575939c8e"
+      "size": 17778,
+      "sha256": "b5abb6f71375102bc1d19a18cba5db61ae7a22644a9de6a205882c2f9ba3fcb3"
+    },
+    {
+      "path": "truth_manager.py",
+      "size": 25223,
+      "sha256": "b5db5ee12d66dfe0111e1416ace72c7483bd6a571981d96ab4646b246ae2aaa2"
+    },
+    {
+      "path": "update_repo_map.py",
+      "size": 2509,
+      "sha256": "19a539f4fceea6ee9d46f98b57ed9264ca920e8f2866ba3f33a0a1acce399c2f"
+    },
+    {
+      "path": "verify_truth.py",
+      "size": 17471,
+      "sha256": "9bab7f4237014a5d4884ac63488598221ddab054b1f6edd6415beda191ab05e2"
     }
   ]
 }

@@ -132,8 +132,8 @@
     },
     {
       "path": "project_repo_map.json",
-      "sha256": "1663918dabe7e391842851afd2707be28671e95d81584506a6ce0eaaeb296e3d",
-      "size": 8060
+      "sha256": "0e9c1be6858f6b8637408d1b116544763fb954a67429444a8435a4ec6150fee3",
+      "size": 8376
     },
     {
       "path": "README.txt",
@@ -152,8 +152,8 @@
     },
     {
       "path": "tools/ai_index.py",
-      "sha256": "c913af3b907f80b1333907a12c7ba8a180a6a9e223c3915ae3461c015e7953a0",
-      "size": 14054
+      "sha256": "53ab8c3c1724600e5ca09f2602aa6fff010c9c0b766e0a565f9ab635690679dc",
+      "size": 14092
     },
     {
       "path": "tools/doctor.ps1",
@@ -211,14 +211,19 @@
       "size": 819
     },
     {
+      "path": "tools/truth_config.py",
+      "sha256": "608918e349e1ace34ef2b598a646d142d21564e291f5473a826001aa69dfaf33",
+      "size": 2917
+    },
+    {
       "path": "tools/truth_gui.py",
       "sha256": "bf1aa1def7960d0270e5945ab91c24259f1a9f9898af89446ff66fb5c97a1181",
       "size": 5007
     },
     {
       "path": "tools/truth_manager.py",
-      "sha256": "8d5e4922b4c827b5f549cea4087f061ff0a78194cadec1ca751cf6bf3d6d1dd7",
-      "size": 25701
+      "sha256": "37edb738ec64b65b2885b75d627600668a0a586b1b7da93e8ecbaa5786f03835",
+      "size": 25712
     },
     {
       "path": "tools/update_repo_map.py",

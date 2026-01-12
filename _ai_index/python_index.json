@@ -1,7 +1,475 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 23:17:19",
+  "generated_at": "2026-01-11 19:52:36",
   "modules": [
+    {
+      "path": "ai_index.py",
+      "module": "ai_index",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "ast",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "hashlib",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "import",
+          "name": "re",
+          "asname": null,
+          "lineno": 6
+        },
+        {
+          "kind": "import",
+          "name": "shutil",
+          "asname": null,
+          "lineno": 7
+        },
+        {
+          "kind": "import",
+          "name": "tempfile",
+          "asname": null,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "dataclass",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "datetime",
+          "name": "datetime",
+          "asname": null,
+          "level": 0,
+          "lineno": 10
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 11
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Any",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Dict",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Iterable",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Optional",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "tools.repo_excludes",
+          "name": "is_excluded_path",
+          "asname": null,
+          "level": 0,
+          "lineno": 14
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 454
+        }
+      ],
+      "classes": [
+        {
+          "name": "Config",
+          "lineno": 81,
+          "end_lineno": 95,
+          "bases": []
+        },
+        {
+          "name": "PyVisitor",
+          "lineno": 160,
+          "end_lineno": 243,
+          "bases": [
+            "ast.NodeVisitor"
+          ]
+        }
+      ],
+      "functions": [
+        {
+          "name": "_write_text_lf",
+          "lineno": 29,
+          "end_lineno": 39,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_precheck_truth_contract",
+          "lineno": 42,
+          "end_lineno": 77,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_norm_rel",
+          "lineno": 98,
+          "end_lineno": 99,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_should_skip",
+          "lineno": 102,
+          "end_lineno": 116,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "iter_repo_files",
+          "lineno": 119,
+          "end_lineno": 126,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "sha256_file",
+          "lineno": 129,
+          "end_lineno": 134,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_file_map",
+          "lineno": 137,
+          "end_lineno": 157,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "module_name_from_path",
+          "lineno": 246,
+          "end_lineno": 254,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "parse_python_file",
+          "lineno": 257,
+          "end_lineno": 271,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_python_index",
+          "lineno": 274,
+          "end_lineno": 328,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_entrypoints",
+          "lineno": 331,
+          "end_lineno": 353,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_index_manifest",
+          "lineno": 356,
+          "end_lineno": 366,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_readme",
+          "lineno": 369,
+          "end_lineno": 381,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_why",
+          "lineno": 384,
+          "end_lineno": 395,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_ai_index",
+          "lineno": 398,
+          "end_lineno": 450,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 453,
+          "end_lineno": 465,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_write_text_lf",
+          "lineno": 29,
+          "end_lineno": 39,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_precheck_truth_contract",
+          "lineno": 42,
+          "end_lineno": 77,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "Config",
+          "lineno": 81,
+          "end_lineno": 95,
+          "bases": []
+        },
+        {
+          "kind": "method",
+          "name": "load",
+          "lineno": 88,
+          "end_lineno": 95,
+          "is_method": true,
+          "class": "Config"
+        },
+        {
+          "kind": "function",
+          "name": "_norm_rel",
+          "lineno": 98,
+          "end_lineno": 99,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_should_skip",
+          "lineno": 102,
+          "end_lineno": 116,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "iter_repo_files",
+          "lineno": 119,
+          "end_lineno": 126,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "sha256_file",
+          "lineno": 129,
+          "end_lineno": 134,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_file_map",
+          "lineno": 137,
+          "end_lineno": 157,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "PyVisitor",
+          "lineno": 160,
+          "end_lineno": 243,
+          "bases": [
+            "ast.NodeVisitor"
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__init__",
+          "lineno": 161,
+          "end_lineno": 168,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_Import",
+          "lineno": 170,
+          "end_lineno": 175,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_ImportFrom",
+          "lineno": 177,
+          "end_lineno": 190,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_FunctionDef",
+          "lineno": 192,
+          "end_lineno": 205,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_AsyncFunctionDef",
+          "lineno": 207,
+          "end_lineno": 221,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "method",
+          "name": "visit_ClassDef",
+          "lineno": 223,
+          "end_lineno": 243,
+          "is_method": true,
+          "class": "PyVisitor"
+        },
+        {
+          "kind": "function",
+          "name": "module_name_from_path",
+          "lineno": 246,
+          "end_lineno": 254,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "parse_python_file",
+          "lineno": 257,
+          "end_lineno": 271,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_python_index",
+          "lineno": 274,
+          "end_lineno": 328,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_entrypoints",
+          "lineno": 331,
+          "end_lineno": 353,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_index_manifest",
+          "lineno": 356,
+          "end_lineno": 366,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_readme",
+          "lineno": 369,
+          "end_lineno": 381,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_why",
+          "lineno": 384,
+          "end_lineno": 395,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_ai_index",
+          "lineno": 398,
+          "end_lineno": 450,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 453,
+          "end_lineno": 465,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
     {
       "path": "app/__init__.py",
       "module": "app",
@@ -67,6 +535,48 @@
       "classes": [],
       "functions": [],
       "defs": []
+    },
+    {
+      "path": "repo_excludes.py",
+      "module": "repo_excludes",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 13
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 15
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "is_excluded_path",
+          "lineno": 38,
+          "end_lineno": 62,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "is_excluded_path",
+          "lineno": 38,
+          "end_lineno": 62,
+          "is_method": false,
+          "class": null
+        }
+      ]
     },
     {
       "path": "tools/__init__.py",
@@ -197,23 +707,25 @@
           "lineno": 12
         },
         {
+          "kind": "from",
+          "module": "tools.truth_config",
+          "name": "Config",
+          "asname": null,
+          "level": 0,
+          "lineno": 13
+        },
+        {
           "kind": "import",
           "name": "argparse",
           "asname": null,
-          "lineno": 457
+          "lineno": 410
         }
       ],
       "classes": [
         {
-          "name": "Config",
-          "lineno": 87,
-          "end_lineno": 101,
-          "bases": []
-        },
-        {
           "name": "PyVisitor",
-          "lineno": 163,
-          "end_lineno": 246,
+          "lineno": 116,
+          "end_lineno": 199,
           "bases": [
             "ast.NodeVisitor"
           ]
@@ -222,113 +734,113 @@
       "functions": [
         {
           "name": "_write_text_lf",
-          "lineno": 27,
-          "end_lineno": 37,
+          "lineno": 28,
+          "end_lineno": 38,
           "is_method": false,
           "class": null
         },
         {
           "name": "_precheck_truth_contract",
-          "lineno": 40,
-          "end_lineno": 83,
+          "lineno": 41,
+          "end_lineno": 56,
           "is_method": false,
           "class": null
         },
         {
           "name": "_norm_rel",
-          "lineno": 104,
-          "end_lineno": 105,
+          "lineno": 57,
+          "end_lineno": 58,
           "is_method": false,
           "class": null
         },
         {
           "name": "_should_skip",
-          "lineno": 108,
-          "end_lineno": 119,
+          "lineno": 61,
+          "end_lineno": 72,
           "is_method": false,
           "class": null
         },
         {
           "name": "iter_repo_files",
-          "lineno": 122,
-          "end_lineno": 129,
+          "lineno": 75,
+          "end_lineno": 82,
           "is_method": false,
           "class": null
         },
         {
           "name": "sha256_file",
-          "lineno": 132,
-          "end_lineno": 137,
+          "lineno": 85,
+          "end_lineno": 90,
           "is_method": false,
           "class": null
         },
         {
           "name": "build_file_map",
-          "lineno": 140,
-          "end_lineno": 160,
+          "lineno": 93,
+          "end_lineno": 113,
           "is_method": false,
           "class": null
         },
         {
           "name": "module_name_from_path",
-          "lineno": 249,
-          "end_lineno": 257,
+          "lineno": 202,
+          "end_lineno": 210,
           "is_method": false,
           "class": null
         },
         {
           "name": "parse_python_file",
-          "lineno": 260,
-          "end_lineno": 274,
+          "lineno": 213,
+          "end_lineno": 227,
           "is_method": false,
           "class": null
         },
         {
           "name": "build_python_index",
-          "lineno": 277,
-          "end_lineno": 331,
+          "lineno": 230,
+          "end_lineno": 284,
           "is_method": false,
           "class": null
         },
         {
           "name": "build_entrypoints",
-          "lineno": 334,
-          "end_lineno": 356,
+          "lineno": 287,
+          "end_lineno": 309,
           "is_method": false,
           "class": null
         },
         {
           "name": "write_index_manifest",
-          "lineno": 359,
-          "end_lineno": 369,
+          "lineno": 312,
+          "end_lineno": 322,
           "is_method": false,
           "class": null
         },
         {
           "name": "write_readme",
-          "lineno": 372,
-          "end_lineno": 384,
+          "lineno": 325,
+          "end_lineno": 337,
           "is_method": false,
           "class": null
         },
         {
           "name": "write_why",
-          "lineno": 387,
-          "end_lineno": 398,
+          "lineno": 340,
+          "end_lineno": 351,
           "is_method": false,
           "class": null
         },
         {
           "name": "build_ai_index",
-          "lineno": 401,
-          "end_lineno": 453,
+          "lineno": 354,
+          "end_lineno": 406,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 456,
-          "end_lineno": 468,
+          "lineno": 409,
+          "end_lineno": 421,
           "is_method": false,
           "class": null
         }
@@ -337,79 +849,64 @@
         {
           "kind": "function",
           "name": "_write_text_lf",
-          "lineno": 27,
-          "end_lineno": 37,
+          "lineno": 28,
+          "end_lineno": 38,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_precheck_truth_contract",
-          "lineno": 40,
-          "end_lineno": 83,
+          "lineno": 41,
+          "end_lineno": 56,
           "is_method": false,
           "class": null
         },
         {
-          "kind": "class",
-          "name": "Config",
-          "lineno": 87,
-          "end_lineno": 101,
-          "bases": []
-        },
-        {
-          "kind": "method",
-          "name": "load",
-          "lineno": 94,
-          "end_lineno": 101,
-          "is_method": true,
-          "class": "Config"
-        },
-        {
           "kind": "function",
           "name": "_norm_rel",
-          "lineno": 104,
-          "end_lineno": 105,
+          "lineno": 57,
+          "end_lineno": 58,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_should_skip",
-          "lineno": 108,
-          "end_lineno": 119,
+          "lineno": 61,
+          "end_lineno": 72,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "iter_repo_files",
-          "lineno": 122,
-          "end_lineno": 129,
+          "lineno": 75,
+          "end_lineno": 82,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "sha256_file",
-          "lineno": 132,
-          "end_lineno": 137,
+          "lineno": 85,
+          "end_lineno": 90,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "build_file_map",
-          "lineno": 140,
-          "end_lineno": 160,
+          "lineno": 93,
+          "end_lineno": 113,
           "is_method": false,
           "class": null
         },
         {
           "kind": "class",
           "name": "PyVisitor",
-          "lineno": 163,
-          "end_lineno": 246,
+          "lineno": 116,
+          "end_lineno": 199,
           "bases": [
             "ast.NodeVisitor"
           ]
@@ -417,120 +914,120 @@
         {
           "kind": "method",
           "name": "__init__",
-          "lineno": 164,
-          "end_lineno": 171,
+          "lineno": 117,
+          "end_lineno": 124,
           "is_method": true,
           "class": "PyVisitor"
         },
         {
           "kind": "method",
           "name": "visit_Import",
-          "lineno": 173,
-          "end_lineno": 178,
+          "lineno": 126,
+          "end_lineno": 131,
           "is_method": true,
           "class": "PyVisitor"
         },
         {
           "kind": "method",
           "name": "visit_ImportFrom",
-          "lineno": 180,
-          "end_lineno": 193,
+          "lineno": 133,
+          "end_lineno": 146,
           "is_method": true,
           "class": "PyVisitor"
         },
         {
           "kind": "method",
           "name": "visit_FunctionDef",
-          "lineno": 195,
-          "end_lineno": 208,
+          "lineno": 148,
+          "end_lineno": 161,
           "is_method": true,
           "class": "PyVisitor"
         },
         {
           "kind": "method",
           "name": "visit_AsyncFunctionDef",
-          "lineno": 210,
-          "end_lineno": 224,
+          "lineno": 163,
+          "end_lineno": 177,
           "is_method": true,
           "class": "PyVisitor"
         },
         {
           "kind": "method",
           "name": "visit_ClassDef",
-          "lineno": 226,
-          "end_lineno": 246,
+          "lineno": 179,
+          "end_lineno": 199,
           "is_method": true,
           "class": "PyVisitor"
         },
         {
           "kind": "function",
           "name": "module_name_from_path",
-          "lineno": 249,
-          "end_lineno": 257,
+          "lineno": 202,
+          "end_lineno": 210,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "parse_python_file",
-          "lineno": 260,
-          "end_lineno": 274,
+          "lineno": 213,
+          "end_lineno": 227,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "build_python_index",
-          "lineno": 277,
-          "end_lineno": 331,
+          "lineno": 230,
+          "end_lineno": 284,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "build_entrypoints",
-          "lineno": 334,
-          "end_lineno": 356,
+          "lineno": 287,
+          "end_lineno": 309,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "write_index_manifest",
-          "lineno": 359,
-          "end_lineno": 369,
+          "lineno": 312,
+          "end_lineno": 322,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "write_readme",
-          "lineno": 372,
-          "end_lineno": 384,
+          "lineno": 325,
+          "end_lineno": 337,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "write_why",
-          "lineno": 387,
-          "end_lineno": 398,
+          "lineno": 340,
+          "end_lineno": 351,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "build_ai_index",
-          "lineno": 401,
-          "end_lineno": 453,
+          "lineno": 354,
+          "end_lineno": 406,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 456,
-          "end_lineno": 468,
+          "lineno": 409,
+          "end_lineno": 421,
           "is_method": false,
           "class": null
         }
@@ -997,6 +1494,515 @@
       ]
     },
     {
+      "path": "tools/repo_backup.py",
+      "module": "tools.repo_backup",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "datetime",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "hashlib",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "import",
+          "name": "os",
+          "asname": null,
+          "lineno": 6
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZipFile",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZIP_DEFLATED",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Dict",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 159
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "_sha256_file",
+          "lineno": 17,
+          "end_lineno": 22,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_load_cfg",
+          "lineno": 25,
+          "end_lineno": 26,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_should_exclude",
+          "lineno": 29,
+          "end_lineno": 53,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_iter_repo_files_for_backup",
+          "lineno": 56,
+          "end_lineno": 66,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_repo_backup_zip",
+          "lineno": 69,
+          "end_lineno": 114,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "validate_repo_backup_zip",
+          "lineno": 117,
+          "end_lineno": 155,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_sha256_file",
+          "lineno": 17,
+          "end_lineno": 22,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_load_cfg",
+          "lineno": 25,
+          "end_lineno": 26,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_should_exclude",
+          "lineno": 29,
+          "end_lineno": 53,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_iter_repo_files_for_backup",
+          "lineno": 56,
+          "end_lineno": 66,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_repo_backup_zip",
+          "lineno": 69,
+          "end_lineno": 114,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "validate_repo_backup_zip",
+          "lineno": 117,
+          "end_lineno": 155,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/stoplight_gui.py",
+      "module": "tools.stoplight_gui",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "subprocess",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 6
+        },
+        {
+          "kind": "import",
+          "name": "tkinter",
+          "asname": "tk",
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "tkinter",
+          "name": "messagebox",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "tkinter",
+          "name": "scrolledtext",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "tkinter",
+          "name": "simpledialog",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        }
+      ],
+      "classes": [
+        {
+          "name": "DraftTextDialog",
+          "lineno": 29,
+          "end_lineno": 37,
+          "bases": [
+            "simpledialog.Dialog"
+          ]
+        },
+        {
+          "name": "StoplightGUI",
+          "lineno": 40,
+          "end_lineno": 211,
+          "bases": [
+            "tk.Tk"
+          ]
+        }
+      ],
+      "functions": [
+        {
+          "name": "_run",
+          "lineno": 15,
+          "end_lineno": 26,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 214,
+          "end_lineno": 217,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_run",
+          "lineno": 15,
+          "end_lineno": 26,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "DraftTextDialog",
+          "lineno": 29,
+          "end_lineno": 37,
+          "bases": [
+            "simpledialog.Dialog"
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "body",
+          "lineno": 30,
+          "end_lineno": 34,
+          "is_method": true,
+          "class": "DraftTextDialog"
+        },
+        {
+          "kind": "method",
+          "name": "apply",
+          "lineno": 36,
+          "end_lineno": 37,
+          "is_method": true,
+          "class": "DraftTextDialog"
+        },
+        {
+          "kind": "class",
+          "name": "StoplightGUI",
+          "lineno": 40,
+          "end_lineno": 211,
+          "bases": [
+            "tk.Tk"
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__init__",
+          "lineno": 41,
+          "end_lineno": 84,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "log_line",
+          "lineno": 86,
+          "end_lineno": 88,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "_status",
+          "lineno": 90,
+          "end_lineno": 97,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "refresh",
+          "lineno": 99,
+          "end_lineno": 126,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "open_draft",
+          "lineno": 128,
+          "end_lineno": 145,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "mint_draft",
+          "lineno": 147,
+          "end_lineno": 165,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "confirm_draft",
+          "lineno": 167,
+          "end_lineno": 178,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "revert_draft",
+          "lineno": 180,
+          "end_lineno": 188,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "run_doctor",
+          "lineno": 190,
+          "end_lineno": 197,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "method",
+          "name": "open_folders",
+          "lineno": 199,
+          "end_lineno": 211,
+          "is_method": true,
+          "class": "StoplightGUI"
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 214,
+          "end_lineno": 217,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/truth_config.py",
+      "module": "tools.truth_config",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "dataclass",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "field",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 5
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 6
+        }
+      ],
+      "classes": [
+        {
+          "name": "Config",
+          "lineno": 10,
+          "end_lineno": 78,
+          "bases": []
+        }
+      ],
+      "functions": [],
+      "defs": [
+        {
+          "kind": "class",
+          "name": "Config",
+          "lineno": 10,
+          "end_lineno": 78,
+          "bases": []
+        },
+        {
+          "kind": "method",
+          "name": "load",
+          "lineno": 50,
+          "end_lineno": 78,
+          "is_method": true,
+          "class": "Config"
+        },
+        {
+          "kind": "method",
+          "name": "_get_list",
+          "lineno": 53,
+          "end_lineno": 59,
+          "is_method": true,
+          "class": "Config"
+        }
+      ]
+    },
+    {
       "path": "tools/truth_gui.py",
       "module": "tools.truth_gui",
       "imports": [
@@ -1225,6 +2231,1353 @@
         },
         {
           "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "os",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 6
+        },
+        {
+          "kind": "import",
+          "name": "shutil",
+          "asname": null,
+          "lineno": 7
+        },
+        {
+          "kind": "import",
+          "name": "datetime",
+          "asname": null,
+          "lineno": 8
+        },
+        {
+          "kind": "import",
+          "name": "re",
+          "asname": null,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "dataclass",
+          "asname": null,
+          "level": 0,
+          "lineno": 10
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 11
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Iterable",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZIP_DEFLATED",
+          "asname": null,
+          "level": 0,
+          "lineno": 13
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZipFile",
+          "asname": null,
+          "level": 0,
+          "lineno": 13
+        },
+        {
+          "kind": "from",
+          "module": "tools.ai_index",
+          "name": "build_ai_index",
+          "asname": null,
+          "level": 0,
+          "lineno": 15
+        },
+        {
+          "kind": "from",
+          "module": "tools.verify_ai_index",
+          "name": "main",
+          "asname": "verify_ai_index_main",
+          "level": 0,
+          "lineno": 16
+        },
+        {
+          "kind": "from",
+          "module": "tools",
+          "name": "verify_truth",
+          "asname": null,
+          "level": 0,
+          "lineno": 370
+        },
+        {
+          "kind": "from",
+          "module": "tools",
+          "name": "verify_truth",
+          "asname": null,
+          "level": 0,
+          "lineno": 419
+        },
+        {
+          "kind": "from",
+          "module": "tools",
+          "name": "verify_truth",
+          "asname": null,
+          "level": 0,
+          "lineno": 444
+        },
+        {
+          "kind": "from",
+          "module": "tools.repo_backup",
+          "name": "build_repo_backup_zip",
+          "asname": null,
+          "level": 0,
+          "lineno": 469
+        },
+        {
+          "kind": "from",
+          "module": "tools.repo_backup",
+          "name": "validate_repo_backup_zip",
+          "asname": null,
+          "level": 0,
+          "lineno": 469
+        },
+        {
+          "kind": "from",
+          "module": "tools.update_repo_map",
+          "name": "main",
+          "asname": "update_repo_map_main",
+          "level": 0,
+          "lineno": 487
+        },
+        {
+          "kind": "from",
+          "module": "tools.validate_truth_zip",
+          "name": "validate_truth_zip",
+          "asname": null,
+          "level": 0,
+          "lineno": 498
+        },
+        {
+          "kind": "from",
+          "module": "tools",
+          "name": "verify_truth",
+          "asname": null,
+          "level": 0,
+          "lineno": 544
+        },
+        {
+          "kind": "from",
+          "module": "tools.repo_backup",
+          "name": "build_repo_backup_zip",
+          "asname": null,
+          "level": 0,
+          "lineno": 560
+        },
+        {
+          "kind": "from",
+          "module": "tools.repo_backup",
+          "name": "validate_repo_backup_zip",
+          "asname": null,
+          "level": 0,
+          "lineno": 560
+        },
+        {
+          "kind": "from",
+          "module": "tools.update_repo_map",
+          "name": "main",
+          "asname": "update_repo_map_main",
+          "level": 0,
+          "lineno": 570
+        }
+      ],
+      "classes": [
+        {
+          "name": "TruthConfig",
+          "lineno": 63,
+          "end_lineno": 87,
+          "bases": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "_backup_root_external",
+          "lineno": 20,
+          "end_lineno": 32,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_normalize_truth_candidate",
+          "lineno": 49,
+          "end_lineno": 60,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_write_truth_config_truth_phases_required",
+          "lineno": 90,
+          "end_lineno": 93,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_norm_newlines",
+          "lineno": 96,
+          "end_lineno": 97,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_strip_bom",
+          "lineno": 100,
+          "end_lineno": 103,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "read_project_and_truth_version",
+          "lineno": 106,
+          "end_lineno": 118,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "read_truth_md_latest",
+          "lineno": 121,
+          "end_lineno": 141,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "set_truth_type_tag",
+          "lineno": 144,
+          "end_lineno": 168,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_truth_version",
+          "lineno": 171,
+          "end_lineno": 176,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "append_truth_md_verbatim",
+          "lineno": 179,
+          "end_lineno": 254,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "get_draft_dir",
+          "lineno": 257,
+          "end_lineno": 258,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "get_draft_path",
+          "lineno": 261,
+          "end_lineno": 262,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "find_pending_draft",
+          "lineno": 265,
+          "end_lineno": 277,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_draft",
+          "lineno": 280,
+          "end_lineno": 287,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "delete_draft",
+          "lineno": 290,
+          "end_lineno": 292,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "should_exclude_common",
+          "lineno": 294,
+          "end_lineno": 306,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "should_exclude_slim",
+          "lineno": 309,
+          "end_lineno": 318,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_d_epoch_truth_v1",
+          "lineno": 321,
+          "end_lineno": 343,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "reseed_truth_epoch",
+          "lineno": 346,
+          "end_lineno": 371,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "iter_repo_files",
+          "lineno": 374,
+          "end_lineno": 388,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "make_zip",
+          "lineno": 391,
+          "end_lineno": 409,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "mint_draft",
+          "lineno": 413,
+          "end_lineno": 429,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "confirm_draft",
+          "lineno": 432,
+          "end_lineno": 530,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "mint_truth",
+          "lineno": 532,
+          "end_lineno": 589,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 592,
+          "end_lineno": 686,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_backup_root_external",
+          "lineno": 20,
+          "end_lineno": 32,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_normalize_truth_candidate",
+          "lineno": 49,
+          "end_lineno": 60,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "TruthConfig",
+          "lineno": 63,
+          "end_lineno": 87,
+          "bases": []
+        },
+        {
+          "kind": "method",
+          "name": "load",
+          "lineno": 75,
+          "end_lineno": 87,
+          "is_method": true,
+          "class": "TruthConfig"
+        },
+        {
+          "kind": "function",
+          "name": "_write_truth_config_truth_phases_required",
+          "lineno": 90,
+          "end_lineno": 93,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_norm_newlines",
+          "lineno": 96,
+          "end_lineno": 97,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_strip_bom",
+          "lineno": 100,
+          "end_lineno": 103,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "read_project_and_truth_version",
+          "lineno": 106,
+          "end_lineno": 118,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "read_truth_md_latest",
+          "lineno": 121,
+          "end_lineno": 141,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "set_truth_type_tag",
+          "lineno": 144,
+          "end_lineno": 168,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_truth_version",
+          "lineno": 171,
+          "end_lineno": 176,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "append_truth_md_verbatim",
+          "lineno": 179,
+          "end_lineno": 254,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "get_draft_dir",
+          "lineno": 257,
+          "end_lineno": 258,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "get_draft_path",
+          "lineno": 261,
+          "end_lineno": 262,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "find_pending_draft",
+          "lineno": 265,
+          "end_lineno": 277,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_draft",
+          "lineno": 280,
+          "end_lineno": 287,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "delete_draft",
+          "lineno": 290,
+          "end_lineno": 292,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "should_exclude_common",
+          "lineno": 294,
+          "end_lineno": 306,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "should_exclude_slim",
+          "lineno": 309,
+          "end_lineno": 318,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_d_epoch_truth_v1",
+          "lineno": 321,
+          "end_lineno": 343,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "reseed_truth_epoch",
+          "lineno": 346,
+          "end_lineno": 371,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "iter_repo_files",
+          "lineno": 374,
+          "end_lineno": 388,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "make_zip",
+          "lineno": 391,
+          "end_lineno": 409,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "mint_draft",
+          "lineno": 413,
+          "end_lineno": 429,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "confirm_draft",
+          "lineno": 432,
+          "end_lineno": 530,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "mint_truth",
+          "lineno": 532,
+          "end_lineno": 589,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 592,
+          "end_lineno": 686,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/update_repo_map.py",
+      "module": "tools.update_repo_map",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "hashlib",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 6
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Dict",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "_sha256_file",
+          "lineno": 16,
+          "end_lineno": 21,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_iter_files",
+          "lineno": 24,
+          "end_lineno": 40,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "build_repo_map",
+          "lineno": 43,
+          "end_lineno": 59,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "write_atomic",
+          "lineno": 62,
+          "end_lineno": 65,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 68,
+          "end_lineno": 77,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "_sha256_file",
+          "lineno": 16,
+          "end_lineno": 21,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_iter_files",
+          "lineno": 24,
+          "end_lineno": 40,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "build_repo_map",
+          "lineno": 43,
+          "end_lineno": 59,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "write_atomic",
+          "lineno": 62,
+          "end_lineno": 65,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 68,
+          "end_lineno": 77,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/validate_truth_zip.py",
+      "module": "tools.validate_truth_zip",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 3
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZipFile",
+          "asname": null,
+          "level": 0,
+          "lineno": 4
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "validate_truth_zip",
+          "lineno": 7,
+          "end_lineno": 42,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "validate_truth_zip",
+          "lineno": 7,
+          "end_lineno": 42,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/verify_ai_index.py",
+      "module": "tools.verify_ai_index",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "hashlib",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 5
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "sha256_file",
+          "lineno": 10,
+          "end_lineno": 15,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_manifest",
+          "lineno": 18,
+          "end_lineno": 48,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 51,
+          "end_lineno": 69,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "sha256_file",
+          "lineno": 10,
+          "end_lineno": 15,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_manifest",
+          "lineno": 18,
+          "end_lineno": 48,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 51,
+          "end_lineno": 69,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "tools/verify_truth.py",
+      "module": "tools.verify_truth",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
+          "name": "re",
+          "asname": null,
+          "lineno": 4
+        },
+        {
+          "kind": "import",
+          "name": "sys",
+          "asname": null,
+          "lineno": 5
+        },
+        {
+          "kind": "from",
+          "module": "dataclasses",
+          "name": "dataclass",
+          "asname": null,
+          "level": 0,
+          "lineno": 6
+        },
+        {
+          "kind": "from",
+          "module": "pathlib",
+          "name": "Path",
+          "asname": null,
+          "level": 0,
+          "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Iterable",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "List",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "typing",
+          "name": "Tuple",
+          "asname": null,
+          "level": 0,
+          "lineno": 8
+        },
+        {
+          "kind": "from",
+          "module": "zipfile",
+          "name": "ZipFile",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
+        },
+        {
+          "kind": "from",
+          "module": "tools.verify_ai_index",
+          "name": "main",
+          "asname": "verify_ai_index_main",
+          "level": 0,
+          "lineno": 11
+        },
+        {
+          "kind": "import",
+          "name": "json",
+          "asname": null,
+          "lineno": 370
+        },
+        {
+          "kind": "from",
+          "module": "tools.validate_truth_zip",
+          "name": "validate_truth_zip",
+          "asname": null,
+          "level": 0,
+          "lineno": 459
+        }
+      ],
+      "classes": [
+        {
+          "name": "TruthEntry",
+          "lineno": 137,
+          "end_lineno": 140,
+          "bases": []
+        }
+      ],
+      "functions": [
+        {
+          "name": "fail",
+          "lineno": 33,
+          "end_lineno": 35,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "ok",
+          "lineno": 38,
+          "end_lineno": 39,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "find_truth_version_assignments",
+          "lineno": 42,
+          "end_lineno": 54,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "find_project_name_assignments",
+          "lineno": 55,
+          "end_lineno": 72,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_single_project_name_authority",
+          "lineno": 73,
+          "end_lineno": 88,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_single_truth_version_authority",
+          "lineno": 91,
+          "end_lineno": 100,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_main_imports_version",
+          "lineno": 103,
+          "end_lineno": 115,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "read_version_py",
+          "lineno": 118,
+          "end_lineno": 133,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "parse_truth_md",
+          "lineno": 147,
+          "end_lineno": 167,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_iter_truth_entry_blocks",
+          "lineno": 173,
+          "end_lineno": 180,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_truth_md_format",
+          "lineno": 183,
+          "end_lineno": 256,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_truth_sequence",
+          "lineno": 258,
+          "end_lineno": 267,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_version_matches_latest",
+          "lineno": 270,
+          "end_lineno": 275,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_config_present",
+          "lineno": 278,
+          "end_lineno": 287,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_iter_text_files",
+          "lineno": 290,
+          "end_lineno": 304,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_no_truncation_lines",
+          "lineno": 307,
+          "end_lineno": 319,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_forbidden_marker_substrings",
+          "lineno": 323,
+          "end_lineno": 349,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_truth_zip_naming",
+          "lineno": 352,
+          "end_lineno": 366,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_load_truth_config",
+          "lineno": 369,
+          "end_lineno": 372,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "load_config",
+          "lineno": 376,
+          "end_lineno": 378,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "verify_slim_contents",
+          "lineno": 380,
+          "end_lineno": 414,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "main",
+          "lineno": 417,
+          "end_lineno": 465,
+          "is_method": false,
+          "class": null
+        }
+      ],
+      "defs": [
+        {
+          "kind": "function",
+          "name": "fail",
+          "lineno": 33,
+          "end_lineno": 35,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "ok",
+          "lineno": 38,
+          "end_lineno": 39,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "find_truth_version_assignments",
+          "lineno": 42,
+          "end_lineno": 54,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "find_project_name_assignments",
+          "lineno": 55,
+          "end_lineno": 72,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_single_project_name_authority",
+          "lineno": 73,
+          "end_lineno": 88,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_single_truth_version_authority",
+          "lineno": 91,
+          "end_lineno": 100,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_main_imports_version",
+          "lineno": 103,
+          "end_lineno": 115,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "read_version_py",
+          "lineno": 118,
+          "end_lineno": 133,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "class",
+          "name": "TruthEntry",
+          "lineno": 137,
+          "end_lineno": 140,
+          "bases": []
+        },
+        {
+          "kind": "function",
+          "name": "parse_truth_md",
+          "lineno": 147,
+          "end_lineno": 167,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_iter_truth_entry_blocks",
+          "lineno": 173,
+          "end_lineno": 180,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_truth_md_format",
+          "lineno": 183,
+          "end_lineno": 256,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_truth_sequence",
+          "lineno": 258,
+          "end_lineno": 267,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_version_matches_latest",
+          "lineno": 270,
+          "end_lineno": 275,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_config_present",
+          "lineno": 278,
+          "end_lineno": 287,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_iter_text_files",
+          "lineno": 290,
+          "end_lineno": 304,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_no_truncation_lines",
+          "lineno": 307,
+          "end_lineno": 319,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_forbidden_marker_substrings",
+          "lineno": 323,
+          "end_lineno": 349,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_truth_zip_naming",
+          "lineno": 352,
+          "end_lineno": 366,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_load_truth_config",
+          "lineno": 369,
+          "end_lineno": 372,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "load_config",
+          "lineno": 376,
+          "end_lineno": 378,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "verify_slim_contents",
+          "lineno": 380,
+          "end_lineno": 414,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "main",
+          "lineno": 417,
+          "end_lineno": 465,
+          "is_method": false,
+          "class": null
+        }
+      ]
+    },
+    {
+      "path": "truth_manager.py",
+      "module": "truth_manager",
+      "imports": [
+        {
+          "kind": "from",
+          "module": "__future__",
+          "name": "annotations",
+          "asname": null,
+          "level": 0,
+          "lineno": 1
+        },
+        {
+          "kind": "import",
+          "name": "argparse",
+          "asname": null,
+          "lineno": 3
+        },
+        {
+          "kind": "import",
           "name": "json",
           "asname": null,
           "lineno": 4
@@ -1349,7 +3702,7 @@
           "name": "main",
           "asname": "update_repo_map_main",
           "level": 0,
-          "lineno": 458
+          "lineno": 468
         },
         {
           "kind": "from",
@@ -1357,7 +3710,7 @@
           "name": "verify_truth",
           "asname": null,
           "level": 0,
-          "lineno": 494
+          "lineno": 515
         },
         {
           "kind": "from",
@@ -1365,7 +3718,7 @@
           "name": "main",
           "asname": "update_repo_map_main",
           "level": 0,
-          "lineno": 514
+          "lineno": 545
         }
       ],
       "classes": [
@@ -1527,21 +3880,21 @@
         {
           "name": "confirm_draft",
           "lineno": 417,
-          "end_lineno": 480,
+          "end_lineno": 501,
           "is_method": false,
           "class": null
         },
         {
           "name": "mint_truth",
-          "lineno": 482,
-          "end_lineno": 533,
+          "lineno": 503,
+          "end_lineno": 573,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 536,
-          "end_lineno": 630,
+          "lineno": 576,
+          "end_lineno": 670,
           "is_method": false,
           "class": null
         }
@@ -1734,31 +4087,31 @@
           "kind": "function",
           "name": "confirm_draft",
           "lineno": 417,
-          "end_lineno": 480,
+          "end_lineno": 501,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "mint_truth",
-          "lineno": 482,
-          "end_lineno": 533,
+          "lineno": 503,
+          "end_lineno": 573,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 536,
-          "end_lineno": 630,
+          "lineno": 576,
+          "end_lineno": 670,
           "is_method": false,
           "class": null
         }
       ]
     },
     {
-      "path": "tools/update_repo_map.py",
-      "module": "tools.update_repo_map",
+      "path": "update_repo_map.py",
+      "module": "update_repo_map",
       "imports": [
         {
           "kind": "from",
@@ -1817,42 +4170,50 @@
           "asname": null,
           "level": 0,
           "lineno": 7
+        },
+        {
+          "kind": "from",
+          "module": "tools.repo_excludes",
+          "name": "is_excluded_path",
+          "asname": null,
+          "level": 0,
+          "lineno": 9
         }
       ],
       "classes": [],
       "functions": [
         {
           "name": "_sha256_file",
-          "lineno": 16,
-          "end_lineno": 21,
+          "lineno": 18,
+          "end_lineno": 23,
           "is_method": false,
           "class": null
         },
         {
           "name": "_iter_files",
-          "lineno": 24,
-          "end_lineno": 40,
+          "lineno": 26,
+          "end_lineno": 44,
           "is_method": false,
           "class": null
         },
         {
           "name": "build_repo_map",
-          "lineno": 43,
-          "end_lineno": 59,
+          "lineno": 47,
+          "end_lineno": 63,
           "is_method": false,
           "class": null
         },
         {
           "name": "write_atomic",
-          "lineno": 62,
-          "end_lineno": 65,
+          "lineno": 66,
+          "end_lineno": 69,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 68,
-          "end_lineno": 77,
+          "lineno": 72,
+          "end_lineno": 81,
           "is_method": false,
           "class": null
         }
@@ -1861,132 +4222,48 @@
         {
           "kind": "function",
           "name": "_sha256_file",
-          "lineno": 16,
-          "end_lineno": 21,
+          "lineno": 18,
+          "end_lineno": 23,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_iter_files",
-          "lineno": 24,
-          "end_lineno": 40,
+          "lineno": 26,
+          "end_lineno": 44,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "build_repo_map",
-          "lineno": 43,
-          "end_lineno": 59,
+          "lineno": 47,
+          "end_lineno": 63,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "write_atomic",
-          "lineno": 62,
-          "end_lineno": 65,
+          "lineno": 66,
+          "end_lineno": 69,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 68,
-          "end_lineno": 77,
+          "lineno": 72,
+          "end_lineno": 81,
           "is_method": false,
           "class": null
         }
       ]
     },
     {
-      "path": "tools/verify_ai_index.py",
-      "module": "tools.verify_ai_index",
-      "imports": [
-        {
-          "kind": "from",
-          "module": "__future__",
-          "name": "annotations",
-          "asname": null,
-          "level": 0,
-          "lineno": 1
-        },
-        {
-          "kind": "import",
-          "name": "sys",
-          "asname": null,
-          "lineno": 3
-        },
-        {
-          "kind": "import",
-          "name": "hashlib",
-          "asname": null,
-          "lineno": 4
-        },
-        {
-          "kind": "from",
-          "module": "pathlib",
-          "name": "Path",
-          "asname": null,
-          "level": 0,
-          "lineno": 5
-        }
-      ],
-      "classes": [],
-      "functions": [
-        {
-          "name": "sha256_file",
-          "lineno": 10,
-          "end_lineno": 15,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "name": "verify_manifest",
-          "lineno": 18,
-          "end_lineno": 48,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "name": "main",
-          "lineno": 51,
-          "end_lineno": 69,
-          "is_method": false,
-          "class": null
-        }
-      ],
-      "defs": [
-        {
-          "kind": "function",
-          "name": "sha256_file",
-          "lineno": 10,
-          "end_lineno": 15,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "kind": "function",
-          "name": "verify_manifest",
-          "lineno": 18,
-          "end_lineno": 48,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "kind": "function",
-          "name": "main",
-          "lineno": 51,
-          "end_lineno": 69,
-          "is_method": false,
-          "class": null
-        }
-      ]
-    },
-    {
-      "path": "tools/verify_truth.py",
-      "module": "tools.verify_truth",
+      "path": "verify_truth.py",
+      "module": "verify_truth",
       "imports": [
         {
           "kind": "from",
@@ -2071,172 +4348,180 @@
           "lineno": 11
         },
         {
+          "kind": "from",
+          "module": "tools.repo_excludes",
+          "name": "is_excluded_path",
+          "asname": null,
+          "level": 0,
+          "lineno": 12
+        },
+        {
           "kind": "import",
           "name": "json",
           "asname": null,
-          "lineno": 370
+          "lineno": 367
         }
       ],
       "classes": [
         {
           "name": "TruthEntry",
-          "lineno": 137,
-          "end_lineno": 140,
+          "lineno": 138,
+          "end_lineno": 141,
           "bases": []
         }
       ],
       "functions": [
         {
           "name": "fail",
-          "lineno": 33,
-          "end_lineno": 35,
+          "lineno": 34,
+          "end_lineno": 36,
           "is_method": false,
           "class": null
         },
         {
           "name": "ok",
-          "lineno": 38,
-          "end_lineno": 39,
+          "lineno": 39,
+          "end_lineno": 40,
           "is_method": false,
           "class": null
         },
         {
           "name": "find_truth_version_assignments",
-          "lineno": 42,
-          "end_lineno": 52,
+          "lineno": 43,
+          "end_lineno": 53,
           "is_method": false,
           "class": null
         },
         {
           "name": "find_project_name_assignments",
-          "lineno": 56,
-          "end_lineno": 70,
+          "lineno": 57,
+          "end_lineno": 71,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_single_project_name_authority",
-          "lineno": 73,
-          "end_lineno": 88,
+          "lineno": 74,
+          "end_lineno": 89,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_single_truth_version_authority",
-          "lineno": 91,
-          "end_lineno": 100,
+          "lineno": 92,
+          "end_lineno": 101,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_main_imports_version",
-          "lineno": 103,
-          "end_lineno": 115,
+          "lineno": 104,
+          "end_lineno": 116,
           "is_method": false,
           "class": null
         },
         {
           "name": "read_version_py",
-          "lineno": 118,
-          "end_lineno": 133,
+          "lineno": 119,
+          "end_lineno": 134,
           "is_method": false,
           "class": null
         },
         {
           "name": "parse_truth_md",
-          "lineno": 147,
-          "end_lineno": 167,
+          "lineno": 148,
+          "end_lineno": 168,
           "is_method": false,
           "class": null
         },
         {
           "name": "_iter_truth_entry_blocks",
-          "lineno": 173,
-          "end_lineno": 180,
+          "lineno": 174,
+          "end_lineno": 181,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_truth_md_format",
-          "lineno": 183,
-          "end_lineno": 256,
+          "lineno": 184,
+          "end_lineno": 257,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_truth_sequence",
-          "lineno": 258,
-          "end_lineno": 267,
+          "lineno": 259,
+          "end_lineno": 268,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_version_matches_latest",
-          "lineno": 270,
-          "end_lineno": 275,
+          "lineno": 271,
+          "end_lineno": 276,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_config_present",
-          "lineno": 278,
-          "end_lineno": 287,
+          "lineno": 279,
+          "end_lineno": 288,
           "is_method": false,
           "class": null
         },
         {
           "name": "_iter_text_files",
-          "lineno": 290,
-          "end_lineno": 304,
+          "lineno": 291,
+          "end_lineno": 301,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_no_truncation_lines",
-          "lineno": 307,
-          "end_lineno": 319,
+          "lineno": 304,
+          "end_lineno": 316,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_forbidden_marker_substrings",
-          "lineno": 323,
-          "end_lineno": 349,
+          "lineno": 320,
+          "end_lineno": 346,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_truth_zip_naming",
-          "lineno": 352,
-          "end_lineno": 366,
+          "lineno": 349,
+          "end_lineno": 363,
           "is_method": false,
           "class": null
         },
         {
           "name": "_load_truth_config",
-          "lineno": 369,
-          "end_lineno": 372,
+          "lineno": 366,
+          "end_lineno": 369,
           "is_method": false,
           "class": null
         },
         {
           "name": "load_config",
-          "lineno": 376,
-          "end_lineno": 378,
+          "lineno": 373,
+          "end_lineno": 375,
           "is_method": false,
           "class": null
         },
         {
           "name": "verify_slim_contents",
-          "lineno": 380,
-          "end_lineno": 414,
+          "lineno": 377,
+          "end_lineno": 411,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 417,
-          "end_lineno": 461,
+          "lineno": 414,
+          "end_lineno": 458,
           "is_method": false,
           "class": null
         }
@@ -2245,183 +4530,183 @@
         {
           "kind": "function",
           "name": "fail",
-          "lineno": 33,
-          "end_lineno": 35,
+          "lineno": 34,
+          "end_lineno": 36,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "ok",
-          "lineno": 38,
-          "end_lineno": 39,
+          "lineno": 39,
+          "end_lineno": 40,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "find_truth_version_assignments",
-          "lineno": 42,
-          "end_lineno": 52,
+          "lineno": 43,
+          "end_lineno": 53,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "find_project_name_assignments",
-          "lineno": 56,
-          "end_lineno": 70,
+          "lineno": 57,
+          "end_lineno": 71,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_single_project_name_authority",
-          "lineno": 73,
-          "end_lineno": 88,
+          "lineno": 74,
+          "end_lineno": 89,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_single_truth_version_authority",
-          "lineno": 91,
-          "end_lineno": 100,
+          "lineno": 92,
+          "end_lineno": 101,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_main_imports_version",
-          "lineno": 103,
-          "end_lineno": 115,
+          "lineno": 104,
+          "end_lineno": 116,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "read_version_py",
-          "lineno": 118,
-          "end_lineno": 133,
+          "lineno": 119,
+          "end_lineno": 134,
           "is_method": false,
           "class": null
         },
         {
           "kind": "class",
           "name": "TruthEntry",
-          "lineno": 137,
-          "end_lineno": 140,
+          "lineno": 138,
+          "end_lineno": 141,
           "bases": []
         },
         {
           "kind": "function",
           "name": "parse_truth_md",
-          "lineno": 147,
-          "end_lineno": 167,
+          "lineno": 148,
+          "end_lineno": 168,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_iter_truth_entry_blocks",
-          "lineno": 173,
-          "end_lineno": 180,
+          "lineno": 174,
+          "end_lineno": 181,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_truth_md_format",
-          "lineno": 183,
-          "end_lineno": 256,
+          "lineno": 184,
+          "end_lineno": 257,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_truth_sequence",
-          "lineno": 258,
-          "end_lineno": 267,
+          "lineno": 259,
+          "end_lineno": 268,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_version_matches_latest",
-          "lineno": 270,
-          "end_lineno": 275,
+          "lineno": 271,
+          "end_lineno": 276,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_config_present",
-          "lineno": 278,
-          "end_lineno": 287,
+          "lineno": 279,
+          "end_lineno": 288,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_iter_text_files",
-          "lineno": 290,
-          "end_lineno": 304,
+          "lineno": 291,
+          "end_lineno": 301,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_no_truncation_lines",
-          "lineno": 307,
-          "end_lineno": 319,
+          "lineno": 304,
+          "end_lineno": 316,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_forbidden_marker_substrings",
-          "lineno": 323,
-          "end_lineno": 349,
+          "lineno": 320,
+          "end_lineno": 346,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_truth_zip_naming",
-          "lineno": 352,
-          "end_lineno": 366,
+          "lineno": 349,
+          "end_lineno": 363,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_load_truth_config",
-          "lineno": 369,
-          "end_lineno": 372,
+          "lineno": 366,
+          "end_lineno": 369,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "load_config",
-          "lineno": 376,
-          "end_lineno": 378,
+          "lineno": 373,
+          "end_lineno": 375,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "verify_slim_contents",
-          "lineno": 380,
-          "end_lineno": 414,
+          "lineno": 377,
+          "end_lineno": 411,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 417,
-          "end_lineno": 461,
+          "lineno": 414,
+          "end_lineno": 458,
           "is_method": false,
           "class": null
         }
@@ -2431,12 +4716,72 @@
   "code_graph": {
     "edges": [
       {
+        "from": "ai_index",
+        "to": "__future__"
+      },
+      {
+        "from": "ai_index",
+        "to": "argparse"
+      },
+      {
+        "from": "ai_index",
+        "to": "ast"
+      },
+      {
+        "from": "ai_index",
+        "to": "dataclasses"
+      },
+      {
+        "from": "ai_index",
+        "to": "datetime"
+      },
+      {
+        "from": "ai_index",
+        "to": "hashlib"
+      },
+      {
+        "from": "ai_index",
+        "to": "json"
+      },
+      {
+        "from": "ai_index",
+        "to": "pathlib"
+      },
+      {
+        "from": "ai_index",
+        "to": "re"
+      },
+      {
+        "from": "ai_index",
+        "to": "shutil"
+      },
+      {
+        "from": "ai_index",
+        "to": "tempfile"
+      },
+      {
+        "from": "ai_index",
+        "to": "tools.repo_excludes"
+      },
+      {
+        "from": "ai_index",
+        "to": "typing"
+      },
+      {
         "from": "app.main",
         "to": "__future__"
       },
       {
         "from": "app.main",
         "to": "app.version"
+      },
+      {
+        "from": "repo_excludes",
+        "to": "__future__"
+      },
+      {
+        "from": "repo_excludes",
+        "to": "pathlib"
       },
       {
         "from": "tools.ai_index",
@@ -2481,6 +4826,10 @@
       {
         "from": "tools.ai_index",
         "to": "tempfile"
+      },
+      {
+        "from": "tools.ai_index",
+        "to": "tools.truth_config"
       },
       {
         "from": "tools.ai_index",
@@ -2555,6 +4904,86 @@
         "to": "re"
       },
       {
+        "from": "tools.repo_backup",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "argparse"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "datetime"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "hashlib"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "json"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "os"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "typing"
+      },
+      {
+        "from": "tools.repo_backup",
+        "to": "zipfile"
+      },
+      {
+        "from": "tools.stoplight_gui",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.stoplight_gui",
+        "to": "json"
+      },
+      {
+        "from": "tools.stoplight_gui",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.stoplight_gui",
+        "to": "subprocess"
+      },
+      {
+        "from": "tools.stoplight_gui",
+        "to": "sys"
+      },
+      {
+        "from": "tools.stoplight_gui",
+        "to": "tkinter"
+      },
+      {
+        "from": "tools.truth_config",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.truth_config",
+        "to": "dataclasses"
+      },
+      {
+        "from": "tools.truth_config",
+        "to": "json"
+      },
+      {
+        "from": "tools.truth_config",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.truth_config",
+        "to": "typing"
+      },
+      {
         "from": "tools.truth_gui",
         "to": "__future__"
       },
@@ -2596,6 +5025,10 @@
       },
       {
         "from": "tools.truth_manager",
+        "to": "os"
+      },
+      {
+        "from": "tools.truth_manager",
         "to": "pathlib"
       },
       {
@@ -2608,6 +5041,10 @@
       },
       {
         "from": "tools.truth_manager",
+        "to": "sys"
+      },
+      {
+        "from": "tools.truth_manager",
         "to": "tools"
       },
       {
@@ -2616,7 +5053,15 @@
       },
       {
         "from": "tools.truth_manager",
+        "to": "tools.repo_backup"
+      },
+      {
+        "from": "tools.truth_manager",
         "to": "tools.update_repo_map"
+      },
+      {
+        "from": "tools.truth_manager",
+        "to": "tools.validate_truth_zip"
       },
       {
         "from": "tools.truth_manager",
@@ -2653,6 +5098,18 @@
       {
         "from": "tools.update_repo_map",
         "to": "typing"
+      },
+      {
+        "from": "tools.validate_truth_zip",
+        "to": "__future__"
+      },
+      {
+        "from": "tools.validate_truth_zip",
+        "to": "pathlib"
+      },
+      {
+        "from": "tools.validate_truth_zip",
+        "to": "zipfile"
       },
       {
         "from": "tools.verify_ai_index",
@@ -2700,6 +5157,10 @@
       },
       {
         "from": "tools.verify_truth",
+        "to": "tools.validate_truth_zip"
+      },
+      {
+        "from": "tools.verify_truth",
         "to": "tools.verify_ai_index"
       },
       {
@@ -2709,122 +5170,334 @@
       {
         "from": "tools.verify_truth",
         "to": "zipfile"
+      },
+      {
+        "from": "truth_manager",
+        "to": "__future__"
+      },
+      {
+        "from": "truth_manager",
+        "to": "argparse"
+      },
+      {
+        "from": "truth_manager",
+        "to": "dataclasses"
+      },
+      {
+        "from": "truth_manager",
+        "to": "datetime"
+      },
+      {
+        "from": "truth_manager",
+        "to": "json"
+      },
+      {
+        "from": "truth_manager",
+        "to": "pathlib"
+      },
+      {
+        "from": "truth_manager",
+        "to": "re"
+      },
+      {
+        "from": "truth_manager",
+        "to": "shutil"
+      },
+      {
+        "from": "truth_manager",
+        "to": "tools"
+      },
+      {
+        "from": "truth_manager",
+        "to": "tools.ai_index"
+      },
+      {
+        "from": "truth_manager",
+        "to": "tools.update_repo_map"
+      },
+      {
+        "from": "truth_manager",
+        "to": "tools.verify_ai_index"
+      },
+      {
+        "from": "truth_manager",
+        "to": "typing"
+      },
+      {
+        "from": "truth_manager",
+        "to": "zipfile"
+      },
+      {
+        "from": "update_repo_map",
+        "to": "__future__"
+      },
+      {
+        "from": "update_repo_map",
+        "to": "argparse"
+      },
+      {
+        "from": "update_repo_map",
+        "to": "hashlib"
+      },
+      {
+        "from": "update_repo_map",
+        "to": "json"
+      },
+      {
+        "from": "update_repo_map",
+        "to": "pathlib"
+      },
+      {
+        "from": "update_repo_map",
+        "to": "tools.repo_excludes"
+      },
+      {
+        "from": "update_repo_map",
+        "to": "typing"
+      },
+      {
+        "from": "verify_truth",
+        "to": "__future__"
+      },
+      {
+        "from": "verify_truth",
+        "to": "argparse"
+      },
+      {
+        "from": "verify_truth",
+        "to": "dataclasses"
+      },
+      {
+        "from": "verify_truth",
+        "to": "json"
+      },
+      {
+        "from": "verify_truth",
+        "to": "pathlib"
+      },
+      {
+        "from": "verify_truth",
+        "to": "re"
+      },
+      {
+        "from": "verify_truth",
+        "to": "sys"
+      },
+      {
+        "from": "verify_truth",
+        "to": "tools.repo_excludes"
+      },
+      {
+        "from": "verify_truth",
+        "to": "tools.verify_ai_index"
+      },
+      {
+        "from": "verify_truth",
+        "to": "typing"
+      },
+      {
+        "from": "verify_truth",
+        "to": "zipfile"
       }
     ],
     "imported_by": {
       "__future__": [
+        "ai_index",
         "app.main",
+        "repo_excludes",
         "tools.ai_index",
         "tools.doctor",
         "tools.new_project",
         "tools.normalize_truth_md",
         "tools.repair_truth_md",
+        "tools.repo_backup",
+        "tools.stoplight_gui",
+        "tools.truth_config",
         "tools.truth_gui",
         "tools.truth_manager",
         "tools.update_repo_map",
+        "tools.validate_truth_zip",
         "tools.verify_ai_index",
-        "tools.verify_truth"
-      ],
-      "app.version": [
-        "app.main"
+        "tools.verify_truth",
+        "truth_manager",
+        "update_repo_map",
+        "verify_truth"
       ],
       "argparse": [
+        "ai_index",
         "tools.ai_index",
         "tools.doctor",
         "tools.new_project",
+        "tools.repo_backup",
         "tools.truth_manager",
         "tools.update_repo_map",
-        "tools.verify_truth"
+        "tools.verify_truth",
+        "truth_manager",
+        "update_repo_map",
+        "verify_truth"
       ],
       "ast": [
+        "ai_index",
         "tools.ai_index"
       ],
       "dataclasses": [
+        "ai_index",
         "tools.ai_index",
+        "tools.truth_config",
         "tools.truth_manager",
-        "tools.verify_truth"
+        "tools.verify_truth",
+        "truth_manager",
+        "verify_truth"
       ],
       "datetime": [
+        "ai_index",
         "tools.ai_index",
-        "tools.truth_manager"
+        "tools.repo_backup",
+        "tools.truth_manager",
+        "truth_manager"
       ],
       "hashlib": [
+        "ai_index",
         "tools.ai_index",
+        "tools.repo_backup",
         "tools.update_repo_map",
-        "tools.verify_ai_index"
+        "tools.verify_ai_index",
+        "update_repo_map"
       ],
       "json": [
+        "ai_index",
         "tools.ai_index",
+        "tools.repo_backup",
+        "tools.stoplight_gui",
+        "tools.truth_config",
         "tools.truth_manager",
         "tools.update_repo_map",
-        "tools.verify_truth"
+        "tools.verify_truth",
+        "truth_manager",
+        "update_repo_map",
+        "verify_truth"
       ],
       "pathlib": [
+        "ai_index",
+        "repo_excludes",
         "tools.ai_index",
         "tools.new_project",
         "tools.normalize_truth_md",
         "tools.repair_truth_md",
+        "tools.repo_backup",
+        "tools.stoplight_gui",
+        "tools.truth_config",
         "tools.truth_gui",
         "tools.truth_manager",
         "tools.update_repo_map",
+        "tools.validate_truth_zip",
         "tools.verify_ai_index",
-        "tools.verify_truth"
+        "tools.verify_truth",
+        "truth_manager",
+        "update_repo_map",
+        "verify_truth"
       ],
       "re": [
+        "ai_index",
         "tools.ai_index",
         "tools.new_project",
         "tools.repair_truth_md",
         "tools.truth_manager",
-        "tools.verify_truth"
+        "tools.verify_truth",
+        "truth_manager",
+        "verify_truth"
       ],
       "shutil": [
+        "ai_index",
         "tools.ai_index",
         "tools.new_project",
-        "tools.truth_manager"
+        "tools.truth_manager",
+        "truth_manager"
       ],
       "tempfile": [
+        "ai_index",
         "tools.ai_index"
       ],
+      "tools.repo_excludes": [
+        "ai_index",
+        "update_repo_map",
+        "verify_truth"
+      ],
       "typing": [
+        "ai_index",
         "tools.ai_index",
+        "tools.repo_backup",
+        "tools.truth_config",
         "tools.truth_manager",
         "tools.update_repo_map",
-        "tools.verify_truth"
+        "tools.verify_truth",
+        "truth_manager",
+        "update_repo_map",
+        "verify_truth"
       ],
-      "subprocess": [
-        "tools.doctor",
-        "tools.new_project",
-        "tools.truth_gui"
+      "tools": [
+        "tools.truth_manager",
+        "truth_manager"
+      ],
+      "tools.ai_index": [
+        "tools.truth_manager",
+        "truth_manager"
+      ],
+      "tools.update_repo_map": [
+        "tools.truth_manager",
+        "truth_manager"
+      ],
+      "tools.verify_ai_index": [
+        "tools.truth_manager",
+        "tools.verify_truth",
+        "truth_manager",
+        "verify_truth"
+      ],
+      "zipfile": [
+        "tools.repo_backup",
+        "tools.truth_manager",
+        "tools.validate_truth_zip",
+        "tools.verify_truth",
+        "truth_manager",
+        "verify_truth"
       ],
       "sys": [
         "tools.doctor",
         "tools.new_project",
+        "tools.stoplight_gui",
+        "tools.truth_manager",
         "tools.verify_ai_index",
-        "tools.verify_truth"
+        "tools.verify_truth",
+        "verify_truth"
+      ],
+      "app.version": [
+        "app.main"
+      ],
+      "tools.truth_config": [
+        "tools.ai_index"
+      ],
+      "subprocess": [
+        "tools.doctor",
+        "tools.new_project",
+        "tools.stoplight_gui",
+        "tools.truth_gui"
       ],
       "os": [
-        "tools.new_project"
+        "tools.new_project",
+        "tools.repo_backup",
+        "tools.truth_manager"
       ],
       "tkinter": [
+        "tools.stoplight_gui",
         "tools.truth_gui"
       ],
       "tools.truth_manager": [
         "tools.truth_gui"
       ],
-      "tools": [
+      "tools.repo_backup": [
         "tools.truth_manager"
       ],
-      "tools.ai_index": [
-        "tools.truth_manager"
-      ],
-      "tools.update_repo_map": [
-        "tools.truth_manager"
-      ],
-      "tools.verify_ai_index": [
-        "tools.truth_manager",
-        "tools.verify_truth"
-      ],
-      "zipfile": [
+      "tools.validate_truth_zip": [
         "tools.truth_manager",
         "tools.verify_truth"
       ]
