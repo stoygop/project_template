@@ -279,3 +279,27 @@ LOCKED POST
 - confirm-draft failure states are always diagnosable from a single run
 
 END
+
+TRUTH - project_template (TRUTH_V12)
+==================================================
+
+LOCKED PRE
+- Confirm flow correctness:
+  - "Mark latest as [CONFIRM] (no version bump)" MUST also ensure required POST artifacts exist for that same version:
+    - FULL truth zip
+    - SLIM truth zip
+    - latest before_confirm backup marker pointing to a readable zip
+  - This confirm flow MUST be single-shot:
+    - either completes and leaves repo verifiable under doctor(post)
+    - or hard-fails once with a clear summary and leaves repo unchanged / rollback-complete
+
+- Doctor ergonomics:
+  - tools.doctor MUST support stable --json output
+  - doctor output MUST include explicit OK/FAIL events for each sub-step (verify_truth, app.main, etc.)
+
+LOCKED POST
+- Confirming a truth never requires manual zip rebuilding
+- A single `powershell -File tools\mint_truth.ps1` run is sufficient to reach "doctor(post) OK" when confirming
+
+END
+

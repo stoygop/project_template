@@ -392,7 +392,7 @@ def reseed_truth_epoch(force: bool = False) -> None:
 
     # Rebuild ai index and verify repo in pre phase (artifacts optional here).
     build_ai_index()
-    verify_ai_index_main()
+    verify_ai_index_main([])
 
     from tools import verify_truth
     verify_truth.main(["--phase", "pre"])
@@ -489,7 +489,7 @@ def confirm_draft() -> Tuple[int, Path, Path]:
 
         # Build ai index AFTER version bump, then verify contracts
         build_ai_index()
-        verify_ai_index_main()
+        verify_ai_index_main([])
 
         make_zip(full_zip, cfg, slim=False, project=project)
         make_zip(slim_zip, cfg, slim=True, project=project)
@@ -613,7 +613,7 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
 
     # Build ai index AFTER version bump, then verify contracts
     build_ai_index()
-    verify_ai_index_main()
+    verify_ai_index_main([])
 
     zip_root = REPO_ROOT / cfg.zip_root
     full_zip = zip_root / f"{project}_TRUTH_V{new_ver}_FULL.zip"
