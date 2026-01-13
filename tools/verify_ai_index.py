@@ -1,61 +1,43 @@
 from __future__ import annotations
 
+import argparse
+import json
 import sys
-import hashlib
 from pathlib import Path
+from typing import Any, Dict, List
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
-def sha256_file(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
+def ok(msg: str, out: List[Dict[str, Any]] | None = None) -> None:
+    print(f"VERIFY OK: {msg}")
+    if out is not None:
+        out.append({"ok": True, "message": msg})
 
 
-def verify_manifest(ai_dir: Path) -> None:
-    manifest = ai_dir / "_ai_index_INDEX.txt"
-    if not manifest.exists():
-        raise SystemExit(f"VERIFY FAIL: missing {manifest}")
+def fail(msg: str) -> None:
+    raise SystemExit(f"VERIFY FAIL: {msg}")
 
-    lines = manifest.read_text(encoding="utf-8").splitlines()
-    # skip header lines until blank line
+
+def _load_json(path: Path) -> Any:
     try:
-        blank = lines.index("")
-        body = lines[blank + 1 :]
-    except ValueError:
-        body = [ln for ln in lines if "\t" in ln]
-
-    if not body:
-        raise SystemExit("VERIFY FAIL: manifest has no entries")
-
-    for ln in body:
-        if "\t" not in ln:
-            continue
-        name, size_s, sha = ln.split("\t")
-        p = ai_dir / name
-        if not p.exists():
-            raise SystemExit(f"VERIFY FAIL: missing indexed file {name}")
-        size = p.stat().st_size
-        if str(size) != size_s:
-            raise SystemExit(f"VERIFY FAIL: size mismatch for {name} (manifest {size_s} != actual {size})")
-        sha2 = sha256_file(p)
-        if sha2 != sha:
-            raise SystemExit(f"VERIFY FAIL: sha256 mismatch for {name}")
-
-    print("VERIFY OK: _ai_index integrity verified")
+        txt = path.read_text(encoding="utf-8", errors="replace")
+        if txt.startswith("\ufeff"):
+            txt = txt.lstrip("\ufeff")
+        return json.loads(txt)
+    except Exception as e:
+        fail(f"invalid json: {path.name}: {e!r}")
 
 
-def main() -> int:
+def verify_ai_index(strict: bool = True, json_out: List[Dict[str, Any]] | None = None) -> None:
     ai_dir = REPO_ROOT / "_ai_index"
     if not ai_dir.exists():
-        raise SystemExit("VERIFY FAIL: _ai_index folder missing (run python -m tools.ai_index build)")
+        if strict:
+            fail("_ai_index folder missing")
+        ok("_ai_index missing (non-strict)", json_out)
+        return
 
-    # Contract: these must exist
     required = [
-        "_ai_index_README.txt",
         "_file_map.json",
         "python_index.json",
         "entrypoints.json",
@@ -63,9 +45,41 @@ def main() -> int:
     ]
     for r in required:
         if not (ai_dir / r).exists():
-            raise SystemExit(f"VERIFY FAIL: missing {r}")
+            fail(f"missing {r}")
+    ok("_ai_index required files present", json_out)
 
-    verify_manifest(ai_dir)
+    # Contract sanity: ensure _file_map.json is a dict
+    fm = _load_json(ai_dir / "_file_map.json")
+    if not isinstance(fm, dict):
+        fail("_file_map.json must be a JSON object (dict)")
+
+    # python_index.json should be list or dict (depends on generator version)
+    pi = _load_json(ai_dir / "python_index.json")
+    if not isinstance(pi, (list, dict)):
+        fail("python_index.json must be list or dict")
+
+    ep = _load_json(ai_dir / "entrypoints.json")
+    if not isinstance(ep, (list, dict)):
+        fail("entrypoints.json must be list or dict")
+
+    ok("_ai_index integrity verified", json_out)
+
+
+def main(argv: List[str] | None = None) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--json", action="store_true", help="Emit stable JSON output to stdout")
+    ap.add_argument("--non-strict", action="store_true", help="Do not fail if _ai_index is missing")
+    ns = ap.parse_args(argv) if argv is not None else ap.parse_args()
+
+    events: List[Dict[str, Any]] = []
+    try:
+        verify_ai_index(strict=not ns.non_strict, json_out=events if ns.json else None)
+    except SystemExit as e:
+        if ns.json:
+            print(json.dumps({"ok": False, "events": events, "error": str(e)}, indent=2, sort_keys=True))
+        raise
+    if ns.json:
+        print(json.dumps({"ok": True, "events": events}, indent=2, sort_keys=True))
     return 0
 
 

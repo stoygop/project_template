@@ -5,7 +5,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Optional, Set, Tuple
 
+from tools.truth_config import Config
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
+CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
 
 TARGETS = [
     "tools/update_repo_map.py",
@@ -20,7 +23,10 @@ ALLOWED_OS_WALK_FILES = {
 }
 
 def _read_text(rel: str) -> str:
-    return (REPO_ROOT / rel).read_text(encoding="utf-8", errors="ignore")
+    txt = (REPO_ROOT / rel).read_text(encoding="utf-8", errors="replace")
+    if txt.startswith("\ufeff"):
+        txt = txt.lstrip("\ufeff")
+    return txt
 
 def _parse(rel: str) -> ast.AST:
     return ast.parse(_read_text(rel), filename=rel)
@@ -98,3 +104,36 @@ def verify_repo_map_matches_canonical(cfg) -> None:
             f"(map={len(map_set)} canonical={len(canon)}). "
             f"Only-in-map: {only_map} ; Only-in-canonical: {only_canon}"
         )
+
+
+def ok(msg: str, out: list[dict] | None = None) -> None:
+    print(f"VERIFY OK: {msg}")
+    if out is not None:
+        out.append({"ok": True, "message": msg})
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse, json as _json
+
+    ap = argparse.ArgumentParser(description="Verify canonical enumerator wiring and repo_map consistency.")
+    ap.add_argument("--json", action="store_true", help="Emit stable JSON output to stdout")
+    ns = ap.parse_args(argv) if argv is not None else ap.parse_args()
+
+    events: list[dict] = []
+    try:
+        verify_canonical_enumerator_wiring(strict=True)
+        ok("canonical enumerator wiring verified", events if ns.json else None)
+        verify_repo_map_matches_canonical(Config.load(CONFIG_JSON))
+        ok("repo_map matches canonical enumerator", events if ns.json else None)
+    except Exception as e:
+        if ns.json:
+            print(_json.dumps({"ok": False, "events": events, "error": str(e)}, indent=2, sort_keys=True))
+        raise
+    if ns.json:
+        print(_json.dumps({"ok": True, "events": events}, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

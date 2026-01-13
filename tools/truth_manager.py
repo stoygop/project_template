@@ -467,6 +467,9 @@ def confirm_draft() -> Tuple[int, Path, Path]:
     marker_path = _write_last_backup_marker(cfg, backup_zip)
     print(f"OK: wrote before_confirm marker: {marker_path}")
 
+    truth_md_before = None
+    version_py_before = None
+
     # Read originals so we can rollback atomically on any failure
     truth_md_before = TRUTH_MD.read_text(encoding="utf-8", errors="replace")
     version_py_before = VERSION_PY.read_text(encoding="utf-8", errors="replace")
@@ -508,21 +511,58 @@ def confirm_draft() -> Tuple[int, Path, Path]:
         return new_ver, full_zip, slim_zip
 
     except Exception as e:
-        # Atomic rollback: restore authoritative files and delete any partial artifacts
+        # Atomic rollback: restore authoritative files and delete any partial artifacts.
+        # Rollback must be crash-proof and must not reference undefined symbols.
+        summary: list[str] = []
+        rollback_failed: list[str] = []
+
+        def _rb_ok(msg: str) -> None:
+            summary.append(f"OK: {msg}")
+
+        def _rb_fail(msg: str) -> None:
+            rollback_failed.append(f"FAIL: {msg}")
+
+        # Restore authoritative files (best effort, but report results deterministically)
         try:
-            TRUTH_MD.write_text(truth_md_before, encoding="utf-8")
-        except Exception:
-            pass
+            if truth_md_before is not None:
+                TRUTH_MD.write_text(truth_md_before, encoding="utf-8")
+                _rb_ok("restored TRUTH.md")
+            else:
+                _rb_ok("TRUTH.md restore skipped (no snapshot)")
+        except Exception as ex:
+            _rb_fail(f"restore TRUTH.md: {ex!r}")
+
         try:
-            VERSION_PY.write_text(version_py_before, encoding="utf-8")
-        except Exception:
-            pass
+            if version_py_before is not None:
+                VERSION_PY.write_text(version_py_before, encoding="utf-8")
+                _rb_ok("restored app/version.py")
+            else:
+                _rb_ok("app/version.py restore skipped (no snapshot)")
+        except Exception as ex:
+            _rb_fail(f"restore app/version.py: {ex!r}")
+
+        # Delete any partially created artifacts
         for z in (full_zip, slim_zip):
             try:
-                if z.exists():
+                if z is not None and isinstance(z, Path) and z.exists():
                     z.unlink()
-            except Exception:
-                pass
+                    _rb_ok(f"deleted partial artifact: {z.name}")
+            except Exception as ex:
+                _rb_fail(f"delete partial artifact {z}: {ex!r}")
+
+        # We do NOT attempt to rollback external backups (they are append-only).
+        print("ROLLBACK SUMMARY:", file=sys.stderr)
+        for line in summary:
+            print("  " + line, file=sys.stderr)
+        for line in rollback_failed:
+            print("  " + line, file=sys.stderr)
+
+        if rollback_failed:
+            raise RuntimeError(
+                "ROLLBACK HARD-FAIL (rollback itself encountered errors). "
+                f"original_error={e!r} ; rollback_errors={rollback_failed}"
+            ) from e
+
         print(f"ROLLBACK COMPLETE: {e}", file=sys.stderr)
         raise
 

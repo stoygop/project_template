@@ -19,6 +19,14 @@ from tools.repo_walk import iter_repo_files as _canon_iter_repo_files
 GENERATOR_VERSION = "AI_INDEX_V1"
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+def _read_text_bom_safe(path: Path) -> str:
+    # Read UTF-8 text and strip a leading BOM if present so AST parsing is stable.
+    txt = path.read_text(encoding="utf-8", errors="replace")
+    if txt.startswith("\ufeff"):
+        txt = txt.lstrip("\ufeff")
+    return txt
+
 TOOLS_DIR = REPO_ROOT / "tools"
 CONFIG_JSON = TOOLS_DIR / "truth_config.json"
 
@@ -219,7 +227,7 @@ def module_name_from_path(rel_py: Path) -> str:
 
 
 def parse_python_file(abs_path: Path, rel_path: Path) -> Dict[str, Any]:
-    txt = abs_path.read_text(encoding="utf-8", errors="replace")
+    txt = _read_text_bom_safe(abs_path)
     tree = ast.parse(txt)
     vis = PyVisitor(module_path=_norm_rel(rel_path))
     vis.visit(tree)

@@ -9,7 +9,8 @@ from pathlib import Path
 from typing import Iterable, List, Tuple
 from zipfile import ZipFile
 
-from tools.verify_ai_index import main as verify_ai_index_main
+from tools.verify_ai_index import verify_ai_index
+from tools.verify_enumerator import main as verify_enumerator_main
 from tools.truth_config import Config
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -39,6 +40,8 @@ def fail(msg: str) -> None:
 
 def ok(msg: str) -> None:
     print(f"VERIFY OK: {msg}")
+    if _JSON:
+        _EVENTS.append({"ok": True, "message": msg})
 
 
 def find_truth_version_assignments() -> List[Path]:
@@ -509,45 +512,63 @@ def main(argv: List[str] | None = None) -> int:
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--phase", choices=["pre", "post"], default="post")
+    ap.add_argument("--json", action="store_true", help="Emit stable JSON output to stdout")
     ap.add_argument("--skip-artifacts", action="store_true", help="DEPRECATED: use --phase pre")
     ns = ap.parse_args(argv or [])
 
+    global _JSON, _EVENTS
+    _JSON = bool(ns.json)
+    _EVENTS = []
+
     phase = "pre" if ns.skip_artifacts else ns.phase
 
-    project_py, ver_py = read_version_py()
-    verify_single_truth_version_authority()
-    verify_main_imports_version()
-    project_md, entries = parse_truth_md()
-    verify_truth_sequence(entries)
+    try:
+        project_py, ver_py = read_version_py()
+        verify_single_truth_version_authority()
+        verify_main_imports_version()
+        project_md, entries = parse_truth_md()
+        verify_truth_sequence(entries)
 
-    latest = entries[-1].version
-    verify_version_matches_latest(project_py, ver_py, project_md, latest)
-    verify_config_present()
-    cfg = load_config()
-    phases_required = bool(getattr(cfg, "truth_phases_required", False))
-    verify_truth_md_format(phases_required)
-    verify_single_project_name_authority()
+        latest = entries[-1].version
+        verify_version_matches_latest(project_py, ver_py, project_md, latest)
+        verify_config_present()
+        verify_enumerator_main([])
+        cfg = load_config()
+        phases_required = bool(getattr(cfg, "truth_phases_required", False))
+        verify_truth_md_format(phases_required)
+        verify_single_project_name_authority()
 
-    # Truncation/ellipsis guard (runs in both phases)
-    verify_no_truncation_lines()
-    verify_forbidden_marker_substrings()
+        # Truncation/ellipsis guard (runs in both phases)
+        verify_no_truncation_lines()
+        verify_forbidden_marker_substrings()
 
-    # Verify ai index contract/integrity
-    verify_ai_index_main()
-    ok("_ai_index contract/integrity verified")
+        # Verify ai index contract/integrity
+        verify_ai_index(strict=True, json_out=None)
+        ok("_ai_index contract/integrity verified")
 
-    if phase == "post":
-        _full, slim = verify_truth_zip_naming(project_py, ver_py)
+        if phase == "post":
+            _full, slim = verify_truth_zip_naming(project_py, ver_py)
 
-        from tools.validate_truth_zip import validate_truth_zip
-        validate_truth_zip(_full)
-        validate_truth_zip(slim)
-        verify_slim_contents(slim)
+            from tools.validate_truth_zip import validate_truth_zip
+            validate_truth_zip(_full)
+            validate_truth_zip(slim)
+            verify_slim_contents(slim)
 
-        verify_last_before_confirm_backup_if_present()
+            verify_last_before_confirm_backup_if_present()
 
-    ok("Truth verification complete")
-    return 0
+        ok("Truth verification complete")
+        if ns.json:
+            print(json.dumps({"ok": True, "phase": phase, "events": _EVENTS}, indent=2, sort_keys=True))
+        return 0
+    except SystemExit as e:
+        if ns.json:
+            print(json.dumps({"ok": False, "phase": phase, "events": _EVENTS, "error": str(e)}, indent=2, sort_keys=True))
+        raise
+    except Exception as e:
+        if ns.json:
+            print(json.dumps({"ok": False, "phase": phase, "events": _EVENTS, "error": str(e)}, indent=2, sort_keys=True))
+        raise
+
 
 
 if __name__ == "__main__":
