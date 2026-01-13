@@ -117,13 +117,18 @@
     },
     {
       "path": "app/version.py",
-      "sha256": "ffa86f269cbbdb4cb691e996134ae5eeb274312a4745221b3233b0fcae379484",
+      "sha256": "dda55da775dad742864b72f71588eacfa9f80786ded3d09d83505b67fd04eb2e",
       "size": 158
     },
     {
+      "path": "mint_truth.ps1",
+      "sha256": "2c94a739ea0c362246f8f9931e3c4235c0f9329ed303b140022fe52ec57f7c0c",
+      "size": 6204
+    },
+    {
       "path": "project_repo_map.json",
-      "sha256": "e38900d08768a03fdb499a00f33b1fac266376e15a046c05466e22cba0e0636b",
-      "size": 8950
+      "sha256": "8cec590cc6ebbb19ec08dbbc6916758916e71670c229ef17aac7c09078603413",
+      "size": 9296
     },
     {
       "path": "project_template/tools/mint_truth.ps1",
@@ -237,8 +242,8 @@
     },
     {
       "path": "tools/truth_manager.py",
-      "sha256": "98e46c46eabaa22db870b6c0d79c81c3cc6801d12d17dc54d7ed0f12d4cf5be5",
-      "size": 27909
+      "sha256": "b23b8ae7a2f80a04f5c23822a31aa4c1a9fc2fe2d5cf10cc82419a42256d6305",
+      "size": 27915
     },
     {
       "path": "tools/update_repo_map.py",
@@ -272,8 +277,13 @@
     },
     {
       "path": "TRUTH.md",
-      "sha256": "591d44cce9c8a1b7b7238f10e710fd5ad53dc13a6508ecefc06f7ced2daa7673",
-      "size": 12119
+      "sha256": "ec04c01205377b99afd568ec015e1e921c987e074e81d73d773529433007d8e2",
+      "size": 15085
+    },
+    {
+      "path": "truth_manager.py",
+      "sha256": "c4c6c53845946fd2761acd0780a4818b40860ef2755918a15fa856a8371306a9",
+      "size": 32625
     }
   ],
   "meta": {

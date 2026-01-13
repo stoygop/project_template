@@ -302,3 +302,66 @@ LOCKED POST
 - A single `powershell -File tools\mint_truth.ps1` run is sufficient to reach "doctor(post) OK" when confirming
 
 END
+
+TRUTH - project_template (TRUTH_V13)
+==================================================
+
+LOCKED PRE
+- Stale draft elimination (zero traps; strict preservation via mandatory archive):
+  - truth_manager/mint_truth MUST detect when a draft exists but does not match NEXT VERSION SLOT.
+    - Example: draft TRUTH_V12 exists while NEXT VERSION SLOT is TRUTH_V13.
+  - In this stale state:
+    - Tool MUST NOT offer "Confirm draft (TRUTH_V12) now?" (invalid; must never be prompted).
+    - Tool MUST emit a single explicit DIAG line including:
+      - detected draft version
+      - expected version (next slot)
+      - exact draft file path
+    - Tool MUST also emit a clear UX warning (non-interactive):
+      "STALE DRAFT detected - archiving is required before proceeding."
+    - Tool MUST archive the stale draft BEFORE proceeding:
+      - ensure `_truth_drafts/_stale/` exists
+      - MOVE the stale draft into `_truth_drafts/_stale/` with a timestamp suffix
+    - Archive failure behavior (STRICT):
+      - If the archive MOVE fails for any reason, the tool MUST:
+        - emit a single explicit ERROR line including the exception message
+        - abort immediately
+        - make no further state changes
+      - Proceeding without preserving the stale draft is forbidden.
+
+  - After successful archive:
+    - Tool MUST proceed normally to create/update the correct NEXT VERSION SLOT draft.
+
+  - When the user proceeds with "Create draft truth (TRUTH_V<next>)? (y/n): y"
+    - Tool MUST create/overwrite the active draft content so that DRAFT PENDING becomes TRUTH_V<next>
+    - No manual deletion, override flags, or extra confirmation is ever required
+
+- Confirm-draft mismatch hardening:
+  - confirm-draft MUST never crash.
+  - If a mismatch exists, it MUST hard-fail once with a clear summary including:
+    - draft file path
+    - detected draft version
+    - expected next-slot version
+    - a one-line remediation instruction:
+      "Re-run mint_truth to archive the stale draft and create TRUTH_V<next>."
+
+- Confirm-without-version-bump correctness:
+  - When mint_truth offers "Mark latest TRUTH_Vn as [CONFIRM] (no version bump)" and user answers yes:
+    - set header type to [CONFIRM]
+    - ensure required POST artifacts exist for that same version:
+      - FULL truth zip
+      - SLIM truth zip
+      - latest before_confirm marker points to a readable backup zip
+    - run doctor(post)
+    - on failure: exit once with a clear summary (no crashes, no silent success)
+
+LOCKED POST
+- Stale drafts are never lost and never block silently:
+  - stale drafts are always archived to `_truth_drafts/_stale/` (timestamped)
+  - archive failure prevents progress (fail-fast, safe-by-default)
+  - no invalid "Confirm draft" prompts for stale versions
+  - no manual draft deletion required
+- Confirming a truth never requires manual zip rebuilding.
+- A single `powershell -File tools\mint_truth.ps1` run is sufficient to reach "doctor(post) OK".
+
+END
+
