@@ -280,7 +280,7 @@ LOCKED POST
 
 END
 
-TRUTH - project_template (TRUTH_V12)
+TRUTH - project_template (TRUTH_V12) [CONFIRM]
 ==================================================
 
 LOCKED PRE
@@ -302,4 +302,3 @@ LOCKED POST
 - A single `powershell -File tools\mint_truth.ps1` run is sufficient to reach "doctor(post) OK" when confirming
 
 END
-
