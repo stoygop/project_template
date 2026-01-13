@@ -250,7 +250,7 @@ LOCKED POST
 
 END
 
-TRUTH - project_template (TRUTH_V11)
+TRUTH - project_template (TRUTH_V11) [CONFIRM]
 ==================================================
 
 LOCKED PRE
@@ -279,4 +279,3 @@ LOCKED POST
 - confirm-draft failure states are always diagnosable from a single run
 
 END
-
