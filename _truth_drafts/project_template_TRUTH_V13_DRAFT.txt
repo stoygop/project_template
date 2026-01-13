@@ -1,0 +1,23 @@
+TRUTH - project_template (TRUTH_V13)
+==================================================
+
+LOCKED PRE
+- Confirm-without-bump is single-shot:
+  - When mint_truth offers "Mark latest TRUTH_Vn as [CONFIRM] (no version bump)" and user answers yes:
+    - set header type to [CONFIRM]
+    - ensure required POST artifacts exist for that same version:
+      - FULL truth zip
+      - SLIM truth zip
+      - before_confirm marker points to a readable backup zip
+    - run doctor(post)
+    - on failure: exit once with a clear summary (no crashes, no silent success)
+
+- Implementation constraints:
+  - artifact creation MUST use canonical config + repo_walk enumerator (no ad-hoc globbing)
+  - validators and doctor MUST continue to emit explicit OK lines and support stable --json
+
+LOCKED POST
+- Confirming a truth never requires manual zip rebuilding
+- A single run of tools\mint_truth.ps1 is sufficient to reach "doctor(post) OK" after confirming
+
+END
