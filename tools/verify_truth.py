@@ -466,15 +466,16 @@ def verify_slim_contents(slim_zip: Path) -> None:
 def verify_last_before_confirm_backup_if_present() -> None:
     """Validate the most recent before_confirm backup zip if a marker exists.
 
-    confirm-draft writes: _truth/_last_before_confirm_backup.json
+    confirm-draft writes: _truth/last_before_confirm_backup.json
     containing { "backup_zip": "<absolute path>", ... }.
 
     If marker is absent: skip (OK).
     If marker is present but invalid: FAIL.
     """
-    marker = REPO_ROOT / "_truth" / "_last_before_confirm_backup.json"
+    cfg = load_config()
+    marker = REPO_ROOT / cfg.zip_root / "last_before_confirm_backup.json"
     if not marker.exists():
-        ok("No recent before_confirm backup marker; skipping backup validation")
+        ok("No before_confirm backup marker present")
         return
 
     try:

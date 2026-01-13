@@ -36,24 +36,28 @@ TRUTH_MD = REPO_ROOT / "TRUTH.md"
 CONFIG_JSON = REPO_ROOT / "tools" / "truth_config.json"
 
 
-def _write_last_backup_marker(cfg: "TruthConfig", backup_zip: Path) -> None:
-    """Write a small marker so post-phase doctor/verify can validate the latest before_confirm backup.
+def _write_last_backup_marker(cfg: "TruthConfig", backup_zip: Path) -> Path:
+    """Write a marker that identifies the before_confirm backup zip produced by confirm-draft.
 
-    Stored at: <zip_root>/_last_before_confirm_backup.json
+    Stored at: <zip_root>/last_before_confirm_backup.json
+      - zip_root is typically "_truth"
     Not included in truth zips because _truth is excluded from enumeration.
+
+    Returns the marker path.
     """
-    try:
-        marker_dir = REPO_ROOT / cfg.zip_root
-        marker_dir.mkdir(parents=True, exist_ok=True)
-        marker = marker_dir / "_last_before_confirm_backup.json"
-        payload = {
-            "backup_zip": str(backup_zip),
-            "written_at_local": datetime.datetime.now().strftime("%Y%m%d_%H%M%S"),
-        }
-        marker.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    except Exception:
-        # marker is best-effort; backup validation already occurred
-        pass
+    marker_dir = REPO_ROOT / cfg.zip_root
+    marker_dir.mkdir(parents=True, exist_ok=True)
+    marker = marker_dir / "last_before_confirm_backup.json"
+
+    payload = {
+        "backup_zip": str(backup_zip),
+        "written_at_local": datetime.datetime.now().strftime("%Y%m%d_%H%M%S"),
+    }
+
+    tmp = marker.with_suffix(marker.suffix + ".tmp")
+    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    tmp.replace(marker)
+    return marker
 
 
 # D (phased) format support
@@ -460,7 +464,8 @@ def confirm_draft() -> Tuple[int, Path, Path]:
     from tools.repo_backup import build_repo_backup_zip, validate_repo_backup_zip
     backup_zip = build_repo_backup_zip(project=project, cfg=cfg, dest_dir=backup_root)
     validate_repo_backup_zip(backup_zip)
-    _write_last_backup_marker(cfg, backup_zip)
+    marker_path = _write_last_backup_marker(cfg, backup_zip)
+    print(f"OK: wrote before_confirm marker: {marker_path}")
 
     # Read originals so we can rollback atomically on any failure
     truth_md_before = TRUTH_MD.read_text(encoding="utf-8", errors="replace")
@@ -552,7 +557,8 @@ def mint_truth(statement_text: str) -> Tuple[int, Path, Path]:
     from tools.repo_backup import build_repo_backup_zip, validate_repo_backup_zip
     backup_zip = build_repo_backup_zip(project=project, cfg=cfg, dest_dir=backup_root)
     validate_repo_backup_zip(backup_zip)
-    _write_last_backup_marker(cfg, backup_zip)
+    marker_path = _write_last_backup_marker(cfg, backup_zip)
+    print(f"OK: wrote before_confirm marker: {marker_path}")
 
     # Append truth then bump version (keeps TRUTH.md as primary log)
     append_truth_md_verbatim(project, new_ver, statement_text)
