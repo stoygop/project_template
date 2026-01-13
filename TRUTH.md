@@ -232,7 +232,7 @@ LOCKED POST
     - the latest "before_confirm" backup zip produced by confirm-draft in that run
       END
 
-TRUTH - project_template (TRUTH_V10)
+TRUTH - project_template (TRUTH_V10) [CONFIRM]
 ==================================================
 
 LOCKED PRE
@@ -249,4 +249,3 @@ LOCKED POST
 - No "best effort newest backup" guessing is used for backup validation.
 
 END
-
