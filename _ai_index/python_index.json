@@ -1,6 +1,6 @@
 {
   "generator": "AI_INDEX_V1",
-  "generated_at": "2026-01-11 22:48:05",
+  "generated_at": "2026-01-12 20:18:34",
   "modules": [
     {
       "path": "_legacy_root/root_scripts_superseded/ai_index.py",
@@ -3860,7 +3860,7 @@
           "name": "verify_truth",
           "asname": null,
           "level": 0,
-          "lineno": 393
+          "lineno": 397
         },
         {
           "kind": "from",
@@ -3868,7 +3868,7 @@
           "name": "iter_repo_files",
           "asname": "_iter",
           "level": 0,
-          "lineno": 401
+          "lineno": 405
         },
         {
           "kind": "from",
@@ -3876,7 +3876,7 @@
           "name": "verify_truth",
           "asname": null,
           "level": 0,
-          "lineno": 410
+          "lineno": 414
         },
         {
           "kind": "from",
@@ -3884,7 +3884,7 @@
           "name": "verify_truth",
           "asname": null,
           "level": 0,
-          "lineno": 435
+          "lineno": 439
         },
         {
           "kind": "from",
@@ -3892,7 +3892,7 @@
           "name": "build_repo_backup_zip",
           "asname": null,
           "level": 0,
-          "lineno": 460
+          "lineno": 464
         },
         {
           "kind": "from",
@@ -3900,7 +3900,7 @@
           "name": "validate_repo_backup_zip",
           "asname": null,
           "level": 0,
-          "lineno": 460
+          "lineno": 464
         },
         {
           "kind": "from",
@@ -3908,7 +3908,7 @@
           "name": "main",
           "asname": "update_repo_map_main",
           "level": 0,
-          "lineno": 479
+          "lineno": 484
         },
         {
           "kind": "from",
@@ -3916,7 +3916,7 @@
           "name": "validate_truth_zip",
           "asname": null,
           "level": 0,
-          "lineno": 490
+          "lineno": 495
         },
         {
           "kind": "from",
@@ -3924,7 +3924,7 @@
           "name": "verify_truth",
           "asname": null,
           "level": 0,
-          "lineno": 536
+          "lineno": 541
         },
         {
           "kind": "from",
@@ -3932,7 +3932,7 @@
           "name": "build_repo_backup_zip",
           "asname": null,
           "level": 0,
-          "lineno": 552
+          "lineno": 557
         },
         {
           "kind": "from",
@@ -3940,7 +3940,7 @@
           "name": "validate_repo_backup_zip",
           "asname": null,
           "level": 0,
-          "lineno": 552
+          "lineno": 557
         },
         {
           "kind": "from",
@@ -3948,14 +3948,14 @@
           "name": "main",
           "asname": "update_repo_map_main",
           "level": 0,
-          "lineno": 563
+          "lineno": 569
         }
       ],
       "classes": [
         {
           "name": "TruthConfig",
-          "lineno": 86,
-          "end_lineno": 110,
+          "lineno": 90,
+          "end_lineno": 114,
           "bases": []
         }
       ],
@@ -3970,168 +3970,168 @@
         {
           "name": "_write_last_backup_marker",
           "lineno": 39,
-          "end_lineno": 56,
+          "end_lineno": 60,
           "is_method": false,
           "class": null
         },
         {
           "name": "_normalize_truth_candidate",
-          "lineno": 72,
-          "end_lineno": 83,
+          "lineno": 76,
+          "end_lineno": 87,
           "is_method": false,
           "class": null
         },
         {
           "name": "_write_truth_config_truth_phases_required",
-          "lineno": 113,
-          "end_lineno": 116,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "name": "_norm_newlines",
-          "lineno": 119,
+          "lineno": 117,
           "end_lineno": 120,
           "is_method": false,
           "class": null
         },
         {
-          "name": "_strip_bom",
+          "name": "_norm_newlines",
           "lineno": 123,
-          "end_lineno": 126,
+          "end_lineno": 124,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "_strip_bom",
+          "lineno": 127,
+          "end_lineno": 130,
           "is_method": false,
           "class": null
         },
         {
           "name": "read_project_and_truth_version",
-          "lineno": 129,
-          "end_lineno": 141,
+          "lineno": 133,
+          "end_lineno": 145,
           "is_method": false,
           "class": null
         },
         {
           "name": "read_truth_md_latest",
-          "lineno": 144,
-          "end_lineno": 164,
+          "lineno": 148,
+          "end_lineno": 168,
           "is_method": false,
           "class": null
         },
         {
           "name": "set_truth_type_tag",
-          "lineno": 167,
-          "end_lineno": 191,
+          "lineno": 171,
+          "end_lineno": 195,
           "is_method": false,
           "class": null
         },
         {
           "name": "write_truth_version",
-          "lineno": 194,
-          "end_lineno": 199,
+          "lineno": 198,
+          "end_lineno": 203,
           "is_method": false,
           "class": null
         },
         {
           "name": "append_truth_md_verbatim",
-          "lineno": 202,
-          "end_lineno": 277,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "name": "get_draft_dir",
-          "lineno": 280,
+          "lineno": 206,
           "end_lineno": 281,
           "is_method": false,
           "class": null
         },
         {
-          "name": "get_draft_path",
+          "name": "get_draft_dir",
           "lineno": 284,
           "end_lineno": 285,
           "is_method": false,
           "class": null
         },
         {
-          "name": "find_pending_draft",
+          "name": "get_draft_path",
           "lineno": 288,
-          "end_lineno": 300,
+          "end_lineno": 289,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "name": "find_pending_draft",
+          "lineno": 292,
+          "end_lineno": 304,
           "is_method": false,
           "class": null
         },
         {
           "name": "write_draft",
-          "lineno": 303,
-          "end_lineno": 310,
+          "lineno": 307,
+          "end_lineno": 314,
           "is_method": false,
           "class": null
         },
         {
           "name": "delete_draft",
-          "lineno": 313,
-          "end_lineno": 315,
+          "lineno": 317,
+          "end_lineno": 319,
           "is_method": false,
           "class": null
         },
         {
           "name": "should_exclude_common",
-          "lineno": 317,
-          "end_lineno": 329,
+          "lineno": 321,
+          "end_lineno": 333,
           "is_method": false,
           "class": null
         },
         {
           "name": "should_exclude_slim",
-          "lineno": 332,
-          "end_lineno": 341,
+          "lineno": 336,
+          "end_lineno": 345,
           "is_method": false,
           "class": null
         },
         {
           "name": "_d_epoch_truth_v1",
-          "lineno": 344,
-          "end_lineno": 366,
+          "lineno": 348,
+          "end_lineno": 370,
           "is_method": false,
           "class": null
         },
         {
           "name": "reseed_truth_epoch",
-          "lineno": 369,
-          "end_lineno": 394,
+          "lineno": 373,
+          "end_lineno": 398,
           "is_method": false,
           "class": null
         },
         {
           "name": "iter_repo_files",
-          "lineno": 397,
-          "end_lineno": 402,
+          "lineno": 401,
+          "end_lineno": 406,
           "is_method": false,
           "class": null
         },
         {
           "name": "mint_draft",
-          "lineno": 404,
-          "end_lineno": 420,
+          "lineno": 408,
+          "end_lineno": 424,
           "is_method": false,
           "class": null
         },
         {
           "name": "confirm_draft",
-          "lineno": 423,
-          "end_lineno": 522,
+          "lineno": 427,
+          "end_lineno": 527,
           "is_method": false,
           "class": null
         },
         {
           "name": "mint_truth",
-          "lineno": 524,
-          "end_lineno": 582,
+          "lineno": 529,
+          "end_lineno": 588,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 585,
-          "end_lineno": 679,
+          "lineno": 591,
+          "end_lineno": 685,
           "is_method": false,
           "class": null
         }
@@ -4149,108 +4149,100 @@
           "kind": "function",
           "name": "_write_last_backup_marker",
           "lineno": 39,
-          "end_lineno": 56,
+          "end_lineno": 60,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_normalize_truth_candidate",
-          "lineno": 72,
-          "end_lineno": 83,
+          "lineno": 76,
+          "end_lineno": 87,
           "is_method": false,
           "class": null
         },
         {
           "kind": "class",
           "name": "TruthConfig",
-          "lineno": 86,
-          "end_lineno": 110,
+          "lineno": 90,
+          "end_lineno": 114,
           "bases": []
         },
         {
           "kind": "method",
           "name": "load",
-          "lineno": 98,
-          "end_lineno": 110,
+          "lineno": 102,
+          "end_lineno": 114,
           "is_method": true,
           "class": "TruthConfig"
         },
         {
           "kind": "function",
           "name": "_write_truth_config_truth_phases_required",
-          "lineno": 113,
-          "end_lineno": 116,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "kind": "function",
-          "name": "_norm_newlines",
-          "lineno": 119,
+          "lineno": 117,
           "end_lineno": 120,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
-          "name": "_strip_bom",
+          "name": "_norm_newlines",
           "lineno": 123,
-          "end_lineno": 126,
+          "end_lineno": 124,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "_strip_bom",
+          "lineno": 127,
+          "end_lineno": 130,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "read_project_and_truth_version",
-          "lineno": 129,
-          "end_lineno": 141,
+          "lineno": 133,
+          "end_lineno": 145,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "read_truth_md_latest",
-          "lineno": 144,
-          "end_lineno": 164,
+          "lineno": 148,
+          "end_lineno": 168,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "set_truth_type_tag",
-          "lineno": 167,
-          "end_lineno": 191,
+          "lineno": 171,
+          "end_lineno": 195,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "write_truth_version",
-          "lineno": 194,
-          "end_lineno": 199,
+          "lineno": 198,
+          "end_lineno": 203,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "append_truth_md_verbatim",
-          "lineno": 202,
-          "end_lineno": 277,
-          "is_method": false,
-          "class": null
-        },
-        {
-          "kind": "function",
-          "name": "get_draft_dir",
-          "lineno": 280,
+          "lineno": 206,
           "end_lineno": 281,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
-          "name": "get_draft_path",
+          "name": "get_draft_dir",
           "lineno": 284,
           "end_lineno": 285,
           "is_method": false,
@@ -4258,97 +4250,105 @@
         },
         {
           "kind": "function",
-          "name": "find_pending_draft",
+          "name": "get_draft_path",
           "lineno": 288,
-          "end_lineno": 300,
+          "end_lineno": 289,
+          "is_method": false,
+          "class": null
+        },
+        {
+          "kind": "function",
+          "name": "find_pending_draft",
+          "lineno": 292,
+          "end_lineno": 304,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "write_draft",
-          "lineno": 303,
-          "end_lineno": 310,
+          "lineno": 307,
+          "end_lineno": 314,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "delete_draft",
-          "lineno": 313,
-          "end_lineno": 315,
+          "lineno": 317,
+          "end_lineno": 319,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "should_exclude_common",
-          "lineno": 317,
-          "end_lineno": 329,
+          "lineno": 321,
+          "end_lineno": 333,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "should_exclude_slim",
-          "lineno": 332,
-          "end_lineno": 341,
+          "lineno": 336,
+          "end_lineno": 345,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "_d_epoch_truth_v1",
-          "lineno": 344,
-          "end_lineno": 366,
+          "lineno": 348,
+          "end_lineno": 370,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "reseed_truth_epoch",
-          "lineno": 369,
-          "end_lineno": 394,
+          "lineno": 373,
+          "end_lineno": 398,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "iter_repo_files",
-          "lineno": 397,
-          "end_lineno": 402,
+          "lineno": 401,
+          "end_lineno": 406,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "mint_draft",
-          "lineno": 404,
-          "end_lineno": 420,
+          "lineno": 408,
+          "end_lineno": 424,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "confirm_draft",
-          "lineno": 423,
-          "end_lineno": 522,
+          "lineno": 427,
+          "end_lineno": 527,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "mint_truth",
-          "lineno": 524,
-          "end_lineno": 582,
+          "lineno": 529,
+          "end_lineno": 588,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 585,
-          "end_lineno": 679,
+          "lineno": 591,
+          "end_lineno": 685,
           "is_method": false,
           "class": null
         }
@@ -5282,7 +5282,7 @@
           "name": "validate_backup_zip",
           "asname": null,
           "level": 0,
-          "lineno": 490
+          "lineno": 491
         },
         {
           "kind": "from",
@@ -5290,7 +5290,7 @@
           "name": "validate_truth_zip",
           "asname": null,
           "level": 0,
-          "lineno": 541
+          "lineno": 542
         }
       ],
       "classes": [
@@ -5452,14 +5452,14 @@
         {
           "name": "verify_last_before_confirm_backup_if_present",
           "lineno": 466,
-          "end_lineno": 496,
+          "end_lineno": 497,
           "is_method": false,
           "class": null
         },
         {
           "name": "main",
-          "lineno": 499,
-          "end_lineno": 549,
+          "lineno": 500,
+          "end_lineno": 550,
           "is_method": false,
           "class": null
         }
@@ -5644,15 +5644,15 @@
           "kind": "function",
           "name": "verify_last_before_confirm_backup_if_present",
           "lineno": 466,
-          "end_lineno": 496,
+          "end_lineno": 497,
           "is_method": false,
           "class": null
         },
         {
           "kind": "function",
           "name": "main",
-          "lineno": 499,
-          "end_lineno": 549,
+          "lineno": 500,
+          "end_lineno": 550,
           "is_method": false,
           "class": null
         }

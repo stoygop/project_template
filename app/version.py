@@ -4,4 +4,4 @@
 PROJECT_NAME = "project_template"
 
 # Integer truth version (authoritative)
-TRUTH_VERSION = 9
+TRUTH_VERSION = 10
