@@ -1,27 +1,17 @@
 TRUTH - project_template (TRUTH_V10)
 ==================================================
 
-LOCKED
+LOCKED PRE
+- Confirm-draft produces a before_confirm backup zip and records the exact zip path deterministically.
+- A machine-readable marker is written after backup creation/validation to:
+  _truth/last_before_confirm_backup.json
+- Marker contains absolute zip path and timestamp.
 
-- confirm-draft now records the exact before_confirm backup it creates:
-  - A machine-readable marker is written to:
-    _truth/last_before_confirm_backup.json
-  - Marker contains absolute zip path and timestamp
-  - Marker is written only after backup creation and validation
-
-- doctor --phase post enforces backup validation deterministically:
-  - If the marker exists:
-    - The exact backup zip referenced MUST be validated
-    - Missing or invalid backup hard-fails doctor
-  - If the marker does not exist:
-    - doctor emits an explicit OK message (no silent skip)
-
-- Backup validation is path-safe and consistent:
-  - validate_backup_zip accepts str and Path inputs
-  - confirm-draft no longer crashes due to path type mismatches
-
-- confirm-draft / doctor behavior is now non-guessing:
-  - No "best effort newest backup" logic remains
-  - No silent skipping of backup validation is permitted
+LOCKED POST
+- doctor --phase post enforces deterministic backup validation:
+  - If marker exists: validate the exact backup zip referenced; missing/invalid hard-fails.
+  - If marker does not exist: emit explicit OK message (no silent skip).
+- validate_backup_zip accepts str/pathlike inputs (no confirm-draft crash on path types).
+- No "best effort newest backup" guessing is used for backup validation.
 
 END
