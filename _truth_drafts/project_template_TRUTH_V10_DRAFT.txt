@@ -1,60 +1,27 @@
 TRUTH - project_template (TRUTH_V10)
 ==================================================
 
-LOCKED PRE
+LOCKED
 
-- Truth tooling correctness is higher priority than new features
-- No tool may rely on implicit imports, globals, or side effects
-- Canonical enumerator (`tools.repo_walk`) is the single authority for:
-  - repo map generation
-  - ai_index generation
-  - truth FULL/SLIM zip packaging
-  - repo backup packaging
-- Confirm-draft MUST be safe to re-run after failure
+- confirm-draft now records the exact before_confirm backup it creates:
+  - A machine-readable marker is written to:
+    _truth/last_before_confirm_backup.json
+  - Marker contains absolute zip path and timestamp
+  - Marker is written only after backup creation and validation
 
-LOCKED SCOPE
+- doctor --phase post enforces backup validation deterministically:
+  - If the marker exists:
+    - The exact backup zip referenced MUST be validated
+    - Missing or invalid backup hard-fails doctor
+  - If the marker does not exist:
+    - doctor emits an explicit OK message (no silent skip)
 
-- Finalize and harden the confirm-draft pipeline
-- Eliminate remaining NameError and missing-import failures
-- Make enumeration, packaging, and validation wiring explicit and verifiable
-- Reduce rollback complexity and undefined behavior
+- Backup validation is path-safe and consistent:
+  - validate_backup_zip accepts str and Path inputs
+  - confirm-draft no longer crashes due to path type mismatches
 
-LOCKED OBJECTIVES
-
-1. Confirm-Draft Stability
-   - `confirm_draft()` MUST NOT reference undefined symbols
-   - All helpers used during confirm-draft MUST be explicitly imported
-   - Rollback paths MUST NOT introduce new exceptions
-   - Any failure MUST leave the repo in a verifiable PRE state
-
-2. Packaging Architecture
-   - `tools/make_truth_zip.py` is the sole implementation of truth zip creation
-   - `make_zip(zip_path, cfg, slim, project)` MUST:
-     - use the canonical enumerator
-     - produce deterministic ordering
-     - enforce a single top-level project directory
-   - `truth_manager.py` MUST delegate all truth zip creation to this module
-
-3. Enumerator Contract Enforcement
-   - All repo walks MUST go through `tools.repo_walk`
-   - Static verification MUST fail if a tool walks the filesystem directly
-   - Enumerator wiring checks MUST be strict and non-destructive
-
-4. Validation and Diagnostics
-   - All validators MUST emit explicit OK lines on success
-   - Validators MUST support `--json`
-   - Failure messages MUST identify:
-     - tool
-     - phase
-     - violated contract
-
-LOCKED POST
-
-- After TRUTH_V10 confirmation:
-  - `python -m tools.doctor --phase pre` MUST pass
-  - `python -m tools.doctor --phase post` MUST pass
-  - confirm-draft MUST complete without rollback
-  - FULL and SLIM truth zips MUST validate cleanly
-  - No deprecated or legacy code paths remain reachable
+- confirm-draft / doctor behavior is now non-guessing:
+  - No "best effort newest backup" logic remains
+  - No silent skipping of backup validation is permitted
 
 END
